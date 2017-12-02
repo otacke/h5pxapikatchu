@@ -2,13 +2,15 @@
 
 /**
  * Plugin Name: H5PxAPIkatchu
- * Plugin URI: TO DO
- * Description: Catch xAPI statements of H5P
+ * Plugin URI: https://github.com/otacke/h5pxapikatchu
+ * Description: Catch and store xAPI statements of H5P
  * Version: 0.1
  * Author: Oliver Tacke
  * Author URI: https://www.olivertacke.de
  * License: WTFPL
  */
+
+namespace H5PXAPIKATCHU;
 
 // as suggested by the Wordpress community
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -16,7 +18,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 /**
  * Setup the plugin.
  */
-function h5pxapikatchu_setup () {
+function setup () {
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
 	// used to pass the URL variable to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
@@ -28,10 +30,10 @@ function h5pxapikatchu_setup () {
 /**
  * Activate the plugin.
  */
-function h5pxapikatchu_on_activation () {
+function on_activation () {
 	global $wpdb;
 
-	$table_name = $wpdb->prefix . "h5pxapikatchu";
+	$table_name = $wpdb->prefix . 'h5pxapikatchu';
 	$charset_collate = $wpdb->get_charset_collate();
 
 	$sql = "CREATE TABLE $table_name (
@@ -48,17 +50,15 @@ function h5pxapikatchu_on_activation () {
 /**
  * Deactivate the plugin.
  */
-function h5pxapikatchu_on_deactivation () {
+function on_deactivation () {
 }
 
 /**
  * Uninstall the plugin.
  */
-function h5pxapikatchu_on_uninstall () {
+function on_uninstall () {
 	global $wpdb;
-
 	$table_name = $wpdb->prefix . 'h5pxapikatchu';
-
 	$wpdb->query( $wpdb->prepare(
 		"
 			DROP TABLE IF EXISTS $table_name
@@ -70,7 +70,7 @@ function h5pxapikatchu_on_uninstall () {
  * Insert an entry into the database.
  * @param {String} text - Text to be added.
  */
-function h5pxapikatchu_insert_data () {
+function insert_data () {
 	$xapi = $_REQUEST['xapi'];
 	// TODO: optional xAPI parts in separate database fields
 	// TODO: make the parts configurable in options
@@ -88,13 +88,14 @@ function h5pxapikatchu_insert_data () {
 		current_time( 'mysql' ),
 		$xapi
 	) );
+	wp_die();
 }
 
 // Start setup
-register_activation_hook(__FILE__, 'h5pxapikatchu_on_activation');
-register_deactivation_hook(__FILE__, 'h5pxapikatchu_on_deactivation');
-register_uninstall_hook(__FILE__, 'h5pxapikatchu_on_uninstall');
+register_activation_hook(__FILE__, 'H5PXAPIKATCHU\on_activation');
+register_deactivation_hook(__FILE__, 'H5PXAPIKATCHU\on_deactivation');
+register_uninstall_hook(__FILE__, 'H5PXAPIKATCHU\on_uninstall');
 
-add_action( 'the_post', 'h5pxapikatchu_setup' );
-add_action( 'wp_ajax_nopriv_h5pxapikatchu_insert_data', 'h5pxapikatchu_insert_data' );
-add_action( 'wp_ajax_h5pxapikatchu_insert_data', 'h5pxapikatchu_insert_data' );
+add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
+add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
+add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );

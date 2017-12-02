@@ -13,7 +13,7 @@ var H5P = H5P || {};
       url: wpAJAXurl,
       type: 'post',
       data: {
-        action: 'h5pxapikatchu_insert_data',
+        action: 'insert_data',
         xapi: JSON.stringify(xapi)
       },
       success: function (response) {}
