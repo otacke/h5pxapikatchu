@@ -76,6 +76,14 @@ class Settings {
         );
 
         add_settings_field(
+            'store_complete_xapi',
+            __( 'Store complete statements', 'H5PxAPIkatchu' ),
+            array( $this, 'store_complete_xapi_callback' ),
+            'h5pxapikatchu-admin',
+            'general_settings'
+        );
+
+        add_settings_field(
             'debug_enabled',
             __( 'Debug', 'H5PxAPIkatchu' ),
             array( $this, 'debug_enabled_callback' ),
@@ -91,7 +99,9 @@ class Settings {
      * @return array Output
      */
     public function sanitize( $input ) {
-		    if( isset( $input['debug_enabled'] ) )
+        if( isset( $input['store_complete_xapi'] ) )
+            $new_input['store_complete_xapi'] = absint( $input['store_complete_xapi'] );
+        if( isset( $input['debug_enabled'] ) )
             $new_input['debug_enabled'] = absint( $input['debug_enabled'] );
         return $new_input;
     }
@@ -105,10 +115,20 @@ class Settings {
     /**
      * Get the settings option array and print one of its values
      */
+    public function store_complete_xapi_callback() {
+		echo'<label for="store_complete_xapi">';
+		echo '<input type="checkbox" name="h5pxapikatchu_option[store_complete_xapi]" id="store_complete_xapi" value="1" ' . ( isset( $this->options['store_complete_xapi']) ? checked( '1', $this->options['store_complete_xapi'], false ) : '') . ' />';
+		echo __('Enable option to store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PxAPIkatchu');
+		echo '</label>';
+    }
+
+    /**
+     * Get the settings option array and print one of its values
+     */
     public function debug_enabled_callback() {
 		echo'<label for="debug_enabled">';
 		echo '<input type="checkbox" name="h5pxapikatchu_option[debug_enabled]" id="debug_enabled" value="1" ' . ( isset( $this->options['debug_enabled']) ? checked( '1', $this->options['debug_enabled'], false ) : '') . ' />';
 		echo __('Enable option to display xAPI statements in the JavaScript debug console', 'H5PxAPIkatchu');
 		echo '</label>';
-    }
+  }
 }

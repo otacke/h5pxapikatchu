@@ -41,8 +41,26 @@ function on_activation () {
 
 	$sql = "CREATE TABLE $table_name (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
+		actor_object_type TEXT,
+		actor_name TEXT,
+		actor_mbox TEXT,
+		actor_account_homepage TEXT,
+		actor_account_name TEXT,
+		verb_id TEXT,
+		verb_display TEXT,
+		object_id TEXT,
+		object_definition_name TEXT,
+		object_definition_description TEXT,
+		object_definition_choices TEXT,
+		object_definition_correctResponsesPattern TEXT,
+		result_response TEXT,
+		result_score_raw INT,
+		result_score_scaled FLOAT,
+		result_completion BOOLEAN,
+		result_success BOOLEAN,
+		result_duration VARCHAR(20),
 		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		xapi text NOT NULL,
+		xapi text,
 		PRIMARY KEY  (id)
 	) $charset_collate;";
 
@@ -54,6 +72,8 @@ function on_activation () {
  * Deactivate the plugin.
  */
 function on_deactivation () {
+	// TODO: Remove after testing is done
+	on_uninstall();
 }
 
 /**
@@ -81,19 +101,61 @@ function on_uninstall () {
  */
 function insert_data () {
 	$xapi = $_REQUEST['xapi'];
-	// TODO: optional xAPI parts in separate database fields
-	// TODO: make the parts configurable in options
 
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . 'h5pxapikatchu';
+	$xapi = str_replace('\"', '"', $xapi);
+	$json = json_decode($xapi);
+
+	$options = get_option('h5pxapikatchu_option', false);
+	if ( !isset( $options['store_complete_xapi'] ) ) {
+		$xapi = null;
+	}
 
 	$wpdb->query( $wpdb->prepare(
 		"
 			INSERT INTO $table_name
-			( time, xapi )
-			VALUES ( %s, %s )
+			( actor_object_type,
+				actor_name,
+				actor_mbox,
+				actor_account_homepage,
+				actor_account_name,
+				verb_id,
+				verb_display,
+				object_id,
+				object_definition_name,
+				object_definition_description,
+				object_definition_choices,
+				object_definition_correctResponsesPattern,
+				result_response,
+				result_score_raw,
+				result_score_scaled,
+				result_completion,
+				result_success,
+				result_duration,
+				time,
+				xapi )
+			VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %f, %d, %d, %s, %s, %s )
 		",
+		$json->actor->objectType,
+		$json->actor->name,
+		$json->actor->mbox,
+		$json->actor->account->homepage,
+		$json->actor->account->name,
+		$json->verb->id,
+		json_encode($json->verb->display) !== 'null' ? json_encode($json->verb->display) : '',
+		$json->object->id,
+		json_encode($json->object->definition->name) !== 'null' ? json_encode($json->object->definition->name) : '',
+		json_encode($json->object->definition->description) !== 'null' ? json_encode($json->object->definition->description) : '',
+		json_encode($json->object->definition->choices) !== 'null' ? json_encode($json->object->definition->choices) : '',
+		json_encode($json->object->definition->correctResponsesPattern) !== 'null' ? json_encode($json->object->definition->correctResponsesPattern) : '',
+		json_encode($json->result->response) !== 'null' ? json_encode($json->result->response) : '',
+		$json->result->score->raw,
+		$json->result->score->scaled,
+		$json->result->completion,
+		$json->result->success,
+		$json->result->duration,
 		current_time( 'mysql' ),
 		$xapi
 	) );
