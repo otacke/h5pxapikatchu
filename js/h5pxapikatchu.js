@@ -25,9 +25,9 @@ var H5P = H5P || {};
     if (document.readyState === 'complete' && H5P && H5P.externalDispatcher) {
       H5P.externalDispatcher.on('xAPI', function (event) {
 
-        // TODO: make optional in WP_OPTIONS
-        console.log(event.data.statement);
-
+        if (debug_enabled === '1') {
+          console.log(event.data.statement);
+        }
         sendAJAX(wpAJAXurl, event.data.statement);
       });
     }

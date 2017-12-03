@@ -15,16 +15,19 @@ namespace H5PXAPIKATCHU;
 // as suggested by the Wordpress community
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
+// settings.php contains all functions for the settings
+require_once( __DIR__ . '/settings.php' );
+
 /**
  * Setup the plugin.
  */
 function setup () {
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
-	// used to pass the URL variable to JavaScript
+	// used to pass the URLs variable to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
-
-	// For localization later on ...
-	// load_plugin_textdomain( 'H5PxAPIkatchu', false, basename( dirname( __FILE__ ) ) . '/languages' );
+	$options = get_option('h5pxapikatchu_option', false);
+	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', isset( $options['debug_enabled'] ) ? '1' : '0' );
+	load_plugin_textdomain( 'H5PxAPIkatchu', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 /**
@@ -57,6 +60,7 @@ function on_deactivation () {
  * Uninstall the plugin.
  */
 function on_uninstall () {
+	// Delete database table
 	global $wpdb;
 	$table_name = $wpdb->prefix . 'h5pxapikatchu';
 	$wpdb->query( $wpdb->prepare(
@@ -64,6 +68,11 @@ function on_uninstall () {
 			DROP TABLE IF EXISTS $table_name
 		"
 	) );
+
+	// Delete options
+	$option_name = 'h5pxapikatchu_option';
+	delete_option( $option_name );
+	delete_site_option( $option_name );
 }
 
 /**
@@ -99,3 +108,8 @@ register_uninstall_hook(__FILE__, 'H5PXAPIKATCHU\on_uninstall');
 add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
 add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
+
+// Include settings
+if ( is_admin() ) {
+	$settings = new Settings;
+}
