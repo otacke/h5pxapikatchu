@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 // settings.php contains all functions for the settings
 require_once( __DIR__ . '/settings.php' );
+require_once( __DIR__ . '/display.php' );
 
 /**
  * Setup the plugin.
@@ -174,4 +175,5 @@ add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 // Include settings
 if ( is_admin() ) {
 	$settings = new Settings;
+	$display = new Display;
 }
