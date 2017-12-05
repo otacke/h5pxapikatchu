@@ -24,6 +24,7 @@ require_once( __DIR__ . '/display.php' );
  */
 function setup () {
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
+
 	// used to pass the URLs variable to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
 	$options = get_option('h5pxapikatchu_option', false);
@@ -137,30 +138,52 @@ function insert_data () {
 				result_duration,
 				time,
 				xapi )
-			VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %f, %d, %d, %s, %s, %s )
+			VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )
 		",
-		$json->actor->objectType,
-		$json->actor->name,
-		$json->actor->mbox,
-		$json->actor->account->homepage,
-		$json->actor->account->name,
-		$json->verb->id,
-		json_encode($json->verb->display) !== 'null' ? json_encode($json->verb->display) : '',
-		$json->object->id,
-		json_encode($json->object->definition->name) !== 'null' ? json_encode($json->object->definition->name) : '',
-		json_encode($json->object->definition->description) !== 'null' ? json_encode($json->object->definition->description) : '',
-		json_encode($json->object->definition->choices) !== 'null' ? json_encode($json->object->definition->choices) : '',
-		json_encode($json->object->definition->correctResponsesPattern) !== 'null' ? json_encode($json->object->definition->correctResponsesPattern) : '',
-		json_encode($json->result->response) !== 'null' ? json_encode($json->result->response) : '',
-		$json->result->score->raw,
-		$json->result->score->scaled,
-		$json->result->completion,
-		$json->result->success,
-		$json->result->duration,
+		shape_xAPI_field( $json->actor->objectType ),
+		shape_xAPI_field( $json->actor->name ),
+		shape_xAPI_field( $json->actor->mbox ),
+		shape_xAPI_field( $json->actor->account->homepage ),
+		shape_xAPI_field( $json->actor->account->name ),
+		shape_xAPI_field( $json->verb->id ),
+		shape_xAPI_field($json->verb->display, true),
+		shape_xAPI_field( $json->object->id ),
+		shape_xAPI_field( $json->object->definition->name, true),
+		shape_xAPI_field( $json->object->definition->description, true ),
+		shape_xAPI_field( $json->object->definition->choices),
+		shape_xAPI_field( $json->object->definition->correctResponsesPattern ),
+		shape_xAPI_field( $json->result->response ),
+		// TODO: WHY IS 0 INSERTED HERE INSTEAD OF NULL???
+		shape_xAPI_field( $json->result->score->raw ),
+		shape_xAPI_field( $json->result->score->scaled ),
+		shape_xAPI_field( $json->result->completion ),
+		shape_xAPI_field( $json->result->success ),
+		shape_xAPI_field( $json->result->duration ),
 		current_time( 'mysql' ),
 		$xapi
 	) );
 	wp_die();
+}
+
+function shape_xAPI_field ( $field, $hasLanguage ) {
+	if ( ! isset( $field ) ) {
+		return NULL;
+	}
+	if ( is_string ( $field ) || is_int( $field ) || is_float( $field ) || is_bool( $field )) {
+		return $field;
+	}
+	if ( is_array ( $field ) ) {
+		return json_encode( $field );
+	}
+	if ( ! isset( $hasLanguage ) || $hasLanguage === false ) {
+		return json_encode( $field ) !== 'null' ? json_encode ( $field ) : '';
+	}
+	if ( isset( $hasLanguage) ) {
+		$locale = str_replace( '_', '-', get_locale() );
+		$localeEnUs = 'en-US';
+		return sizeof($field->$locale) === 0 ? $field->$localeEnUs : $field->$locale;
+	}
+	return '1';
 }
 
 // Start setup
