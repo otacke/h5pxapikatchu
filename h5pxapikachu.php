@@ -16,18 +16,20 @@ namespace H5PXAPIKATCHU;
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 // settings.php contains all functions for the settings
-require_once( __DIR__ . '/settings.php' );
+require_once( __DIR__ . '/database.php' );
+require_once( __DIR__ . '/options.php' );
 require_once( __DIR__ . '/display.php' );
 
 /**
  * Setup the plugin.
  */
 function setup () {
+	$options = Options::$OPTIONS;
+
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
 
 	// used to pass the URLs variable to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
-	$options = get_option('h5pxapikatchu_option', false);
 	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', isset( $options['debug_enabled'] ) ? '1' : '0' );
 	load_plugin_textdomain( 'H5PxAPIkatchu', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
@@ -36,40 +38,7 @@ function setup () {
  * Activate the plugin.
  */
 function on_activation () {
-	// TODO: Put all the DB stuff in separate file/class, easier for porting
-	global $wpdb;
-
-	$table_name = $wpdb->prefix . 'h5pxapikatchu';
-	$charset_collate = $wpdb->get_charset_collate();
-
-	// naming a row object_id will cause trouble!
-	$sql = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		actor_object_type TEXT,
-		actor_name TEXT,
-		actor_mbox TEXT,
-		actor_account_homepage TEXT,
-		actor_account_name TEXT,
-		verb_id TEXT,
-		verb_display TEXT,
-		xobject_id TEXT,
-		object_definition_name TEXT,
-		object_definition_description TEXT,
-		object_definition_choices TEXT,
-		object_definition_correctResponsesPattern TEXT,
-		result_response TEXT,
-		result_score_raw INT,
-		result_score_scaled FLOAT,
-		result_completion BOOLEAN,
-		result_success BOOLEAN,
-		result_duration VARCHAR(20),
-		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		xapi text,
-		PRIMARY KEY  (id)
-	) $charset_collate;";
-
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	dbDelta( $sql );
+	Database::build_table();
 }
 
 /**
@@ -84,19 +53,8 @@ function on_deactivation () {
  * Uninstall the plugin.
  */
 function on_uninstall () {
-	// Delete database table
-	global $wpdb;
-	$table_name = $wpdb->prefix . 'h5pxapikatchu';
-	$wpdb->query( $wpdb->prepare(
-		"
-			DROP TABLE IF EXISTS $table_name
-		"
-	) );
-
-	// Delete options
-	$option_name = 'h5pxapikatchu_option';
-	delete_option( $option_name );
-	delete_site_option( $option_name );
+	Database::delete_table();
+	Options::delete_options();
 }
 
 /**
@@ -108,7 +66,7 @@ function insert_data () {
 
 	global $wpdb;
 
-	$table_name = $wpdb->prefix . 'h5pxapikatchu';
+	$table_name = DATABASE::$TABLE_NAME;
 	$xapi = str_replace('\"', '"', $xapi);
 	$json = json_decode($xapi);
 
@@ -178,6 +136,6 @@ add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 
 // Include settings
 if ( is_admin() ) {
-	$settings = new Settings;
+	$options = new Options;
 	$display = new Display;
 }

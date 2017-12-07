@@ -36,37 +36,16 @@ class Display {
   		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
   	}
 
-    // TODO: Make this flexible!
-    $TABLE_FIELDS = [
-      __( 'Id', 'H5PxAPIkatchu'),
-      __( 'Actor Type', 'H5PxAPIkatchu'),
-      __( 'Actor Name', 'H5PxAPIkatchu'),
-      __( 'Actor Email', 'H5PxAPIkatchu'),
-      __( 'Actor Account Homepage', 'H5PxAPIkatchu' ),
-      __( 'Actor Account Name', 'H5PxAPIkatchu'),
-      __( 'Verb Id', 'H5PxAPIkatchu'),
-      __( 'Verb Display', 'H5PxAPIkatchu'),
-      __( 'Object Id', 'H5PxAPIkatchu'),
-      __( 'Object Def. Name', 'H5PxAPIkatchu' ),
-      __( 'Object Def. Description', 'H5PxAPIkatchu' ),
-      __( 'Object Def. Choices', 'H5PxAPIkatchu' ),
-      __( 'Object Def. Correct Responses', 'H5PxAPIkatchu' ),
-      __( 'Result Response', 'H5PxAPIkatchu' ),
-      __( 'Result Score Raw', 'H5PxAPIkatchu' ),
-      __( 'Result Score Scaled', 'H5PxAPIkatchu' ),
-      __( 'Result Completion', 'H5PxAPIkatchu' ),
-      __( 'Result Success', 'H5PxAPIkatchu' ),
-      __( 'Result Duration', 'H5PxAPIkatchu' ),
-      __( 'Time', 'H5PxAPIkatchu' ),
-      __( 'xAPI', 'H5PxAPIkatchu' )
-    ];
-
     global $wpdb;
 
   	echo '<div class="wrap">';
     echo '<h2>' . __( 'H5PxAPIkatchu', 'H5PxAPIkatchu' ) . '</h2>';
 
   	$table_name = $wpdb->prefix . 'h5pxapikatchu';
+
+    $table_name = Database::$TABLE_NAME; // TODO: combine in SQL syntax
+    $existing_columns = $wpdb->get_col("DESC {$table_name}", 0);
+
     $result = $wpdb->get_results(
   		"
   			SELECT * FROM $table_name
@@ -81,7 +60,7 @@ class Display {
 
       $heads = '';
       for ( $i = 0; $i < sizeof( (array)$result[0] ); $i++ ) {
-        $heads .= '<th>' . $TABLE_FIELDS[$i] . '</th>';
+        $heads .= '<th>' . Database::$COLUMN_TITLES[$existing_columns[$i]] . '</th>';
       }
       echo '<thead>' . $heads . '</thead>';
       echo '<tfoot>' . $heads . '</tfoot>';
