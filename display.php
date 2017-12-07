@@ -36,6 +36,7 @@ class Display {
   		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
   	}
 
+    // TODO: Make this flexible!
     $TABLE_FIELDS = [
       __( 'Id', 'H5PxAPIkatchu'),
       __( 'Actor Type', 'H5PxAPIkatchu'),

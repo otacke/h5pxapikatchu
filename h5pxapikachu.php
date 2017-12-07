@@ -36,11 +36,13 @@ function setup () {
  * Activate the plugin.
  */
 function on_activation () {
+	// TODO: Put all the DB stuff in separate file/class, easier for porting
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . 'h5pxapikatchu';
 	$charset_collate = $wpdb->get_charset_collate();
 
+	// naming a row object_id will cause trouble!
 	$sql = "CREATE TABLE $table_name (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		actor_object_type TEXT,
@@ -50,7 +52,7 @@ function on_activation () {
 		actor_account_name TEXT,
 		verb_id TEXT,
 		verb_display TEXT,
-		object_id TEXT,
+		xobject_id TEXT,
 		object_definition_name TEXT,
 		object_definition_description TEXT,
 		object_definition_choices TEXT,
@@ -115,57 +117,36 @@ function insert_data () {
 		$xapi = null;
 	}
 
-	$wpdb->query( $wpdb->prepare(
-		"
-			INSERT INTO $table_name
-			( actor_object_type,
-				actor_name,
-				actor_mbox,
-				actor_account_homepage,
-				actor_account_name,
-				verb_id,
-				verb_display,
-				object_id,
-				object_definition_name,
-				object_definition_description,
-				object_definition_choices,
-				object_definition_correctResponsesPattern,
-				result_response,
-				result_score_raw,
-				result_score_scaled,
-				result_completion,
-				result_success,
-				result_duration,
-				time,
-				xapi )
-			VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )
-		",
-		shape_xAPI_field( $json->actor->objectType ),
-		shape_xAPI_field( $json->actor->name ),
-		shape_xAPI_field( $json->actor->mbox ),
-		shape_xAPI_field( $json->actor->account->homepage ),
-		shape_xAPI_field( $json->actor->account->name ),
-		shape_xAPI_field( $json->verb->id ),
-		shape_xAPI_field($json->verb->display, true),
-		shape_xAPI_field( $json->object->id ),
-		shape_xAPI_field( $json->object->definition->name, true),
-		shape_xAPI_field( $json->object->definition->description, true ),
-		shape_xAPI_field( $json->object->definition->choices),
-		shape_xAPI_field( $json->object->definition->correctResponsesPattern ),
-		shape_xAPI_field( $json->result->response ),
-		// TODO: WHY IS 0 INSERTED HERE INSTEAD OF NULL???
-		shape_xAPI_field( $json->result->score->raw ),
-		shape_xAPI_field( $json->result->score->scaled ),
-		shape_xAPI_field( $json->result->completion ),
-		shape_xAPI_field( $json->result->success ),
-		shape_xAPI_field( $json->result->duration ),
-		current_time( 'mysql' ),
-		$xapi
-	) );
+  $result = $wpdb->insert(
+		$table_name,
+		array (
+		 	'actor_object_type' => shape_xAPI_field( $json->actor->objectType ),
+		 	'actor_name' => shape_xAPI_field( $json->actor->name ),
+		 	'actor_mbox' => shape_xAPI_field( $json->actor->mbox ),
+		 	'actor_account_homepage' => shape_xAPI_field( $json->actor->account->homepage ),
+		 	'actor_account_name' => shape_xAPI_field( $json->actor->account->name ),
+		 	'verb_id' => shape_xAPI_field( $json->verb->id ),
+		 	'verb_display' => shape_xAPI_field( $json->verb->display, true),
+		 	'xobject_id' => shape_xAPI_field( $json->object->id ),
+		 	'object_definition_name' => shape_xAPI_field( $json->object->definition->name, true),
+		 	'object_definition_description' => shape_xAPI_field( $json->object->definition->description, true ),
+		 	'object_definition_choices' => shape_xAPI_field( $json->object->definition->choices),
+		 	'object_definition_correctResponsesPattern' => shape_xAPI_field( $json->object->definition->correctResponsesPattern ),
+		 	'result_response' => shape_xAPI_field( $json->result->response ),
+		 	'result_score_raw' => shape_xAPI_field( $json->result->score->raw ),
+		 	'result_score_scaled' => shape_xAPI_field( $json->result->score->scaled ),
+		 	'result_completion' => shape_xAPI_field( $json->result->completion ),
+		 	'result_success' => shape_xAPI_field( $json->result->success ),
+		 	'result_duration' => shape_xAPI_field( $json->result->duration ),
+		 	'time' => current_time( 'mysql' ),
+		 	'xapi' => $xapi
+	  )
+	);
+
 	wp_die();
 }
 
-function shape_xAPI_field ( $field, $hasLanguage ) {
+function shape_xAPI_field ( $field, $hasLanguage = false ) {
 	if ( ! isset( $field ) ) {
 		return NULL;
 	}
@@ -183,7 +164,7 @@ function shape_xAPI_field ( $field, $hasLanguage ) {
 		$localeEnUs = 'en-US';
 		return sizeof($field->$locale) === 0 ? $field->$localeEnUs : $field->$locale;
 	}
-	return '1';
+	return 'BUG';
 }
 
 // Start setup
