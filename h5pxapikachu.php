@@ -7,7 +7,7 @@
  * Version: 0.1
  * Author: Oliver Tacke
  * Author URI: https://www.olivertacke.de
- * License: WTFPL
+ * License: MIT
  */
 
 namespace H5PXAPIKATCHU;
