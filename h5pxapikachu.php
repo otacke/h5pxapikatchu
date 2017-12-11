@@ -67,6 +67,8 @@ function insert_data () {
 	global $wpdb;
 
 	$table_name = DATABASE::$TABLE_NAME;
+	$table_actor = DATABASE::$TABLE_ACTOR;
+
 	$xapi = str_replace('\"', '"', $xapi);
 	$json = json_decode($xapi);
 
@@ -75,6 +77,7 @@ function insert_data () {
 		$xapi = null;
 	}
 
+	// TODO: Check existence of fields before accessing them
   $result = $wpdb->insert(
 		$table_name,
 		array (

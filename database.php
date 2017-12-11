@@ -33,10 +33,6 @@ class Database {
     // naming a row object_id will cause trouble!
     $sql = "CREATE TABLE $table_name (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
-      id_actor mediumint(9),
-      id_verb mediumint(9),
-      id_object mediumint(9),
-      id_result mediumint(9),
       actor_object_type TEXT,
       actor_name TEXT,
       actor_mbox TEXT,
@@ -112,21 +108,11 @@ class Database {
     $table_object = Database::$TABLE_OBJECT;
     $table_result = Database::$TABLE_RESULT;
 
-    $wpdb->query( $wpdb->prepare(
-      "DROP TABLE IF EXISTS $table_name"
-    ) );
-    $wpdb->query( $wpdb->prepare(
-      "DROP TABLE IF EXISTS $table_actor"
-    ) );
-    $wpdb->query( $wpdb->prepare(
-      "DROP TABLE IF EXISTS $table_verb"
-    ) );
-    $wpdb->query( $wpdb->prepare(
-      "DROP TABLE IF EXISTS $table_object"
-    ) );
-    $wpdb->query( $wpdb->prepare(
-      "DROP TABLE IF EXISTS $table_result"
-    ) );
+    $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+    $wpdb->query( "DROP TABLE IF EXISTS $table_actor" );
+    $wpdb->query( "DROP TABLE IF EXISTS $table_verb" );
+    $wpdb->query( "DROP TABLE IF EXISTS $table_object" );
+    $wpdb->query( "DROP TABLE IF EXISTS $table_result" );
   }
 
   static function init() {

@@ -26,7 +26,7 @@ class Options {
         add_action( 'admin_init', array( $this, 'page_init' ) );
     }
 
-    public function delete_options() {
+    public static function delete_options() {
   	  delete_option( self::$SLUG );
   	  delete_site_option( self::$SLUG );
     }
