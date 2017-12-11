@@ -12,16 +12,31 @@ class Database {
 
   public static $COLUMN_TITLES;
   public static $TABLE_NAME;
+  public static $TABLE_ACTOR;
+  public static $TABLE_VERB;
+  public static $TABLE_OBJECT;
+  public static $TABLE_RESULT;
 
   public static function build_table() {
     global $wpdb;
 
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
     $table_name = Database::$TABLE_NAME;
+    $table_actor = Database::$TABLE_ACTOR;
+    $table_verb = Database::$TABLE_VERB;
+    $table_object = Database::$TABLE_OBJECT;
+    $table_result = Database::$TABLE_RESULT;
+
     $charset_collate = $wpdb->get_charset_collate();
 
     // naming a row object_id will cause trouble!
     $sql = "CREATE TABLE $table_name (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
+      id_actor mediumint(9),
+      id_verb mediumint(9),
+      id_object mediumint(9),
+      id_result mediumint(9),
       actor_object_type TEXT,
       actor_name TEXT,
       actor_mbox TEXT,
@@ -42,26 +57,85 @@ class Database {
       result_duration VARCHAR(20),
       time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
       xapi text,
-      PRIMARY KEY  (id)
+      PRIMARY KEY (id)
     ) $charset_collate;";
+    $ok = dbDelta( $sql );
 
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
+    $sql = "CREATE TABLE $table_actor (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      actor_object_type TEXT,
+      actor_name TEXT,
+      actor_mbox TEXT,
+      actor_account_homepage TEXT,
+      actor_account_name TEXT,
+      PRIMARY KEY (id)
+    ) $charset_collate;";
+    $ok = dbDelta( $sql );
+
+    $sql = "CREATE TABLE $table_verb (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      verb_id TEXT,
+      verb_display TEXT,
+      PRIMARY KEY (id)
+    ) $charset_collate;";
+    $ok = dbDelta( $sql );
+
+    $sql = "CREATE TABLE $table_object (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      xobject_id TEXT,
+      object_definition_name TEXT,
+      object_definition_description TEXT,
+      object_definition_choices TEXT,
+      object_definition_correctResponsesPattern TEXT,
+      PRIMARY KEY (id)
+    ) $charset_collate;";
+    $ok = dbDelta( $sql );
+
+    $sql = "CREATE TABLE $table_result (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      result_response TEXT,
+      result_score_raw INT,
+      result_score_scaled FLOAT,
+      result_completion BOOLEAN,
+      result_success BOOLEAN,
+      result_duration VARCHAR(20),
+      PRIMARY KEY (id)
+    ) $charset_collate;";
+    $ok = dbDelta( $sql );
   }
 
   public static function delete_table() {
     global $wpdb;
     $table_name = Database::$TABLE_NAME;
+    $table_actor = Database::$TABLE_ACTOR;
+    $table_verb = Database::$TABLE_VERB;
+    $table_object = Database::$TABLE_OBJECT;
+    $table_result = Database::$TABLE_RESULT;
+
     $wpdb->query( $wpdb->prepare(
-      "
-        DROP TABLE IF EXISTS $table_name
-      "
+      "DROP TABLE IF EXISTS $table_name"
+    ) );
+    $wpdb->query( $wpdb->prepare(
+      "DROP TABLE IF EXISTS $table_actor"
+    ) );
+    $wpdb->query( $wpdb->prepare(
+      "DROP TABLE IF EXISTS $table_verb"
+    ) );
+    $wpdb->query( $wpdb->prepare(
+      "DROP TABLE IF EXISTS $table_object"
+    ) );
+    $wpdb->query( $wpdb->prepare(
+      "DROP TABLE IF EXISTS $table_result"
     ) );
   }
 
   static function init() {
 	  global $wpdb;
     self::$TABLE_NAME = $wpdb->prefix . 'h5pxapikatchu';
+    self::$TABLE_ACTOR = $wpdb->prefix . 'h5pxapikatchu_actor';
+    self::$TABLE_VERB = $wpdb->prefix . 'h5pxapikatchu_verb';
+    self::$TABLE_OBJECT = $wpdb->prefix . 'h5pxapikatchu_object';
+    self::$TABLE_RESULT = $wpdb->prefix . 'h5pxapikatchu_result';
 
     self::$COLUMN_TITLES = array(
       'id' => 'ID',
