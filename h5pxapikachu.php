@@ -77,30 +77,30 @@ function insert_data () {
 		$xapi = null;
 	}
 
-	// TODO: Check existence of fields before accessing them
+	// There must be a smarter way to do this ...
   $result = $wpdb->insert(
 		$table_name,
 		array (
-		 	'actor_object_type' => shape_xAPI_field( $json->actor->objectType ),
-		 	'actor_name' => shape_xAPI_field( $json->actor->name ),
-		 	'actor_mbox' => shape_xAPI_field( $json->actor->mbox ),
-		 	'actor_account_homepage' => shape_xAPI_field( $json->actor->account->homepage ),
-		 	'actor_account_name' => shape_xAPI_field( $json->actor->account->name ),
-		 	'verb_id' => shape_xAPI_field( $json->verb->id ),
-		 	'verb_display' => shape_xAPI_field( $json->verb->display, true),
-		 	'xobject_id' => shape_xAPI_field( $json->object->id ),
-		 	'object_definition_name' => shape_xAPI_field( $json->object->definition->name, true),
-		 	'object_definition_description' => shape_xAPI_field( $json->object->definition->description, true ),
-		 	'object_definition_choices' => shape_xAPI_field( $json->object->definition->choices),
-		 	'object_definition_correctResponsesPattern' => shape_xAPI_field( $json->object->definition->correctResponsesPattern ),
-		 	'result_response' => shape_xAPI_field( $json->result->response ),
-		 	'result_score_raw' => shape_xAPI_field( $json->result->score->raw ),
-		 	'result_score_scaled' => shape_xAPI_field( $json->result->score->scaled ),
-		 	'result_completion' => shape_xAPI_field( $json->result->completion ),
-		 	'result_success' => shape_xAPI_field( $json->result->success ),
-		 	'result_duration' => shape_xAPI_field( $json->result->duration ),
-		 	'time' => current_time( 'mysql' ),
-		 	'xapi' => $xapi
+			'actor_object_type' => isset ( $json->actor->objectType ) ? shape_xAPI_field( $json->actor->objectType ) : NULL,
+			'actor_name' => isset( $json->actor->name ) ? shape_xAPI_field( $json->actor->name ) : NULL,
+			'actor_mbox' => isset( $json->actor->mbox ) ? shape_xAPI_field( $json->actor->mbox ) : NULL,
+			'actor_account_homepage' => isset( $json->actor->account->homepage ) ? shape_xAPI_field( $json->actor->account->homepage ) : NULL,
+			'actor_account_name' => isset( $json->actor->account->name ) ? shape_xAPI_field( $json->actor->account->name ) : NULL,
+			'verb_id' => isset( $json->verb->id ) ? shape_xAPI_field( $json->verb->id ) : NULL,
+			'verb_display' => isset( $json->verb->display ) ? shape_xAPI_field( $json->verb->display, true) : NULL,
+			'xobject_id' => isset( $json->object->id ) ? shape_xAPI_field( $json->object->id ) : NULL,
+			'object_definition_name' => isset( $json->object->definition->name ) ? shape_xAPI_field( $json->object->definition->name, true) : NULL,
+			'object_definition_description' => isset($json->object->definition->description) ? shape_xAPI_field( $json->object->definition->description, true ) : NULL,
+			'object_definition_choices' => isset( $json->object->definition->choices ) ? shape_xAPI_field( $json->object->definition->choices ) : NULL,
+			'object_definition_correctResponsesPattern' => isset ( $json->object->definition->correctResponsesPattern ) ? shape_xAPI_field( $json->object->definition->correctResponsesPattern ) : NULL,
+			'result_response' => isset( $json->result->response) ? shape_xAPI_field( $json->result->response ) : NULL,
+			'result_score_raw' => isset( $json->result->score->raw) ? shape_xAPI_field( $json->result->score->raw ) : NULL,
+			'result_score_scaled' => isset( $json->result->score->scaled ) ? shape_xAPI_field( $json->result->score->scaled ) : NULL,
+			'result_completion' => isset( $json->result->completion ) ? shape_xAPI_field( $json->result->completion ) : NULL,
+			'result_success' => isset( $json->result->success ) ? shape_xAPI_field( $json->result->success ) : NULL,
+			'result_duration' => isset( $json->result->duration ) ? shape_xAPI_field( $json->result->duration ) : NULL,
+			'time' => current_time( 'mysql' ),
+			'xapi' => $xapi
 	  )
 	);
 
