@@ -11,4 +11,4 @@ No, it is not intended to provide funtionality for analytics, etc. There is no p
 - add option to select which content types to track
 - CLEAN UP THE MESS!
   - WordPress guidelines
-  - Refactoring (a class for xAPI handling could be useful)
+  - Refactoring (a class for pseudo-xAPI handling could be useful)
