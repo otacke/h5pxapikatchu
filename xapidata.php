@@ -28,7 +28,7 @@ class XAPIDATA {
    * Get raw xAPI data.
    */
   public function get_raw_xapi() {
-    return $this->$raw
+    return $this->$raw;
   }
 
   // TODO: get functions that form the output as needed
