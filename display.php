@@ -60,7 +60,7 @@ class Display {
 
       $heads = '';
       for ( $i = 0; $i < sizeof( (array)$result[0] ); $i++ ) {
-        $heads .= '<th>' . Database::$COLUMN_TITLES[$existing_columns[$i]] . '</th>';
+        $heads .= '<th>' . ( isset (Database::$COLUMN_TITLES[$existing_columns[$i]]) ? Database::$COLUMN_TITLES[$existing_columns[$i]] : '' ) . '</th>';
       }
       echo '<thead>' . $heads . '</thead>';
       echo '<tfoot>' . $heads . '</tfoot>';

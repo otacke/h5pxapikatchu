@@ -33,6 +33,10 @@ class Database {
     // naming a row object_id will cause trouble!
     $sql = "CREATE TABLE $table_name (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
+      id_actor mediumint(9),
+      id_verb mediumint(9),
+      id_object mediumint(9),
+      id_result mediumint(9),
       actor_object_type TEXT,
       actor_name TEXT,
       actor_mbox TEXT,

@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 require_once( __DIR__ . '/database.php' );
 require_once( __DIR__ . '/options.php' );
 require_once( __DIR__ . '/display.php' );
+require_once( __DIR__ . '/xapidata.php' );
 
 /**
  * Setup the plugin.
@@ -64,6 +65,9 @@ function on_uninstall () {
 function insert_data () {
 	$xapi = $_REQUEST['xapi'];
 
+	// TODO: use this variable to get db input
+	$xapidata = new XAPIDATA($xapi);
+
 	global $wpdb;
 
 	$table_name = DATABASE::$TABLE_NAME;
@@ -81,6 +85,10 @@ function insert_data () {
   $result = $wpdb->insert(
 		$table_name,
 		array (
+			'id_actor' => NULL,
+			'id_verb' => NULL,
+			'id_object' => NULL,
+			'id_result' => NULL,
 			'actor_object_type' => isset ( $json->actor->objectType ) ? shape_xAPI_field( $json->actor->objectType ) : NULL,
 			'actor_name' => isset( $json->actor->name ) ? shape_xAPI_field( $json->actor->name ) : NULL,
 			'actor_mbox' => isset( $json->actor->mbox ) ? shape_xAPI_field( $json->actor->mbox ) : NULL,
