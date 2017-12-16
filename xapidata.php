@@ -27,7 +27,10 @@ class XAPIDATA {
 
   	$this->data = json_decode($xapi, true);
 
-    error_log( print_r( $this->get_actor(), true ) );
+    $actor = $this->get_actor();
+    $verb = $this->get_verb();
+
+    error_log( print_r( $verb, true ) );
   }
 
   /**
@@ -70,9 +73,12 @@ class XAPIDATA {
   }
 
   public function get_verb() {
-    // id = DBID
-    // [display] => extract language code
-    // USE display (id)
+    $verb = $this->data['verb'];
+
+    $id = array_key_exists( 'id', $verb ) ? $verb['id'] : '';
+    $display = array_key_exists( 'display', $verb ) ? $this-> get_locale_string( $verb['display'] ) : '';
+
+    return array('id' => $id, 'display' => $display);
   }
 
   public function get_object() {
@@ -167,5 +173,18 @@ class XAPIDATA {
     }
 
     return $name . $homepage;
+  }
+
+  /**
+   * Get local string from xAPI language map object
+   */
+  private function get_locale_string( $language_map ) {
+    if ( ! is_array( $language_map ) || empty( $language_map ) ) {
+      return '';
+    }
+
+    $LOCALE_DEFAULT = 'en-US';
+    $locale = str_replace( '_', '-', get_locale() );
+    return array_key_exists( $locale, $language_map ) ? $language_map[$locale] : $language_map[$LOCALE_DEFAULT];
   }
 }
