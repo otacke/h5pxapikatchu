@@ -60,7 +60,7 @@ class XAPIDATA {
     }
 
     return array(
-      'inverse_functional_identifier' => isset( $inverse_functional_identifier ) ? $inverse_functional_identifier : '',
+      'inverseFunctionalIdentifier' => isset( $inverse_functional_identifier ) ? $inverse_functional_identifier : '',
       'name' => isset( $name ) ? $name : '',
       'members' => isset( $members ) ? $members : ''
     );
@@ -117,7 +117,7 @@ class XAPIDATA {
         $score_raw = $scores['score_raw'];
         $score_scaled = $scores['score_scaled'];
       }
-      $completed =  array_key_exists( 'completed', $result ) ? $result['completed'] : '';
+      $completion =  array_key_exists( 'completion', $result ) ? $result['completion'] : '';
       $success =  array_key_exists( 'success', $result ) ? $result['success'] : '';
       $duration =  array_key_exists( 'duration', $result ) ? $result['duration'] : '';
     }
@@ -126,7 +126,7 @@ class XAPIDATA {
       'response' => isset( $response) ? $response : '',
       'score_raw' => isset( $score_raw ) ? $score_raw : '',
       'score_scaled' => isset( $score_scaled ) ? $score_scaled : '',
-      'completed' => isset( $completed ) ? $completed : '',
+      'completion' => isset( $completion ) ? $completion : '',
       'success' => isset( $success ) ? $success : '',
       'duration' => isset( $duration ) ? $duration: ''
     );

@@ -60,18 +60,93 @@ function on_uninstall () {
 
 /**
  * Insert an entry into the database.
+ *
+ * TODO: Move this to database.php
+ *
  * @param {String} text - Text to be added.
  */
 function insert_data () {
+	global $wpdb;
+
 	$xapi = $_REQUEST['xapi'];
 
-	// TODO: use this variable to get db input
 	$xapidata = new XAPIDATA($xapi);
-
-	global $wpdb;
+	$actor = $xapidata->get_actor();
+	$verb = $xapidata->get_verb();
+	$object = $xapidata->get_object();
+	$result = $xapidata->get_result();
 
 	$table_name = DATABASE::$TABLE_NAME;
 	$table_actor = DATABASE::$TABLE_ACTOR;
+	$table_verb = DATABASE::$TABLE_VERB;
+	$table_object = DATABASE::$TABLE_OBJECT;
+	$table_result = DATABASE::$TABLE_RESULT;
+
+	// TODO: Refactor & error handling
+	$actor_id = $wpdb->get_var( $wpdb->prepare(
+		"SELECT id FROM $table_actor WHERE actor_id = %s", $actor['inverseFunctionalIdentifier']
+	) );
+
+	if ( is_null( $actor_id ) ) {
+		$wpdb->insert(
+			$table_actor,
+			array(
+				'actor_id' => $actor['inverseFunctionalIdentifier'],
+				'actor_name' => $actor['name'],
+				'actor_members' => $actor['members']
+			)
+		);
+		$actor_id = $wpdb->insert_id;
+	}
+
+	// TODO: Refactor & error handling
+	$verb_id = $wpdb->get_var( $wpdb->prepare(
+		"SELECT id FROM $table_verb WHERE verb_id = %s", $verb['id']
+	) );
+
+	if ( is_null( $verb_id ) ) {
+		$wpdb->insert(
+			$table_verb,
+			array(
+				'verb_id' => $verb['id'],
+				'verb_display' => $verb['display']
+			)
+		);
+		$verb_id = $wpdb->insert_id;
+	}
+
+	// TODO: Refactor & error handling
+	$object_id = $wpdb->get_var( $wpdb->prepare(
+		"SELECT id FROM $table_object WHERE xobject_id = %s", $object['id']
+	) );
+
+	if ( is_null( $object_id ) ) {
+		$wpdb->insert(
+			$table_object,
+			array(
+				'xobject_id' => $object['id'],
+				'object_name' => $object['name'],
+				'object_description' => $object['description'],
+				'object_choices' => $object['choices'],
+				'object_correct_responses_pattern' => $object['correctResponsesPattern']
+			)
+		);
+		$object_id = $wpdb->insert_id;
+	}
+
+	// TODO: Refactor & error handling
+	$wpdb->insert(
+		$table_result,
+		array(
+			'result_response' => $result['response'],
+      'result_score_raw' => $result['score_raw'],
+      'result_score_scaled' => $result['score_scaled'],
+      'result_completion' => $result['completion'],
+      'result_success' => $result['success'],
+      'result_duration' => $result['duration']
+		)
+	);
+	$result_id = $wpdb->insert_id;
 
 	$xapi = str_replace('\"', '"', $xapi);
 	$json = json_decode($xapi);
@@ -81,14 +156,16 @@ function insert_data () {
 		$xapi = null;
 	}
 
+	// TODO: Remove obsolete entries and update display.php
+
 	// There must be a smarter way to do this ...
-  $result = $wpdb->insert(
+  $wpdb->insert(
 		$table_name,
 		array (
-			'id_actor' => NULL,
-			'id_verb' => NULL,
-			'id_object' => NULL,
-			'id_result' => NULL,
+			'id_actor' => $actor_id,
+			'id_verb' => $verb_id,
+			'id_object' => $object_id,
+			'id_result' => $result_id,
 			'actor_object_type' => isset ( $json->actor->objectType ) ? shape_xAPI_field( $json->actor->objectType ) : NULL,
 			'actor_name' => isset( $json->actor->name ) ? shape_xAPI_field( $json->actor->name ) : NULL,
 			'actor_mbox' => isset( $json->actor->mbox ) ? shape_xAPI_field( $json->actor->mbox ) : NULL,

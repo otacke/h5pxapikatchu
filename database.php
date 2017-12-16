@@ -63,11 +63,9 @@ class Database {
 
     $sql = "CREATE TABLE $table_actor (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
-      actor_object_type TEXT,
+      actor_id TEXT,
       actor_name TEXT,
-      actor_mbox TEXT,
-      actor_account_homepage TEXT,
-      actor_account_name TEXT,
+      actor_members TEXT,
       PRIMARY KEY (id)
     ) $charset_collate;";
     $ok = dbDelta( $sql );
@@ -83,10 +81,10 @@ class Database {
     $sql = "CREATE TABLE $table_object (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       xobject_id TEXT,
-      object_definition_name TEXT,
-      object_definition_description TEXT,
-      object_definition_choices TEXT,
-      object_definition_correctResponsesPattern TEXT,
+      object_name TEXT,
+      object_description TEXT,
+      object_choices TEXT,
+      object_correct_responses_pattern TEXT,
       PRIMARY KEY (id)
     ) $charset_collate;";
     $ok = dbDelta( $sql );
