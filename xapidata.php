@@ -26,11 +26,6 @@ class XAPIDATA {
     $this->raw = $xapi;
 
   	$this->data = json_decode($xapi, true);
-
-    $actor = $this->get_actor();
-    $verb = $this->get_verb();
-
-    error_log( print_r( $verb, true ) );
   }
 
   /**
@@ -41,63 +36,100 @@ class XAPIDATA {
   }
 
   /**
-   * Get flattened actor data from xAPI statement.
+   * Get actor data from xAPI statement.
    */
   public function get_actor() {
-    if ( ! array_key_exists( 'actor', $this->data ) ) {
-      return '';
+    if ( is_array( $this->data ) && array_key_exists( 'actor', $this->data ) ) {
+      $actor = $this->data['actor'];
+
+      $object_type = ( array_key_exists( 'objectType', $actor ) ) ? $actor['objectType'] : '';
+      $inverse_functional_identifier = $this->flatten_inverse_functional_identifier ( $actor );
+      $name = ( array_key_exists( 'name', $actor )) ? $actor['name'] : '';
+      $members = ( array_key_exists( 'member', $actor) ) ? $this->flatten_members( $actor['member'] ) : '';
+
+      // Identified Group or Anonymous Group (we don't need to distinguish here)
+      if ( $object_type === 'Group' ) {
+        $name = ($name !== '') ? $name . ' (' . __( 'Group' , 'H5PXAPIKATCHU' ) . ')' : $name;
+      }
+
+      //Agent
+      if ( $object_type === 'Agent' || $object_type === '') {
+        // Not really neccessary, but according to xAPI specs agents have no member data
+        $members = '';
+      }
     }
-    $actor = $this->data['actor'];
 
-    $object_type = ( array_key_exists( 'objectType', $actor ) ) ? $actor['objectType'] : '';
-    $inverse_functional_identifier = $this->flatten_inverse_functional_identifier ( $actor );
-    $name = ( array_key_exists( 'name', $actor )) ? $actor['name'] : '';
-    $members = ( array_key_exists( 'member', $actor) ) ? $this->flatten_members( $actor['member'] ) : '';
-
-    // Identified Group or Anonymous Group (we don't need to distinguish here)
-    if ( $object_type === 'Group' ) {
-      $name = ($name !== '') ? $name . ' (' . __( 'Group' , 'H5PXAPIKATCHU' ) . ')' : $name;
-    }
-
-    //Agent
-    if ( $object_type === 'Agent' || $object_type === '') {
-      // Not really neccessary, but according to xAPI specs agents have no member data
-      $members = '';
-    }
-
-    return [
-      'inverse_functional_identifier' => $inverse_functional_identifier,
-      'name' => $name,
-      'members' => $members
-    ];
+    return array(
+      'inverse_functional_identifier' => isset( $inverse_functional_identifier ) ? $inverse_functional_identifier : '',
+      'name' => isset( $name ) ? $name : '',
+      'members' => isset( $members ) ? $members : ''
+    );
   }
 
+  /**
+   * Get verb data from xAPI statement.
+   */
   public function get_verb() {
-    $verb = $this->data['verb'];
+    if ( is_array( $this->data ) && array_key_exists( 'verb', $this->data ) ) {
+      $verb = $this->data['verb'];
 
-    $id = array_key_exists( 'id', $verb ) ? $verb['id'] : '';
-    $display = array_key_exists( 'display', $verb ) ? $this-> get_locale_string( $verb['display'] ) : '';
+      $id = array_key_exists( 'id', $verb ) ? $verb['id'] : '';
+      $display = array_key_exists( 'display', $verb ) ? $this-> get_locale_string( $verb['display'] ) : '';
+    }
 
-    return array('id' => $id, 'display' => $display);
+    return array(
+      'id' => (isset( $id ) ) ? $id : '',
+      'display' => ( isset( $display ) ) ? $display : ''
+    );
   }
 
   public function get_object() {
-    // id = DBID
-    // [activity] = USE [name][: description] extract language code (id)
-    // [choices] => should be evaluated
-    // [correctResponsesPattern] => should be evaluated ...
-    //
+    if ( is_array( $this->data ) && array_key_exists( 'object', $this->data ) ) {
+      $object = $this->data['object'];
+
+      $id = array_key_exists( 'id', $object ) ? $object['id'] : '';
+      $definition = array_key_exists( 'definition', $object ) ? $this->get_definition( $object['definition'] ) : '';
+      if ( $definition !== '' ) {
+        $name = $definition['name'];
+        $description = $definition['description'];
+        $choices = $definition['choices'];
+        $correct_responses_pattern = $definition['correctResponsesPattern'];
+      }
+    }
+
+    return array(
+      'id' => isset( $id ) ? $id : '',
+      'name' => isset( $name ) ? $name : '',
+      'description' => isset( $description ) ? $description : '',
+      'choices' => isset( $choices ) ? $choices : '',
+      'correctResponsesPattern' => isset( $correct_responses_pattern ) ? $correct_responses_pattern : ''
+    );
+
   }
 
   public function get_result() {
-    // id = AUTO_INCREMENT
-    // [response]
-    // [score raw]
-    // [score scaled]
-    // USE score_raw [(score scaled %)]
-    // [completed]
-    // [success]
-    // [duration]
+    if ( is_array( $this->data ) && array_key_exists( 'result', $this->data ) ) {
+      $result = $this->data['result'];
+
+      $response = array_key_exists( 'response', $result ) ? $result['response'] : '';
+      $scores = array_key_exists( 'score', $result ) ? $this->get_scores( $result['score'] ) : '';
+      if ( $scores !== '' ) {
+        $score_raw = $scores['score_raw'];
+        $score_scaled = $scores['score_scaled'];
+      }
+      $completed =  array_key_exists( 'completed', $result ) ? $result['completed'] : '';
+      $success =  array_key_exists( 'success', $result ) ? $result['success'] : '';
+      $duration =  array_key_exists( 'duration', $result ) ? $result['duration'] : '';
+    }
+
+    return array(
+      'response' => isset( $response) ? $response : '',
+      'score_raw' => isset( $score_raw ) ? $score_raw : '',
+      'score_scaled' => isset( $score_scaled ) ? $score_scaled : '',
+      'completed' => isset( $completed ) ? $completed : '',
+      'success' => isset( $success ) ? $success : '',
+      'duration' => isset( $duration ) ? $duration: ''
+    );
   }
 
   /**
@@ -109,7 +141,7 @@ class XAPIDATA {
     }
 
     $output = array();
-    foreach ($members as $member) {
+    foreach ( $members as $member ) {
       array_push( $output, $this->flatten_agent( $member ) );
     }
     return implode( $output, ', ' );
@@ -178,13 +210,90 @@ class XAPIDATA {
   /**
    * Get local string from xAPI language map object
    */
-  private function get_locale_string( $language_map ) {
+  private function get_locale_string ( $language_map ) {
     if ( ! is_array( $language_map ) || empty( $language_map ) ) {
       return '';
     }
 
     $LOCALE_DEFAULT = 'en-US';
     $locale = str_replace( '_', '-', get_locale() );
-    return array_key_exists( $locale, $language_map ) ? $language_map[$locale] : $language_map[$LOCALE_DEFAULT];
+
+    if ( array_key_exists( $locale, $language_map ) ) {
+      return $language_map[$locale];
+    }
+    if ( array_key_exists( $locale, $language_map ) ) {
+      return $language_map[$LOCALE_DEFAULT];
+    }
+    return array_values($language_map)[0];
+  }
+
+  /**
+   * Get xAPI description object
+   */
+  private function get_definition( $definition ) {
+    if (is_array( $definition ) ) {
+      $name = array_key_exists( 'name', $definition ) ? $this->get_locale_string( $definition['name'] ) : '';
+      $description = array_key_exists( 'description', $definition ) ? $this->get_locale_string( $definition['description'] ) : '';
+      $choices = array_key_exists( 'choices', $definition ) ? $this->flatten_choices( $definition['choices'] ) : '';
+      $correct_responses_pattern = array_key_exists( 'correctResponsesPattern', $definition ) ? $this->flatten_correct_responses_pattern( $definition['correctResponsesPattern'] ) : '';
+    }
+
+    return array(
+      'name' => isset( $name ) ? $name : '',
+      'description' => isset( $description ) ? $description : '',
+      'choices' => isset( $choices ) ? $choices : '',
+      'correctResponsesPattern' => isset( $correct_responses_pattern ) ? $correct_responses_pattern : ''
+    );
+  }
+
+  /**
+   * Flatten xAPI choices object.
+   */
+  private function flatten_choices ( $choices ) {
+    if ( ! is_array( $choices ) || empty ( $choices ) ) {
+      return '';
+    }
+
+    $output = array();
+    foreach( $choices as $choice ) {
+      $id = array_key_exists( 'id', $choice ) ? $choice['id'] : '';
+      $description = array_key_exists( 'description', $choice ) ? $this->get_locale_string( $choice['description'] ) : '';
+
+      array_push( $output, '[' . $id . '] ' . $description );
+    }
+
+    return implode( $output, ', ' );
+  }
+
+  /**
+   * Flatten xAPI correctResponsesPattern object.
+   */
+  private function flatten_correct_responses_pattern ( $correct_responses_patterns ) {
+    if ( ! is_array( $correct_responses_patterns ) || empty ( $correct_responses_patterns ) ) {
+      return '';
+    }
+
+    $output = array();
+    foreach( $correct_responses_patterns as $key => $pattern ) {
+      array_push( $output, '[' . $key . ']: ' . $pattern );
+    }
+
+    return implode( $output, ', ' );
+
+  }
+
+  /**
+   * Get score details from xAPI score object.
+   */
+  private function get_scores ( $scores ) {
+    if ( is_array( $scores ) ) {
+      $score_raw = array_key_exists( 'raw', $scores ) ? $scores['raw'] : '';
+      $score_scaled = array_key_exists( 'scaled', $scores ) ? $scores['scaled'] : '';
+    }
+
+    return array(
+      'score_raw' => isset( $score_raw ) ? $score_raw : '',
+      'score_scaled' => isset( $score_scaled ) ? $score_scaled : ''
+    );
   }
 }
