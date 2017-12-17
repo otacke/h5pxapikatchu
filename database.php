@@ -130,6 +130,130 @@ class Database {
     );
   }
 
+  public static function insert_data ( $actor, $verb, $object, $result, $xapi ) {
+    self::insert_main(
+      self::insert_actor( $actor ),
+      self::insert_verb( $verb ),
+      self::insert_object( $object ),
+      self::insert_result( $result ),
+      $xapi
+    );
+  }
+
+  // TODO: Error handling
+  private static function insert_main ( $actor_id, $verb_id, $object_id, $result_id, $xapi ) {
+    global $wpdb;
+
+    $wpdb->insert(
+      self::$TABLE_MAIN,
+      array (
+        'id_actor' => $actor_id,
+        'id_verb' => $verb_id,
+        'id_object' => $object_id,
+        'id_result' => $result_id,
+        'time' => current_time( 'mysql' ),
+        'xapi' => $xapi
+      )
+    );
+  }
+
+  // TODO: Refactor & error handling
+  private static function insert_actor ( $actor ) {
+    global $wpdb;
+
+    $actor_id = $wpdb->get_var( $wpdb->prepare(
+  		"SELECT id FROM " . self::$TABLE_ACTOR . " WHERE actor_id = %s", $actor['inverseFunctionalIdentifier']
+  	) );
+
+  	if ( is_null( $actor_id ) ) {
+  		$wpdb->insert(
+  			self::$TABLE_ACTOR,
+  			array(
+  				'actor_id' => $actor['inverseFunctionalIdentifier'],
+  				'actor_name' => $actor['name'],
+  				'actor_members' => $actor['members']
+  			)
+  		);
+  		$actor_id = $wpdb->insert_id;
+  	}
+    return $actor_id;
+  }
+
+  // TODO: Refactor & error handling
+  private static function insert_verb ( $verb ) {
+    global $wpdb;
+
+    $verb_id = $wpdb->get_var( $wpdb->prepare(
+  		"SELECT id FROM " . self::$TABLE_VERB . " WHERE verb_id = %s", $verb['id']
+  	) );
+
+  	if ( is_null( $verb_id ) ) {
+  		$wpdb->insert(
+  			self::$TABLE_VERB,
+  			array(
+  				'verb_id' => $verb['id'],
+  				'verb_display' => $verb['display']
+  			)
+  		);
+  		$verb_id = $wpdb->insert_id;
+  	}
+    return $verb_id;
+  }
+
+  // TODO: Refactor & error handling
+  private static function insert_object ( $object ) {
+    global $wpdb;
+
+  	$object_id = $wpdb->get_var( $wpdb->prepare(
+  		"SELECT id FROM	" . self::$TABLE_OBJECT . " WHERE
+  				xobject_id = %s AND
+  				object_name = %s AND
+  				object_description = %s AND
+  				object_choices = %s AND
+  				object_correct_responses_pattern = %s
+  		",
+  		$object['id'],
+  		$object['name'],
+  		$object['description'],
+  		$object['choices'],
+  		$object['correctResponsesPattern']
+  	) );
+
+  	if ( is_null( $object_id ) ) {
+  		$wpdb->insert(
+  			self::$TABLE_OBJECT,
+  			array(
+  				'xobject_id' => $object['id'],
+  				'object_name' => $object['name'],
+  				'object_description' => $object['description'],
+  				'object_choices' => $object['choices'],
+  				'object_correct_responses_pattern' => $object['correctResponsesPattern']
+  			)
+  		);
+  		$object_id = $wpdb->insert_id;
+  	}
+    return $object_id;
+  }
+
+  // TODO: Refactor & error handling
+  private static function insert_result ( $result ) {
+    global $wpdb;
+
+    $wpdb->insert(
+      self::$TABLE_RESULT,
+      array(
+        'result_response' => $result['response'],
+        'result_score_raw' => $result['score_raw'],
+        'result_score_scaled' => $result['score_scaled'],
+        'result_completion' => $result['completion'],
+        'result_success' => $result['success'],
+        'result_duration' => $result['duration']
+      )
+    );
+    return $wpdb->insert_id;
+  }
+
+
   static function init() {
 	  global $wpdb;
     self::$TABLE_MAIN = $wpdb->prefix . 'h5pxapikatchu';
