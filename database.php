@@ -11,7 +11,7 @@ namespace H5PXAPIKATCHU;
 class Database {
 
   public static $COLUMN_TITLES;
-  public static $TABLE_NAME;
+  public static $TABLE_MAIN;
   public static $TABLE_ACTOR;
   public static $TABLE_VERB;
   public static $TABLE_OBJECT;
@@ -22,46 +22,22 @@ class Database {
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-    $table_name = Database::$TABLE_NAME;
-    $table_actor = Database::$TABLE_ACTOR;
-    $table_verb = Database::$TABLE_VERB;
-    $table_object = Database::$TABLE_OBJECT;
-    $table_result = Database::$TABLE_RESULT;
-
     $charset_collate = $wpdb->get_charset_collate();
 
     // naming a row object_id will cause trouble!
-    $sql = "CREATE TABLE $table_name (
+    $sql = "CREATE TABLE " . self::$TABLE_MAIN  ." (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       id_actor mediumint(9),
       id_verb mediumint(9),
       id_object mediumint(9),
       id_result mediumint(9),
-      actor_object_type TEXT,
-      actor_name TEXT,
-      actor_mbox TEXT,
-      actor_account_homepage TEXT,
-      actor_account_name TEXT,
-      verb_id TEXT,
-      verb_display TEXT,
-      xobject_id TEXT,
-      object_definition_name TEXT,
-      object_definition_description TEXT,
-      object_definition_choices TEXT,
-      object_definition_correctResponsesPattern TEXT,
-      result_response TEXT,
-      result_score_raw INT,
-      result_score_scaled FLOAT,
-      result_completion BOOLEAN,
-      result_success BOOLEAN,
-      result_duration VARCHAR(20),
       time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
       xapi text,
       PRIMARY KEY (id)
     ) $charset_collate;";
     $ok = dbDelta( $sql );
 
-    $sql = "CREATE TABLE $table_actor (
+    $sql = "CREATE TABLE " . self::$TABLE_ACTOR . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       actor_id TEXT,
       actor_name TEXT,
@@ -70,7 +46,7 @@ class Database {
     ) $charset_collate;";
     $ok = dbDelta( $sql );
 
-    $sql = "CREATE TABLE $table_verb (
+    $sql = "CREATE TABLE " . self::$TABLE_VERB . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       verb_id TEXT,
       verb_display TEXT,
@@ -78,7 +54,7 @@ class Database {
     ) $charset_collate;";
     $ok = dbDelta( $sql );
 
-    $sql = "CREATE TABLE $table_object (
+    $sql = "CREATE TABLE " . self::$TABLE_OBJECT . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       xobject_id TEXT,
       object_name TEXT,
@@ -89,7 +65,7 @@ class Database {
     ) $charset_collate;";
     $ok = dbDelta( $sql );
 
-    $sql = "CREATE TABLE $table_result (
+    $sql = "CREATE TABLE " . self::$TABLE_RESULT . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       result_response TEXT,
       result_score_raw INT,
@@ -102,24 +78,61 @@ class Database {
     $ok = dbDelta( $sql );
   }
 
-  public static function delete_table() {
+  public static function delete_table () {
     global $wpdb;
-    $table_name = Database::$TABLE_NAME;
-    $table_actor = Database::$TABLE_ACTOR;
-    $table_verb = Database::$TABLE_VERB;
-    $table_object = Database::$TABLE_OBJECT;
-    $table_result = Database::$TABLE_RESULT;
 
-    $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
-    $wpdb->query( "DROP TABLE IF EXISTS $table_actor" );
-    $wpdb->query( "DROP TABLE IF EXISTS $table_verb" );
-    $wpdb->query( "DROP TABLE IF EXISTS $table_object" );
-    $wpdb->query( "DROP TABLE IF EXISTS $table_result" );
+    $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_MAIN );
+    $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_ACTOR );
+    $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_VERB );
+    $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_OBJECT );
+    $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_RESULT );
+  }
+
+  public static function get_column_titles () {
+    global $wpdb;
+
+    return array_merge(
+      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_ACTOR, 0), 1),
+      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_VERB, 0), 1),
+      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_OBJECT, 0), 1),
+      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_RESULT, 0), 1),
+      array('time'),
+      array('xapi')
+    );
+  }
+
+  public static function get_complete_table () {
+    global $wpdb;
+
+    // TODO: build SELECT part dynamically based on future options for columns
+    // TODO: Unuglify :-)
+
+    return $wpdb->get_results(
+      "
+        SELECT
+        	act.actor_id, act.actor_name, act.actor_members,
+            ver.verb_id, ver.verb_display,
+            obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
+            res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
+            mst.time, mst.xapi
+        FROM
+        	  " . self::$TABLE_MAIN . " as mst,
+            " . self::$TABLE_ACTOR . " as act,
+            " . self::$TABLE_VERB . " as ver,
+            " . self::$TABLE_OBJECT . " as obj,
+            " . self::$TABLE_RESULT . " as res
+        WHERE
+        	mst.id_actor = act.id AND
+            mst.id_verb = ver.id AND
+            mst.id_object = obj.id AND
+            mst.id_result = res.id
+      "
+    );
   }
 
   static function init() {
 	  global $wpdb;
-    self::$TABLE_NAME = $wpdb->prefix . 'h5pxapikatchu';
+    self::$TABLE_MAIN = $wpdb->prefix . 'h5pxapikatchu';
     self::$TABLE_ACTOR = $wpdb->prefix . 'h5pxapikatchu_actor';
     self::$TABLE_VERB = $wpdb->prefix . 'h5pxapikatchu_verb';
     self::$TABLE_OBJECT = $wpdb->prefix . 'h5pxapikatchu_object';
@@ -127,18 +140,16 @@ class Database {
 
     self::$COLUMN_TITLES = array(
       'id' => 'ID',
-      'actor_object_type' => __( 'Actor Type', 'H5PxAPIkatchu'),
+      'actor_id' => __( 'Actor Id', 'H5PxAPIkatchu'),
       'actor_name' => __( 'Actor Name', 'H5PxAPIkatchu'),
-      'actor_mbox' => __( 'Actor Email', 'H5PxAPIkatchu'),
-      'actor_account_homepage' => __( 'Actor Account Homepage', 'H5PxAPIkatchu' ),
-      'actor_account_name' => __( 'Actor Account Name', 'H5PxAPIkatchu'),
+      'actor_members' => __( 'Actor Group Members', 'H5PxAPIkatchu'),
       'verb_id' => __( 'Verb Id', 'H5PxAPIkatchu'),
       'verb_display' => __( 'Verb Display', 'H5PxAPIkatchu'),
       'xobject_id' => __( 'Object Id', 'H5PxAPIkatchu'),
-      'object_definition_name' => __( 'Object Def. Name', 'H5PxAPIkatchu' ),
-      'object_definition_description' => __( 'Object Def. Description', 'H5PxAPIkatchu' ),
-      'object_definition_choices' => __( 'Object Def. Choices', 'H5PxAPIkatchu' ),
-      'object_definition_correctResponsesPattern' => __( 'Object Def. Correct Responses', 'H5PxAPIkatchu' ),
+      'object_name' => __( 'Object Def. Name', 'H5PxAPIkatchu' ),
+      'object_description' => __( 'Object Def. Description', 'H5PxAPIkatchu' ),
+      'object_choices' => __( 'Object Def. Choices', 'H5PxAPIkatchu' ),
+      'object_correct_responses_pattern' => __( 'Object Def. Correct Responses', 'H5PxAPIkatchu' ),
       'result_response' => __( 'Result Response', 'H5PxAPIkatchu' ),
       'result_score_raw' => __( 'Result Score Raw', 'H5PxAPIkatchu' ),
       'result_score_scaled' => __( 'Result Score Scaled', 'H5PxAPIkatchu' ),

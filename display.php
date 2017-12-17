@@ -38,35 +38,27 @@ class Display {
 
     global $wpdb;
 
+    $complete_table = Database::get_complete_table();
+    $column_titles = Database::get_column_titles();
+
   	echo '<div class="wrap">';
     echo '<h2>' . __( 'H5PxAPIkatchu', 'H5PxAPIkatchu' ) . '</h2>';
 
-  	$table_name = $wpdb->prefix . 'h5pxapikatchu';
-
-    $table_name = Database::$TABLE_NAME; // TODO: combine in SQL syntax
-    $existing_columns = $wpdb->get_col("DESC {$table_name}", 0);
-
-    $result = $wpdb->get_results(
-  		"
-  			SELECT * FROM $table_name
-  		"
-  	);
-
-    if ( ! $result ) {
+    if ( ! $complete_table ) {
       echo __( 'There is no xAPI information stored.', 'H5PxAPIkatchu' );
     } else {
       // TODO: Clean this!
       echo '<div><table id="h5pxapikatchu-data-table" class="table-striped table-bordered" cellspacing="0">';
 
       $heads = '';
-      for ( $i = 0; $i < sizeof( (array)$result[0] ); $i++ ) {
-        $heads .= '<th>' . ( isset (Database::$COLUMN_TITLES[$existing_columns[$i]]) ? Database::$COLUMN_TITLES[$existing_columns[$i]] : '' ) . '</th>';
+      for ( $i = 0; $i < sizeof( (array)$complete_table[0] ); $i++ ) {
+        $heads .= '<th>' . ( isset (Database::$COLUMN_TITLES[$column_titles[$i]]) ? Database::$COLUMN_TITLES[$column_titles[$i]] : '' ) . '</th>';
       }
       echo '<thead>' . $heads . '</thead>';
       echo '<tfoot>' . $heads . '</tfoot>';
 
       echo '<tbody>';
-      foreach( $result as $fields ) {
+      foreach( $complete_table as $fields ) {
         $values = array_map( function( $field ) {
           return '\'' . $field . '\'';
         }, (array)$fields );

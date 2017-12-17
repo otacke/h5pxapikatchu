@@ -60,9 +60,9 @@ class XAPIDATA {
     }
 
     return array(
-      'inverseFunctionalIdentifier' => isset( $inverse_functional_identifier ) ? $inverse_functional_identifier : '',
-      'name' => isset( $name ) ? $name : '',
-      'members' => isset( $members ) ? $members : ''
+      'inverseFunctionalIdentifier' => isset( $inverse_functional_identifier ) ? $inverse_functional_identifier : NULL,
+      'name' => isset( $name ) ? $name : NULL,
+      'members' => isset( $members ) ? $members : NULL
     );
   }
 
@@ -78,8 +78,8 @@ class XAPIDATA {
     }
 
     return array(
-      'id' => (isset( $id ) ) ? $id : '',
-      'display' => ( isset( $display ) ) ? $display : ''
+      'id' => (isset( $id ) ) ? $id : NULL,
+      'display' => ( isset( $display ) ) ? $display : NULL
     );
   }
 
@@ -123,12 +123,12 @@ class XAPIDATA {
     }
 
     return array(
-      'response' => isset( $response) ? $response : '',
-      'score_raw' => isset( $score_raw ) ? $score_raw : '',
-      'score_scaled' => isset( $score_scaled ) ? $score_scaled : '',
-      'completion' => isset( $completion ) ? $completion : '',
-      'success' => isset( $success ) ? $success : '',
-      'duration' => isset( $duration ) ? $duration: ''
+      'response' => isset( $response) ? $response : NULL,
+      'score_raw' => isset( $score_raw ) ? $score_raw : NULL,
+      'score_scaled' => isset( $score_scaled ) ? $score_scaled : NULL,
+      'completion' => isset( $completion ) ? $completion : FALSE,
+      'success' => isset( $success ) ? $success : FALSE,
+      'duration' => isset( $duration ) ? $duration: NULL
     );
   }
 
@@ -261,7 +261,6 @@ class XAPIDATA {
 
       array_push( $output, '[' . $id . '] ' . $description );
     }
-
     return implode( $output, ', ' );
   }
 
@@ -279,7 +278,6 @@ class XAPIDATA {
     }
 
     return implode( $output, ', ' );
-
   }
 
   /**

@@ -76,7 +76,7 @@ function insert_data () {
 	$object = $xapidata->get_object();
 	$result = $xapidata->get_result();
 
-	$table_name = DATABASE::$TABLE_NAME;
+	$table_main = DATABASE::$TABLE_MAIN;
 	$table_actor = DATABASE::$TABLE_ACTOR;
 	$table_verb = DATABASE::$TABLE_VERB;
 	$table_object = DATABASE::$TABLE_OBJECT;
@@ -117,7 +117,18 @@ function insert_data () {
 
 	// TODO: Refactor & error handling
 	$object_id = $wpdb->get_var( $wpdb->prepare(
-		"SELECT id FROM $table_object WHERE xobject_id = %s", $object['id']
+		"SELECT id FROM	$table_object WHERE
+				xobject_id = %s AND
+				object_name = %s AND
+				object_description = %s AND
+				object_choices = %s AND
+				object_correct_responses_pattern = %s
+		",
+		$object['id'],
+		$object['name'],
+		$object['description'],
+		$object['choices'],
+		$object['correctResponsesPattern']
 	) );
 
 	if ( is_null( $object_id ) ) {
@@ -132,6 +143,7 @@ function insert_data () {
 			)
 		);
 		$object_id = $wpdb->insert_id;
+
 	}
 
 	// TODO: Refactor & error handling
@@ -156,34 +168,13 @@ function insert_data () {
 		$xapi = null;
 	}
 
-	// TODO: Remove obsolete entries and update display.php
-
-	// There must be a smarter way to do this ...
   $wpdb->insert(
-		$table_name,
+		$table_main,
 		array (
 			'id_actor' => $actor_id,
 			'id_verb' => $verb_id,
 			'id_object' => $object_id,
 			'id_result' => $result_id,
-			'actor_object_type' => isset ( $json->actor->objectType ) ? shape_xAPI_field( $json->actor->objectType ) : NULL,
-			'actor_name' => isset( $json->actor->name ) ? shape_xAPI_field( $json->actor->name ) : NULL,
-			'actor_mbox' => isset( $json->actor->mbox ) ? shape_xAPI_field( $json->actor->mbox ) : NULL,
-			'actor_account_homepage' => isset( $json->actor->account->homepage ) ? shape_xAPI_field( $json->actor->account->homepage ) : NULL,
-			'actor_account_name' => isset( $json->actor->account->name ) ? shape_xAPI_field( $json->actor->account->name ) : NULL,
-			'verb_id' => isset( $json->verb->id ) ? shape_xAPI_field( $json->verb->id ) : NULL,
-			'verb_display' => isset( $json->verb->display ) ? shape_xAPI_field( $json->verb->display, true) : NULL,
-			'xobject_id' => isset( $json->object->id ) ? shape_xAPI_field( $json->object->id ) : NULL,
-			'object_definition_name' => isset( $json->object->definition->name ) ? shape_xAPI_field( $json->object->definition->name, true) : NULL,
-			'object_definition_description' => isset($json->object->definition->description) ? shape_xAPI_field( $json->object->definition->description, true ) : NULL,
-			'object_definition_choices' => isset( $json->object->definition->choices ) ? shape_xAPI_field( $json->object->definition->choices ) : NULL,
-			'object_definition_correctResponsesPattern' => isset ( $json->object->definition->correctResponsesPattern ) ? shape_xAPI_field( $json->object->definition->correctResponsesPattern ) : NULL,
-			'result_response' => isset( $json->result->response) ? shape_xAPI_field( $json->result->response ) : NULL,
-			'result_score_raw' => isset( $json->result->score->raw) ? shape_xAPI_field( $json->result->score->raw ) : NULL,
-			'result_score_scaled' => isset( $json->result->score->scaled ) ? shape_xAPI_field( $json->result->score->scaled ) : NULL,
-			'result_completion' => isset( $json->result->completion ) ? shape_xAPI_field( $json->result->completion ) : NULL,
-			'result_success' => isset( $json->result->success ) ? shape_xAPI_field( $json->result->success ) : NULL,
-			'result_duration' => isset( $json->result->duration ) ? shape_xAPI_field( $json->result->duration ) : NULL,
 			'time' => current_time( 'mysql' ),
 			'xapi' => $xapi
 	  )
