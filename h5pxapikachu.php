@@ -25,13 +25,11 @@ require_once( __DIR__ . '/xapidata.php' );
  * Setup the plugin.
  */
 function setup () {
-	$options = Options::$OPTIONS;
-
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
 
 	// used to pass the URLs variable to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
-	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', isset( $options['debug_enabled'] ) ? '1' : '0' );
+	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', OPTIONS::is_debug_enabled() ? '1' : '0' );
 	load_plugin_textdomain( 'H5PxAPIkatchu', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
@@ -61,8 +59,6 @@ function on_uninstall () {
 /**
  * Insert an entry into the database.
  *
- * TODO: Move this to database.php
- *
  * @param {String} text - Text to be added.
  */
 function insert_data () {
@@ -76,11 +72,7 @@ function insert_data () {
 	$object = $xapidata->get_object();
 	$result = $xapidata->get_result();
 
-	$xapi = str_replace('\"', '"', $xapi);
-	$options = get_option('h5pxapikatchu_option', false);
-	if ( !isset( $options['store_complete_xapi'] ) ) {
-		$xapi = null;
-	}
+	$xapi = ( Options::store_complete_xapi() ) ? str_replace('\"', '"', $xapi) : null;
 
 	DATABASE::insert_data( $actor, $verb, $object, $result, $xapi );
 
@@ -97,7 +89,8 @@ add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 
 // Include settings
+$options = new Options;
+
 if ( is_admin() ) {
-	$options = new Options;
 	$display = new Display;
 }

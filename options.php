@@ -117,13 +117,13 @@ class Options {
     /**
      * Print Widget Section text
      */
-    public function print_general_section_info() {
+    public function print_general_section_info () {
     }
 
     /**
      * Get the settings option array and print one of its values
      */
-    public function store_complete_xapi_callback() {
+    public function store_complete_xapi_callback () {
 		echo'<label for="store_complete_xapi">';
 		echo '<input type="checkbox" name="h5pxapikatchu_option[store_complete_xapi]" id="store_complete_xapi" value="1" ' . ( isset( $this->options['store_complete_xapi']) ? checked( '1', $this->options['store_complete_xapi'], false ) : '') . ' />';
 		echo __('Enable option to store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PxAPIkatchu');
@@ -133,11 +133,19 @@ class Options {
     /**
      * Get the settings option array and print one of its values
      */
-    public function debug_enabled_callback() {
+    public function debug_enabled_callback () {
 		echo'<label for="debug_enabled">';
 		echo '<input type="checkbox" name="h5pxapikatchu_option[debug_enabled]" id="debug_enabled" value="1" ' . ( isset( $this->options['debug_enabled']) ? checked( '1', $this->options['debug_enabled'], false ) : '') . ' />';
 		echo __('Enable option to display xAPI statements in the JavaScript debug console', 'H5PxAPIkatchu');
 		echo '</label>';
+  }
+
+  public static function store_complete_xapi () {
+    return isset( self::$OPTIONS['store_complete_xapi'] );
+  }
+
+  public static function is_debug_enabled () {
+    return isset( self::$OPTIONS['debug_enabled'] );
   }
 
   static function init() {

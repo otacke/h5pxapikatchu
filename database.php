@@ -126,6 +126,8 @@ class Database {
             mst.id_verb = ver.id AND
             mst.id_object = obj.id AND
             mst.id_result = res.id
+        ORDER BY
+          mst.time DESC
       "
     );
   }
