@@ -1,15 +1,20 @@
-(function () {
-  'use strict';
+/* jshint esversion: 6 */
 
-  let $ = jQuery;
+( function () {
+	'use strict';
 
-  $(document).ready(function() {
-  // TODO: comment on ID
-    $('#h5pxapikatchu-data-table').DataTable({
-      dom: 'Bfrtip',
-      buttons: [
-        { extend: 'csv', text: 'DOWNLOAD', title: 'h5pxapikatchu-' + new Date().toISOString().substr(0, 10) }
-      ]
-    });
-  });
+	const $ = jQuery;
+	const CLASS_DATATABLE = '#h5pxapikatchu-data-table';
+
+	$( document ).ready( function() {
+		$( CLASS_DATATABLE ).DataTable( {
+			dom: 'Bfrtip',
+			buttons: [ {
+				extend: 'csv',
+				// TODO: get localizable label from PHP
+				text: 'DOWNLOAD',
+				title: 'h5pxapikatchu-' + new Date().toISOString().substr(0, 10)
+			} ]
+		} );
+	} );
 }) ();
