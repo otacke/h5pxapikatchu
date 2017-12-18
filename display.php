@@ -25,6 +25,10 @@ class Display {
     wp_enqueue_script( 'DataTablesScript' );
     wp_enqueue_script( 'BuildDatatable' );
     wp_enqueue_style( 'DataTablesStyle' );
+
+    // pass variable to JavaScript
+    wp_localize_script( 'BuildDatatable', 'button_label', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
+
   }
 
   public function add_admin_page () {

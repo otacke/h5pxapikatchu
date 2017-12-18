@@ -31,6 +31,7 @@ var H5P = H5P || {};
 				if ( debug_enabled === '1' ) {
 					console.log( event.data.statement );
 				}
+				// wpAJAXurl passed by PHP
 				sendAJAX( wpAJAXurl, event.data.statement );
 			} );
 		}
