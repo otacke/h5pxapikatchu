@@ -31,8 +31,10 @@ var H5P = H5P || {};
 				if ( debug_enabled === '1' ) {
 					console.log( event.data.statement );
 				}
-				// wpAJAXurl passed by PHP
-				sendAJAX( wpAJAXurl, event.data.statement );
+				if ( capture_all_h5p_content_types === '1' ) {
+					// wpAJAXurl passed by PHP
+					sendAJAX( wpAJAXurl, event.data.statement );
+				}
 			} );
 		}
 	};
