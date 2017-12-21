@@ -16,6 +16,7 @@ class Database {
   public static $TABLE_VERB;
   public static $TABLE_OBJECT;
   public static $TABLE_RESULT;
+  public static $TABLE_H5P_CONTENT_TYPES;
 
   public static function build_table() {
     global $wpdb;
@@ -130,6 +131,15 @@ class Database {
           mst.time DESC
       "
     );
+  }
+
+  public static function get_h5p_content_types () {
+    global $wpdb;
+
+    $content_types = $wpdb->get_results(
+      "SELECT id, title FROM " . self::$TABLE_H5P_CONTENT_TYPES
+    );
+    return json_decode( json_encode( $content_types ), true );
   }
 
   public static function insert_data ( $actor, $verb, $object, $result, $xapi ) {
@@ -263,6 +273,7 @@ class Database {
     self::$TABLE_VERB = $wpdb->prefix . 'h5pxapikatchu_verb';
     self::$TABLE_OBJECT = $wpdb->prefix . 'h5pxapikatchu_object';
     self::$TABLE_RESULT = $wpdb->prefix . 'h5pxapikatchu_result';
+    self::$TABLE_H5P_CONTENT_TYPES = $wpdb->prefix . 'h5p_contents';
 
     self::$COLUMN_TITLES = array(
       'id' => 'ID',

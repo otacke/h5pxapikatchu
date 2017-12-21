@@ -31,7 +31,11 @@ var H5P = H5P || {};
 				if ( debug_enabled === '1' ) {
 					console.log( event.data.statement );
 				}
-				if ( capture_all_h5p_content_types === '1' ) {
+				let regex = new RegExp("[?&]id(=([^&#]*)|&|#|$)");
+				let id = regex.exec(event.data.statement.object.id)[2];
+
+				// captureAllH5pContentTypes and h5pContentTypes passed by PHP
+				if ( captureAllH5pContentTypes === '1' || h5pContentTypes.includes( id ) ) {
 					// wpAJAXurl passed by PHP
 					sendAJAX( wpAJAXurl, event.data.statement );
 				}

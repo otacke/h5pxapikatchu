@@ -10,7 +10,7 @@ namespace H5PXAPIKATCHU;
  */
 class Options {
 
-  public static $SLUG = 'h5pxapikatchu_option';
+  public static $SLUG_GENERAL = 'h5pxapikatchu_option';
   public static $OPTIONS;
 
 	/**
@@ -27,8 +27,8 @@ class Options {
   }
 
   public static function delete_options() {
-	  delete_option( self::$SLUG );
-	  delete_site_option( self::$SLUG );
+	  delete_option( self::$SLUG_GENERAL );
+	  delete_site_option( self::$SLUG_GENERAL );
   }
 
   /**
@@ -125,6 +125,15 @@ class Options {
       if ( isset( $input['capture_all_h5p_content_types'] ) ) {
         $new_input['capture_all_h5p_content_types'] = absint( $input['capture_all_h5p_content_types'] );
       }
+      $captured_contents = array();
+      $length = sizeof( Database::get_h5p_content_types() );
+      for ( $i = 0; $i < $length; $i++ ) {
+        if ( isset( $input['h5p_content_types-' . $i ] ) ) {
+          array_push( $captured_contents, $input['h5p_content_types-' . $i ] );
+        }
+      }
+      $new_input['h5p_content_types'] = implode( $captured_contents, ',' );
+
       return $new_input;
   }
 
@@ -157,8 +166,25 @@ class Options {
   public function capture_all_h5p_content_types_callback () {
     echo'<label for="capture_all_h5p_content_types">';
     echo '<input type="checkbox" name="h5pxapikatchu_option[capture_all_h5p_content_types]" id="capture_all_h5p_content_types" value="1" ' . ( isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '') . ' />';
-    echo __('Capture the xAPI statemetns of all H5P content types', 'H5PxAPIkatchu');
+    echo __('Capture the xAPI statements of all H5P content types', 'H5PxAPIkatchu');
     echo '</label>';
+
+    $content_types = Database::get_h5p_content_types();
+    if ( empty( $content_types ) ) {
+      return;
+    }
+
+    $content_types_options = self::get_h5p_content_types();
+
+    echo '<p>';
+    foreach ( $content_types as $i => $content_type ) {
+      echo '<label for="h5p_content_type-' . $i . '">';
+      echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" value="' . $content_type['id'] . '" ' . checked( in_array( $content_type['id'], $content_types_options ), true, false ) . ' />';
+      echo '[' . $content_type['id'] . '] ' . $content_type['title'];
+      echo '</label>';
+      echo '<p></p>';
+    }
+    echo '</p>';
   }
 
   public static function store_complete_xapi () {
@@ -173,8 +199,12 @@ class Options {
     return isset( self::$OPTIONS['capture_all_h5p_content_types'] );
   }
 
+  public static function get_h5p_content_types () {
+    return isset( self::$OPTIONS['h5p_content_types'] ) ? explode( ',', self::$OPTIONS['h5p_content_types'] ) : array();
+  }
+
   static function init() {
-    self::$OPTIONS =  get_option(self::$SLUG, false);
+    self::$OPTIONS = get_option(self::$SLUG_GENERAL, false);
   }
 }
 Options::init();
