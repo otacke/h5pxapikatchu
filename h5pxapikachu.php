@@ -27,7 +27,7 @@ require_once( __DIR__ . '/xapidata.php' );
 function setup () {
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
 
-	// used to pass the URLs variable to JavaScript
+	// Pass variables to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
 	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', OPTIONS::is_debug_enabled() ? '1' : '0' );
 	wp_localize_script( 'H5PxAPIkatchu', 'captureAllH5pContentTypes', OPTIONS::capture_all_h5p_content_types() ? '1' : '0' );
@@ -68,7 +68,7 @@ function insert_data () {
 	global $wpdb;
 
 	$xapi = $_REQUEST['xapi'];
-	$xapidata = new XAPIDATA($xapi);
+	$xapidata = new XAPIDATA( $xapi );
 
 	$actor = $xapidata->get_actor();
 	$verb = $xapidata->get_verb();
@@ -83,9 +83,9 @@ function insert_data () {
 }
 
 // Start setup
-register_activation_hook(__FILE__, 'H5PXAPIKATCHU\on_activation');
-register_deactivation_hook(__FILE__, 'H5PXAPIKATCHU\on_deactivation');
-register_uninstall_hook(__FILE__, 'H5PXAPIKATCHU\on_uninstall');
+register_activation_hook( __FILE__, 'H5PXAPIKATCHU\on_activation' );
+register_deactivation_hook( __FILE__, 'H5PXAPIKATCHU\on_deactivation' );
+register_uninstall_hook( __FILE__, 'H5PXAPIKATCHU\on_uninstall' );
 
 add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
 add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );

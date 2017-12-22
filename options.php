@@ -12,10 +12,8 @@ class Options {
 
   public static $SLUG_GENERAL = 'h5pxapikatchu_option';
   public static $OPTIONS;
+  private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table';
 
-	/**
-   * Holds the values to be used in the fields callbacks
-   */
   private $options;
 
   /**
@@ -31,7 +29,7 @@ class Options {
     wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
     wp_register_style( 'Options', plugins_url( '/css/options.css', __FILE__ ));
     wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
-    wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_ctstable.js', __FILE__ ) );
+    wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_cts_table.js', __FILE__ ) );
     wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
 
     wp_enqueue_script( 'Options' );
@@ -40,6 +38,8 @@ class Options {
     wp_enqueue_script( 'BuildCtsTable' );
     wp_enqueue_style( 'DataTablesStyle' );
 
+    // pass variables to JavaScript
+    wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$CLASS_CTS_TABLE, 'H5PXAPIKATCHU' );
   }
 
   public static function setDefaults () {
@@ -223,7 +223,7 @@ class Options {
     }
 
     $content_types_options = self::get_h5p_content_types();
-    echo '<div><table id="h5pxapikatchu-cts-table" class="table-striped table-bordered" cellspacing="0">';
+    echo '<div><table id="' . self::$CLASS_CTS_TABLE . '" class="table-striped table-bordered" cellspacing="0">';
     echo '<thead>';
     echo '<tr>';
     echo '<th></th>';

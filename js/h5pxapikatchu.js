@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-
 // Global variable of H5P framework
 var H5P = H5P || {};
 
@@ -31,8 +29,9 @@ var H5P = H5P || {};
 				if ( debug_enabled === '1' ) {
 					console.log( event.data.statement );
 				}
-				let regex = new RegExp("[?&]id(=([^&#]*)|&|#|$)");
-				let id = regex.exec(event.data.statement.object.id)[2];
+				// Retrieve id number from object URL
+				const regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
+				const id = regex.exec( event.data.statement.object.id )[2];
 
 				// captureAllH5pContentTypes and h5pContentTypes passed by PHP
 				if ( captureAllH5pContentTypes === '1' || h5pContentTypes.includes( id ) ) {

@@ -9,6 +9,8 @@ namespace H5PXAPIKATCHU;
  * @since 0.1
  */
 class Display {
+  private static $CLASS_DATATABLE = 'h5pxapikatchu-data-table';
+
   /**
    * Start up
    */
@@ -19,15 +21,16 @@ class Display {
 
   public function add_scripts () {
     wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
-    wp_register_script( 'BuildDatatable', plugins_url( '/js/build_datatable.js', __FILE__ ) );
+    wp_register_script( 'BuildDataTable', plugins_url( '/js/build_data_table.js', __FILE__ ) );
     wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
 
     wp_enqueue_script( 'DataTablesScript' );
-    wp_enqueue_script( 'BuildDatatable' );
+    wp_enqueue_script( 'BuildDataTable' );
     wp_enqueue_style( 'DataTablesStyle' );
 
-    // pass variable to JavaScript
-    wp_localize_script( 'BuildDatatable', 'button_label', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
+    // pass variables to JavaScript
+    wp_localize_script( 'BuildDataTable', 'classDataTable', self::$CLASS_DATATABLE );
+    wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
   }
 
   public function add_admin_page () {
@@ -51,7 +54,7 @@ class Display {
       echo __( 'There is no xAPI information stored.', 'H5PxAPIkatchu' );
     } else {
       // TODO: Clean this!
-      echo '<div><table id="h5pxapikatchu-data-table" class="table-striped table-bordered" cellspacing="0">';
+      echo '<div><table id="' . self::$CLASS_DATATABLE . '" class="table-striped table-bordered" cellspacing="0">';
 
       $heads = '';
       for ( $i = 0; $i < sizeof( (array)$complete_table[0] ); $i++ ) {
