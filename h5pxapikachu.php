@@ -40,6 +40,7 @@ function setup () {
  */
 function on_activation () {
 	Database::build_table();
+	Options::setDefaults();
 }
 
 /**
@@ -90,7 +91,7 @@ add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
 add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 
-// Include settings
+// Include options
 $options = new Options;
 
 if ( is_admin() ) {

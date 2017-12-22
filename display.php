@@ -28,7 +28,6 @@ class Display {
 
     // pass variable to JavaScript
     wp_localize_script( 'BuildDatatable', 'button_label', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
-
   }
 
   public function add_admin_page () {

@@ -22,11 +22,22 @@ class Options {
    * Start up
    */
   public function __construct() {
-      add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
-      add_action( 'admin_init', array( $this, 'page_init' ) );
+    add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
+    add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
+    add_action( 'admin_init', array( $this, 'page_init' ) );
   }
 
-  public static function delete_options() {
+  public function add_scripts () {
+    wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
+    wp_enqueue_script( 'Options' );
+  }
+
+  public static function setDefaults () {
+    // Store all content types be default
+    update_option( self::$SLUG_GENERAL, array( 'capture_all_h5p_content_types' => 1 ) );
+  }
+
+  public static function delete_options () {
 	  delete_option( self::$SLUG_GENERAL );
 	  delete_site_option( self::$SLUG_GENERAL );
   }
@@ -78,7 +89,7 @@ class Options {
 
       add_settings_section(
           'general_settings',
-          '',
+          __( 'General', 'H5PXAPIKATCHU' ),
           array( $this, 'print_general_section_info' ),
           'h5pxapikatchu-admin'
       );
@@ -106,6 +117,22 @@ class Options {
           'h5pxapikatchu-admin',
           'general_settings'
       );
+
+      add_settings_section(
+          'content_type_settings',
+          __( 'Content types', 'H5PXAPIKATCHU' ),
+          array( $this, 'print_content_type_section_info' ),
+          'h5pxapikatchu-admin'
+      );
+
+      add_settings_field(
+          'h5p_content_types',
+          __( 'H5P Content Types (Detail)', 'H5PxAPIkatchu' ),
+          array( $this, 'h5p_content_types_callback' ),
+          'h5pxapikatchu-admin',
+          'content_type_settings'
+      );
+
   }
 
   /**
@@ -138,9 +165,16 @@ class Options {
   }
 
   /**
-   * Print Widget Section text
+   * Print section text for general settings
    */
   public function print_general_section_info () {
+  }
+
+  /**
+   * Print section text for content type settings
+   */
+  public function print_content_type_section_info () {
+    echo 'By checking the H5P content types below you can select their xAPI statements for being captured.';
   }
 
   /**
@@ -165,10 +199,12 @@ class Options {
 
   public function capture_all_h5p_content_types_callback () {
     echo'<label for="capture_all_h5p_content_types">';
-    echo '<input type="checkbox" name="h5pxapikatchu_option[capture_all_h5p_content_types]" id="capture_all_h5p_content_types" value="1" ' . ( isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '') . ' />';
+    echo '<input type="checkbox" name="h5pxapikatchu_option[capture_all_h5p_content_types]" id="h5pxapikatchu_capture_all_content_types" value="1" ' . ( isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '') . ' />';
     echo __('Capture the xAPI statements of all H5P content types', 'H5PxAPIkatchu');
     echo '</label>';
+  }
 
+  public function h5p_content_types_callback () {
     $content_types = Database::get_h5p_content_types();
     if ( empty( $content_types ) ) {
       return;
@@ -179,8 +215,10 @@ class Options {
     echo '<p>';
     foreach ( $content_types as $i => $content_type ) {
       echo '<label for="h5p_content_type-' . $i . '">';
-      echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" value="' . $content_type['id'] . '" ' . checked( in_array( $content_type['id'], $content_types_options ), true, false ) . ' />';
-      echo '[' . $content_type['id'] . '] ' . $content_type['title'];
+      echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />';
+      echo  $content_type['ct_title'] .
+        // ' (' . $content_type['lib_name'] . ')' .
+        ' [' . $content_type['ct_id'] . ']';
       echo '</label>';
       echo '<p></p>';
     }

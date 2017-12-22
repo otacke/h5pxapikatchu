@@ -17,6 +17,7 @@ class Database {
   public static $TABLE_OBJECT;
   public static $TABLE_RESULT;
   public static $TABLE_H5P_CONTENT_TYPES;
+  public static $TABLE_H5P_LIBRARIES;
 
   public static function build_table() {
     global $wpdb;
@@ -137,7 +138,11 @@ class Database {
     global $wpdb;
 
     $content_types = $wpdb->get_results(
-      "SELECT id, title FROM " . self::$TABLE_H5P_CONTENT_TYPES
+      "
+        SELECT CT.id AS ct_id, CT.title AS ct_title, LIB.name AS lib_name
+        FROM " . self::$TABLE_H5P_CONTENT_TYPES . " AS CT, " . self::$TABLE_H5P_LIBRARIES . " AS LIB
+        WHERE CT.library_id = LIB.id
+      "
     );
     return json_decode( json_encode( $content_types ), true );
   }
@@ -274,6 +279,8 @@ class Database {
     self::$TABLE_OBJECT = $wpdb->prefix . 'h5pxapikatchu_object';
     self::$TABLE_RESULT = $wpdb->prefix . 'h5pxapikatchu_result';
     self::$TABLE_H5P_CONTENT_TYPES = $wpdb->prefix . 'h5p_contents';
+    self::$TABLE_H5P_LIBRARIES = $wpdb->prefix . 'h5p_libraries';
+
 
     self::$COLUMN_TITLES = array(
       'id' => 'ID',
