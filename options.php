@@ -207,11 +207,12 @@ class Options {
   public function h5p_content_types_callback () {
     $content_types = Database::get_h5p_content_types();
     if ( empty( $content_types ) ) {
+      echo __( 'It seems that H5P is not installed on this WordPress system.', 'H5PXAPIKATCHU' );
       return;
     }
 
     $content_types_options = self::get_h5p_content_types();
-
+    // TODO: Make this nice visually
     echo '<p>';
     foreach ( $content_types as $i => $content_type ) {
       echo '<label for="h5p_content_type-' . $i . '">';

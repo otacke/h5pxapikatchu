@@ -137,6 +137,19 @@ class Database {
   public static function get_h5p_content_types () {
     global $wpdb;
 
+    $ok = $wpdb->get_results(
+      "SHOW TABLES LIKE '" . self::$TABLE_H5P_CONTENT_TYPES . "'"
+    );
+    if ( sizeof($ok) === 0 ) {
+      return;
+    }
+    $ok = $wpdb->get_results(
+      "SHOW TABLES LIKE '" . self::$TABLE_H5P_LIBRARIES . "'"
+    );
+    if ( sizeof($ok) === 0 ) {
+      return;
+    }
+
     $content_types = $wpdb->get_results(
       "
         SELECT CT.id AS ct_id, CT.title AS ct_title, LIB.name AS lib_name
