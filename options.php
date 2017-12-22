@@ -29,7 +29,9 @@ class Options {
 
   public function add_scripts () {
     wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
+    wp_register_style( 'Options', plugins_url( '/css/options.css', __FILE__ ));
     wp_enqueue_script( 'Options' );
+    wp_enqueue_style( 'Options' );
   }
 
   public static function setDefaults () {
@@ -213,17 +215,28 @@ class Options {
 
     $content_types_options = self::get_h5p_content_types();
     // TODO: Make this nice visually
-    echo '<p>';
+    echo '<table class="h5pxapikatchu-options">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th class="first-column"></th>';
+    echo '<th>' . __( 'Title', 'H5PXAPIKATCHU' ) . '</th>';
+    echo '<th>' . __( 'Type', 'H5PXAPIKATCHU' ) . '</th>';
+    echo '<th>' . __( 'Id', 'H5PXAPIKATCHU' ) . '</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
+
     foreach ( $content_types as $i => $content_type ) {
-      echo '<label for="h5p_content_type-' . $i . '">';
-      echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />';
-      echo  $content_type['ct_title'] .
-        // ' (' . $content_type['lib_name'] . ')' .
-        ' [' . $content_type['ct_id'] . ']';
-      echo '</label>';
-      echo '<p></p>';
+      echo '<tr>';
+      echo '<td class="first-column">' . '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />' . '</td>';
+      echo '<td>' . $content_type['ct_title'] . '</td>';
+      echo '<td>' . $content_type['lib_name'] . '</td>';
+      echo '<td>' . $content_type['ct_id'] . '</td>';
+      echo '</tr>';
     }
-    echo '</p>';
+    
+    echo '</tbody>';
+    echo '</table>';
   }
 
   public static function store_complete_xapi () {
