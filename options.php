@@ -159,6 +159,7 @@ class Options {
       for ( $i = 0; $i < $length; $i++ ) {
         if ( isset( $input['h5p_content_types-' . $i ] ) ) {
           array_push( $captured_contents, $input['h5p_content_types-' . $i ] );
+          error_log( $input['h5p_content_types-' . $i ] );
         }
       }
       $new_input['h5p_content_types'] = implode( $captured_contents, ',' );
@@ -228,13 +229,15 @@ class Options {
 
     foreach ( $content_types as $i => $content_type ) {
       echo '<tr>';
-      echo '<td class="first-column">' . '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />' . '</td>';
+      echo '<td class="first-column">';
+      echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />';
+      echo '</td>';
       echo '<td>' . $content_type['ct_title'] . '</td>';
       echo '<td>' . $content_type['lib_name'] . '</td>';
       echo '<td>' . $content_type['ct_id'] . '</td>';
       echo '</tr>';
     }
-    
+
     echo '</tbody>';
     echo '</table>';
   }
