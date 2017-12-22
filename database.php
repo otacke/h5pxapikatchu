@@ -19,6 +19,8 @@ class Database {
   public static $TABLE_H5P_CONTENT_TYPES;
   public static $TABLE_H5P_LIBRARIES;
 
+  // TODO: Make slug H5PXAPIKATCHU global
+
   public static function build_table() {
     global $wpdb;
 

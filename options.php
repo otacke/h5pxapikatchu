@@ -14,6 +14,7 @@ class Options {
   public static $OPTIONS;
   private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table';
 
+  // TODO: Make slug H5PXAPIKATCHU global
   private $options;
 
   /**

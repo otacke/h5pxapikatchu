@@ -11,6 +11,8 @@ namespace H5PXAPIKATCHU;
 class Display {
   private static $CLASS_DATATABLE = 'h5pxapikatchu-data-table';
 
+  // TODO: Make slug H5PXAPIKATCHU global
+
   /**
    * Start up
    */
