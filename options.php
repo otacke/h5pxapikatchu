@@ -30,8 +30,16 @@ class Options {
   public function add_scripts () {
     wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
     wp_register_style( 'Options', plugins_url( '/css/options.css', __FILE__ ));
+    wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
+    wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_ctstable.js', __FILE__ ) );
+    wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
+
     wp_enqueue_script( 'Options' );
     wp_enqueue_style( 'Options' );
+    wp_enqueue_script( 'DataTablesScript' );
+    wp_enqueue_script( 'BuildCtsTable' );
+    wp_enqueue_style( 'DataTablesStyle' );
+
   }
 
   public static function setDefaults () {
@@ -114,7 +122,7 @@ class Options {
 
       add_settings_field(
           'capture_all_h5p_content_types',
-          __( 'H5P Content Types', 'H5PxAPIkatchu' ),
+          __( 'Capture everything', 'H5PxAPIkatchu' ),
           array( $this, 'capture_all_h5p_content_types_callback' ),
           'h5pxapikatchu-admin',
           'general_settings'
@@ -129,7 +137,7 @@ class Options {
 
       add_settings_field(
           'h5p_content_types',
-          __( 'H5P Content Types (Detail)', 'H5PxAPIkatchu' ),
+          __( 'H5P Content Types', 'H5PxAPIkatchu' ),
           array( $this, 'h5p_content_types_callback' ),
           'h5pxapikatchu-admin',
           'content_type_settings'
@@ -215,11 +223,10 @@ class Options {
     }
 
     $content_types_options = self::get_h5p_content_types();
-    // TODO: Make this nice visually
-    echo '<table class="h5pxapikatchu-options">';
+    echo '<div><table id="h5pxapikatchu-cts-table" class="table-striped table-bordered" cellspacing="0">';
     echo '<thead>';
     echo '<tr>';
-    echo '<th class="first-column"></th>';
+    echo '<th></th>';
     echo '<th>' . __( 'Title', 'H5PXAPIKATCHU' ) . '</th>';
     echo '<th>' . __( 'Type', 'H5PXAPIKATCHU' ) . '</th>';
     echo '<th>' . __( 'Id', 'H5PXAPIKATCHU' ) . '</th>';
@@ -229,7 +236,7 @@ class Options {
 
     foreach ( $content_types as $i => $content_type ) {
       echo '<tr>';
-      echo '<td class="first-column">';
+      echo '<td>';
       echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />';
       echo '</td>';
       echo '<td>' . $content_type['ct_title'] . '</td>';
@@ -239,7 +246,7 @@ class Options {
     }
 
     echo '</tbody>';
-    echo '</table>';
+    echo '</table></div>';
   }
 
   public static function store_complete_xapi () {

@@ -9,7 +9,6 @@
 		if ( contentTypeSelectors.length > 0 ) {
 			for ( let i = 0; i < contentTypeSelectors.length; i++ ) {
 				contentTypeSelectors[i].disabled = !contentTypeSelectors[i].disabled;
-
 				/*
 				 * HTML forms do not contain values of checkbox fields that are disabled,
 				 * even if they are checked. Readonly doesn't work. Circumvent this here.
