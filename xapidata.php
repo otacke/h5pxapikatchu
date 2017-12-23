@@ -189,7 +189,6 @@ class XAPIDATA {
       return '';
     }
 
-    // TODO: Make slug H5PXAPIKATCHU global
     $inverse_functional_identifier = array();
     if ( array_key_exists( 'mbox', $actor ) ) {
       array_push( $inverse_functional_identifier, __( 'email', 'H5PXAPIKATCHU' ) . ': ' . $actor['mbox'] );

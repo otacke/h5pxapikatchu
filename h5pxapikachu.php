@@ -34,7 +34,6 @@ function setup () {
 	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', OPTIONS::is_debug_enabled() ? '1' : '0' );
 	wp_localize_script( 'H5PxAPIkatchu', 'captureAllH5pContentTypes', OPTIONS::capture_all_h5p_content_types() ? '1' : '0' );
 	wp_localize_script( 'H5PxAPIkatchu', 'h5pContentTypes', OPTIONS::get_h5p_content_types() );
-	//load_plugin_textdomain( 'H5PxAPIkatchu', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 /**
@@ -49,8 +48,6 @@ function on_activation () {
  * Deactivate the plugin.
  */
 function on_deactivation () {
-	// TODO: Remove after testing is done
-	on_uninstall();
 }
 
 /**
