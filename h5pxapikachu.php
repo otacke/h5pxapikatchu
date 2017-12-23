@@ -55,7 +55,7 @@ function on_deactivation () {
  * Uninstall the plugin.
  */
 function on_uninstall () {
-	Database::delete_table();
+	Database::delete_tables();
 	Options::delete_options();
 }
 

@@ -23,7 +23,7 @@ class Database {
   public static $COLUMN_TITLE_NAMES;
 
   /**
-   * Build the tables.
+   * Build the tables of the plugin.
    */
   public static function build_tables () {
     global $wpdb;
@@ -86,7 +86,10 @@ class Database {
     $ok = dbDelta( $sql );
   }
 
-  public static function delete_table () {
+  /**
+   * Delete all tables of the plugin.
+   */
+  public static function delete_tables () {
     global $wpdb;
 
     $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_MAIN );
@@ -96,29 +99,36 @@ class Database {
     $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_RESULT );
   }
 
+  /**
+   * Get column titles of all tables + additional columns.
+   * This function seems weird, but we possibly want to make the data
+   * structure and the retrieval process more flexible in the future.
+   * @return {Array} Database column titles.
+   */
   public static function get_column_titles () {
     global $wpdb;
 
     return array_merge(
-      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_ACTOR, 0), 1),
-      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_VERB, 0), 1),
-      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_OBJECT, 0), 1),
-      array_slice($wpdb->get_col("DESCRIBE " . self::$TABLE_RESULT, 0), 1),
-      array('time'),
-      array('xapi')
+      array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_ACTOR, 0 ), 1 ),
+      array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_VERB, 0 ), 1 ),
+      array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_OBJECT, 0 ), 1 ),
+      array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_RESULT, 0 ), 1 ),
+      array( 'time' ),
+      array( 'xapi' )
     );
   }
 
+  /**
+   * Get complete overview of all stored data.
+   * @return {object} Database results.
+   */
   public static function get_complete_table () {
     global $wpdb;
-
-    // TODO: build SELECT part dynamically based on future options for columns
-    // TODO: Unuglify :-)
 
     return $wpdb->get_results(
       "
         SELECT
-        	act.actor_id, act.actor_name, act.actor_members,
+        	  act.actor_id, act.actor_name, act.actor_members,
             ver.verb_id, ver.verb_display,
             obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
             res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
@@ -130,19 +140,24 @@ class Database {
             " . self::$TABLE_OBJECT . " as obj,
             " . self::$TABLE_RESULT . " as res
         WHERE
-        	mst.id_actor = act.id AND
+        	  mst.id_actor = act.id AND
             mst.id_verb = ver.id AND
             mst.id_object = obj.id AND
             mst.id_result = res.id
         ORDER BY
-          mst.time DESC
+            mst.time DESC
       "
     );
   }
 
+  /**
+   * Get a list of all H5P content types in the database.
+   * @return {Array} Database results.
+   */
   public static function get_h5p_content_types () {
     global $wpdb;
 
+    // Stop if H5P doesn't seem to be installed, checked via two database tables.
     $ok = $wpdb->get_results(
       "SHOW TABLES LIKE '" . self::$TABLE_H5P_CONTENT_TYPES . "'"
     );
@@ -156,18 +171,34 @@ class Database {
       return;
     }
 
+    // Get ID, title and library name
     $content_types = $wpdb->get_results(
       "
-        SELECT CT.id AS ct_id, CT.title AS ct_title, LIB.name AS lib_name
-        FROM " . self::$TABLE_H5P_CONTENT_TYPES . " AS CT, " . self::$TABLE_H5P_LIBRARIES . " AS LIB
-        WHERE CT.library_id = LIB.id
+        SELECT
+            CT.id AS ct_id, CT.title AS ct_title, LIB.name AS lib_name
+        FROM
+            " . self::$TABLE_H5P_CONTENT_TYPES . " AS CT,
+            " . self::$TABLE_H5P_LIBRARIES . " AS LIB
+        WHERE
+            CT.library_id = LIB.id
       "
     );
+
     return json_decode( json_encode( $content_types ), true );
   }
 
+  /**
+   * Insert data into all the database tables and create lookup table.
+   * @param {Array} $actor - Actor data.
+   * @param {Array} $verb - Verb data.
+   * @param {Array} $object - Object data.
+   * @param {Array} $result - Result data.
+   * @param {String} $xapi - Original xapi data.
+   */
   public static function insert_data ( $actor, $verb, $object, $result, $xapi ) {
-    self::insert_main(
+    // TODO: Error handling for not OK
+    // TODO: Error handling for single tables (atomicity???)
+    $ok = self::insert_main(
       self::insert_actor( $actor ),
       self::insert_verb( $verb ),
       self::insert_object( $object ),
@@ -176,11 +207,19 @@ class Database {
     );
   }
 
-  // TODO: Error handling
+  /**
+   * Insert data into lookup table.
+   * @param {int} $actor_id - Actor ID.
+   * @param {int} $verb_id - Verb ID.
+   * @param {int} $object_id - Object ID.
+   * @param {int} $result_id - Result ID.
+   * @param {String} $xapi - Original xAPI data.
+   * @param {true|null} True if ok, null else
+   */
   private static function insert_main ( $actor_id, $verb_id, $object_id, $result_id, $xapi ) {
     global $wpdb;
 
-    $wpdb->insert(
+    $ok = $wpdb->insert(
       self::$TABLE_MAIN,
       array (
         'id_actor' => $actor_id,
@@ -191,18 +230,24 @@ class Database {
         'xapi' => $xapi
       )
     );
+    return ( $ok === true ) ? $ok : null;
   }
 
-  // TODO: Refactor & error handling
+  /**
+   * Insert actor data into database.
+   * @param {Array} $actor - Actor data.
+   * @return {int} database table index.
+   */
   private static function insert_actor ( $actor ) {
     global $wpdb;
 
+    // Check if entry already exists and return index accordingly.
     $actor_id = $wpdb->get_var( $wpdb->prepare(
   		"SELECT id FROM " . self::$TABLE_ACTOR . " WHERE actor_id = %s", $actor['inverseFunctionalIdentifier']
   	) );
 
   	if ( is_null( $actor_id ) ) {
-  		$wpdb->insert(
+  		$ok = $wpdb->insert(
   			self::$TABLE_ACTOR,
   			array(
   				'actor_id' => $actor['inverseFunctionalIdentifier'],
@@ -210,36 +255,50 @@ class Database {
   				'actor_members' => $actor['members']
   			)
   		);
-  		$actor_id = $wpdb->insert_id;
+      if ( $ok === true ) {
+  		    $actor_id = $wpdb->insert_id;
+      }
   	}
     return $actor_id;
   }
 
-  // TODO: Refactor & error handling
+  /**
+   * Insert verb data into database.
+   * @param {Array} $verb - Verb data.
+   * @return {int} database table index.
+   */
   private static function insert_verb ( $verb ) {
     global $wpdb;
 
+    // Check if entry already exists and return index accordingly.
     $verb_id = $wpdb->get_var( $wpdb->prepare(
   		"SELECT id FROM " . self::$TABLE_VERB . " WHERE verb_id = %s", $verb['id']
   	) );
 
   	if ( is_null( $verb_id ) ) {
-  		$wpdb->insert(
+  		$ok = $wpdb->insert(
   			self::$TABLE_VERB,
   			array(
   				'verb_id' => $verb['id'],
   				'verb_display' => $verb['display']
   			)
   		);
-  		$verb_id = $wpdb->insert_id;
+      if ( $ok === true ) {
+  		    $verb_id = $wpdb->insert_id;
+      }
   	}
     return $verb_id;
   }
 
-  // TODO: Refactor & error handling
+  /**
+   * Insert object data into database.
+   * @param {Array} $object - Object data.
+   * @return {int} database table index.
+   */
   private static function insert_object ( $object ) {
     global $wpdb;
 
+    // Check if entry already exists and return index accordingly.
   	$object_id = $wpdb->get_var( $wpdb->prepare(
   		"SELECT id FROM	" . self::$TABLE_OBJECT . " WHERE
   				xobject_id = %s AND
@@ -256,7 +315,7 @@ class Database {
   	) );
 
   	if ( is_null( $object_id ) ) {
-  		$wpdb->insert(
+  		$ok = $wpdb->insert(
   			self::$TABLE_OBJECT,
   			array(
   				'xobject_id' => $object['id'],
@@ -266,16 +325,22 @@ class Database {
   				'object_correct_responses_pattern' => $object['correctResponsesPattern']
   			)
   		);
-  		$object_id = $wpdb->insert_id;
+      if ( $ok === true ) {
+  		    $object_id = $wpdb->insert_id;
+      }
   	}
     return $object_id;
   }
 
-  // TODO: Refactor & error handling
+  /**
+   * Insert result data into database.
+   * @param {Array} $result - Result data.
+   * @return {int} database table index.
+   */
   private static function insert_result ( $result ) {
     global $wpdb;
 
-    $wpdb->insert(
+    $ok = $wpdb->insert(
       self::$TABLE_RESULT,
       array(
         'result_response' => $result['response'],
@@ -286,9 +351,12 @@ class Database {
         'result_duration' => $result['duration']
       )
     );
-    return $wpdb->insert_id;
+    return ( $ok === true ) ? $wpdb->insert_id : null;
   }
 
+  /**
+   * Initialize class variables/constants
+   */
   static function init() {
 	  global $wpdb;
     self::$TABLE_MAIN = $wpdb->prefix . 'h5pxapikatchu';

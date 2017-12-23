@@ -16,7 +16,7 @@
 				null,
     		{ "width": "min-content"}
 				],
-			"order": [[ 3, 'asc' ]],
+			"order": [[ 3, 'desc' ]],
 			"autoWidth": false
 		} );
 	} );
