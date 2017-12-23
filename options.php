@@ -187,7 +187,7 @@ class Options {
    * Print section text for content type settings
    */
   public function print_content_type_section_info () {
-    echo 'By checking the H5P content types below you can select their xAPI statements for being captured.';
+    echo __( 'By checking the H5P content types below you can select their xAPI statements for being captured.', 'H5PXAPIKATCHU' );
   }
 
   /**

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2017-12-23 21:16+0100\n"
-"PO-Revision-Date: 2017-12-23 21:39+0100\n"
+"POT-Creation-Date: 2017-12-23 23:57+0100\n"
+"PO-Revision-Date: 2017-12-23 23:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -21,115 +21,123 @@ msgstr ""
 "X-Poedit-SearchPath-4: options.php\n"
 "X-Poedit-SearchPath-5: xapidata.php\n"
 
-#: database.php:441
+#: database.php:430
 msgid "Actor Id"
 msgstr "Akteur ID"
 
-#: database.php:442
+#: database.php:431
 msgid "Actor Name"
 msgstr "Akteur Name"
 
-#: database.php:443
+#: database.php:432
 msgid "Actor Group Members"
 msgstr "Akteur Gruppenmitglieder"
 
-#: database.php:444
+#: database.php:433
 msgid "Verb Id"
 msgstr "Verb ID"
 
-#: database.php:445
+#: database.php:434
 msgid "Verb Display"
 msgstr "Verb Anzeige"
 
-#: database.php:446
+#: database.php:435
 msgid "Object Id"
 msgstr "Objekt ID"
 
-#: database.php:447
+#: database.php:436
 msgid "Object Def. Name"
 msgstr "Objekt Def. Name"
 
-#: database.php:448
+#: database.php:437
 msgid "Object Def. Description"
 msgstr "Objekt Def. Beschreibung"
 
-#: database.php:449
+#: database.php:438
 msgid "Object Def. Choices"
 msgstr "Objekt Auswahlmöglichkeiten"
 
-#: database.php:450
+#: database.php:439
 msgid "Object Def. Correct Responses"
 msgstr "Objekt Def. Richtige Antworten"
 
-#: database.php:451
+#: database.php:440
 msgid "Result Response"
 msgstr "Ergebnis Antwort"
 
-#: database.php:452
+#: database.php:441
 msgid "Result Score Raw"
 msgstr "Ergebnis Punkte"
 
-#: database.php:453
+#: database.php:442
 msgid "Result Score Scaled"
 msgstr "Ergebnis Punkte, skaliert"
 
-#: database.php:454
+#: database.php:443
 msgid "Result Completion"
 msgstr "Ergebnis Abgeschlossen"
 
-#: database.php:455
+#: database.php:444
 msgid "Result Success"
 msgstr "Ergebnis Erfolg"
 
-#: database.php:456
+#: database.php:445
 msgid "Result Duration"
 msgstr "Ergebnis Dauer"
 
-#: database.php:457
+#: database.php:446
 msgid "Time"
 msgstr "Zeit"
 
-#: database.php:458
+#: database.php:447
 msgid "xAPI"
 msgstr "xAPI"
 
-#: display.php:38
+#: display.php:36
 msgid "DOWNLOAD"
 msgstr "HERUNTERLADEN"
 
-#: display.php:47
+#: display.php:51
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Du hast nicht genügend Rechte, um diese Seite aufzurufen."
 
-#: display.php:55
+#: display.php:59
 msgid "H5PxAPIkatchu"
 msgstr "H5PxAPIkatchu"
 
-#: display.php:57
+#: display.php:61
 msgid "There is no xAPI information stored."
 msgstr "Es sind keine xAPI-Informationen gespeichert."
 
-#: options.php:104
+#: options.php:103
 msgid "General"
 msgstr "Allgemein"
 
-#: options.php:111
+#: options.php:110
 msgid "Store complete statements"
 msgstr "Komplette Statements speichern"
 
-#: options.php:119
+#: options.php:118
 msgid "Debug"
 msgstr "Debug"
 
-#: options.php:127
+#: options.php:126
 msgid "Capture everything"
 msgstr "Alles aufzeichnen"
 
-#: options.php:135 options.php:142
+#: options.php:134 options.php:141
 msgid "H5P content types"
 msgstr "H5P-Inhaltstypen"
 
-#: options.php:208
+#: options.php:190
+msgid ""
+"By checking the H5P content types below you can select their xAPI statements "
+"for being captured."
+msgstr ""
+"Durch das Anwählen einzelner H5P-Inhaltstypen kannst du auswählen, für "
+"welche sie xAPI-Statements aufgezeichnet werden sollen."
+
+#: options.php:207
 msgid ""
 "Store the complete xAPI statement as JSON data. Be sure to check your "
 "database storage limit!"
@@ -137,28 +145,28 @@ msgstr ""
 "Speichere die kompletten xAPI-Statements als JSON-Daten. Prüfe vorher den "
 "Speicherplatz deiner Datenbank!"
 
-#: options.php:226
+#: options.php:225
 msgid "Display xAPI statements in the JavaScript debug console"
 msgstr "Zeige die xAPI-Statements in der JavaScript-Debug-Konsole"
 
-#: options.php:244
+#: options.php:243
 msgid "Capture the xAPI statements of all H5P content types"
 msgstr "Schneide die xAPI-Statements aller H5P-Inhaltstypen mit"
 
-#: options.php:256
+#: options.php:255
 msgid "It seems that H5P is not installed on this WordPress system."
 msgstr ""
 "Es scheint, als wäre H5P auf diesem WordPress-System nicht installiert."
 
-#: options.php:265
+#: options.php:264
 msgid "Title"
 msgstr "Titel"
 
-#: options.php:266
+#: options.php:265
 msgid "Type"
 msgstr "Typ"
 
-#: options.php:267
+#: options.php:266
 msgid "Id"
 msgstr "ID"
 
@@ -166,19 +174,19 @@ msgstr "ID"
 msgid "Group"
 msgstr "Gruppe"
 
-#: xapidata.php:195
+#: xapidata.php:194
 msgid "email"
 msgstr "E-Mail-Adresse"
 
-#: xapidata.php:198
+#: xapidata.php:197
 msgid "email hash"
 msgstr "E-Mail-Hashwert"
 
-#: xapidata.php:201
+#: xapidata.php:200
 msgid "openid"
 msgstr "OpenID"
 
-#: xapidata.php:204
+#: xapidata.php:203
 msgid "account"
 msgstr "Konto"
 
