@@ -192,32 +192,64 @@ class Options {
   }
 
   /**
-   * Get the settings option array and print one of its values
+   * Get the option for storing the complete xAPI statement in a database field
    */
   public function store_complete_xapi_callback () {
-		echo'<label for="store_complete_xapi">';
-		echo '<input type="checkbox" name="h5pxapikatchu_option[store_complete_xapi]" id="store_complete_xapi" value="1" ' . ( isset( $this->options['store_complete_xapi']) ? checked( '1', $this->options['store_complete_xapi'], false ) : '') . ' />';
-		echo __('Enable option to store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', self::$L10N_SLUG);
-		echo '</label>';
+    // I don't likt this mixing of HTML and PHP, but it seems to be WordPress custom.
+    ?>
+    <label for="store_complete_xapi">
+    <input
+      type="checkbox"
+      name="h5pxapikatchu_option[store_complete_xapi]"
+      id="store_complete_xapi"
+      value="1"
+      <?php echo isset( $this->options['store_complete_xapi']) ? checked( '1', $this->options['store_complete_xapi'], false ) : '' ?>
+    />
+    <?php echo __('Enable option to store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', self::$L10N_SLUG); ?>
+  	</label>
+    <?php
   }
 
   /**
-   * Get the settings option array and print one of its values
+   * Show the option for showing xAPI statements in the JavaScript console
    */
   public function debug_enabled_callback () {
-		echo'<label for="debug_enabled">';
-		echo '<input type="checkbox" name="h5pxapikatchu_option[debug_enabled]" id="debug_enabled" value="1" ' . ( isset( $this->options['debug_enabled']) ? checked( '1', $this->options['debug_enabled'], false ) : '') . ' />';
-		echo __('Enable option to display xAPI statements in the JavaScript debug console', self::$L10N_SLUG);
-		echo '</label>';
+    ?>
+		<label for="debug_enabled">
+		<input
+      type="checkbox"
+      name="h5pxapikatchu_option[debug_enabled]"
+      id="debug_enabled"
+      value="1"
+      <?php echo isset( $this->options['debug_enabled']) ? checked( '1', $this->options['debug_enabled'], false ) : '' ?>
+    />
+		<?php echo __('Enable option to display xAPI statements in the JavaScript debug console', self::$L10N_SLUG); ?>
+		</label>
+    <?php
   }
 
+  /**
+   * Show the option for capturing statements from all content types.
+   */
   public function capture_all_h5p_content_types_callback () {
-    echo'<label for="capture_all_h5p_content_types">';
-    echo '<input type="checkbox" name="h5pxapikatchu_option[capture_all_h5p_content_types]" id="h5pxapikatchu_capture_all_content_types" value="1" ' . ( isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '') . ' />';
-    echo __('Capture the xAPI statements of all H5P content types', self::$L10N_SLUG);
-    echo '</label>';
+    ?>
+    <label for="capture_all_h5p_content_types">
+    <input
+      type="checkbox"
+      name="h5pxapikatchu_option[capture_all_h5p_content_types]"
+      id="h5pxapikatchu_capture_all_content_types"
+      value="1"
+      <?php echo isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '' ?>
+    />
+    <?php echo __('Capture the xAPI statements of all H5P content types', self::$L10N_SLUG); ?>
+    </label>
+    <?php
   }
 
+  /**
+   * Show the selector table for choosing H5P content types to be stored.
+   * Will be made pretty using Datatables.
+   */
   public function h5p_content_types_callback () {
     $content_types = Database::get_h5p_content_types();
     if ( empty( $content_types ) ) {
@@ -252,22 +284,41 @@ class Options {
     echo '</table></div>';
   }
 
+  /**
+   * Get flag for storing the complete xapi statement.
+   * @return {boolean} True, if flag set.
+   */
   public static function store_complete_xapi () {
     return isset( self::$OPTIONS['store_complete_xapi'] );
   }
 
+  /**
+   * Get flag for showinf debug output.
+   * @return {boolean} True, if flag set.
+   */
   public static function is_debug_enabled () {
     return isset( self::$OPTIONS['debug_enabled'] );
   }
 
+  /**
+   * Get flag for capturing from all H5P content types.
+   * @return {boolean} True, if flag set.
+   */
   public static function capture_all_h5p_content_types () {
     return isset( self::$OPTIONS['capture_all_h5p_content_types'] );
   }
 
+  /**
+   * Get list of H5P content type IDs to be captured from.
+   * @return {String} Comma separated list of IDs.
+   */
   public static function get_h5p_content_types () {
     return isset( self::$OPTIONS['h5p_content_types'] ) ? explode( ',', self::$OPTIONS['h5p_content_types'] ) : array();
   }
 
+  /**
+   * Init function for the class.
+   */
   static function init() {
     self::$OPTIONS = get_option( self::$OPTION_SLUG, false );
   }

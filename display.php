@@ -52,40 +52,40 @@ class Display {
     $complete_table = Database::get_complete_table();
     $column_titles = Database::get_column_titles();
 
-  	echo '<div class="wrap">';
     echo '<h2>' . __( 'H5PxAPIkatchu', self::$L10N_SLUG ) . '</h2>';
-
     if ( ! $complete_table ) {
       echo __( 'There is no xAPI information stored.', self::$L10N_SLUG );
-    } else {
-      echo '<div><table id="' . $this->CLASS_DATATABLE . '" class="table-striped table-bordered" cellspacing="0">';
-
-      $heads = '';
-      for ( $i = 0; $i < sizeof( (array)$complete_table[0] ); $i++ ) {
-        $heads .= '<th>';
-        $heads .= ( isset (Database::$COLUMN_TITLE_NAMES[$column_titles[$i]]) ?
-            Database::$COLUMN_TITLE_NAMES[$column_titles[$i]] :
-            '' );
-        $heads .= '</th>';
-      }
-      echo '<thead>' . $heads . '</thead>';
-      echo '<tfoot>' . $heads . '</tfoot>';
-
-      echo '<tbody>';
-      foreach( $complete_table as $fields ) {
-        $values = array_map( function( $field ) {
-          return '\'' . $field . '\'';
-        }, (array)$fields );
-
-        echo '<tr>';
-        foreach ( $fields as $key => $value ) {
-          echo '<td>' . $value . '</td>';
-        }
-        echo '</tr>';
-      }
-      echo '</tbody>';
-      echo '</table></div>';
+      wp_die();
     }
-  	echo '</div>';
+
+    // Use Datatable to make the table pretty.
+    echo '<div><table id="' . $this->CLASS_DATATABLE . '" class="table-striped table-bordered" cellspacing="0">';
+
+    // Table Head and Footer
+    $heads = '';
+    for ( $i = 0; $i < sizeof( (array)$complete_table[0] ); $i++ ) {
+      $heads .= '<th>';
+      $heads .= ( isset (Database::$COLUMN_TITLE_NAMES[$column_titles[$i]]) ?
+          Database::$COLUMN_TITLE_NAMES[$column_titles[$i]] :
+          '' );
+      $heads .= '</th>';
+    }
+    echo '<thead>' . $heads . '</thead><tfoot>' . $heads . '</tfoot>';
+
+    // Table Body
+    echo '<tbody>';
+    foreach( $complete_table as $fields ) {
+      $values = array_map( function( $field ) {
+        return '\'' . $field . '\'';
+      }, (array)$fields );
+      echo '<tr>';
+      foreach ( $fields as $key => $value ) {
+        echo '<td>' . $value . '</td>';
+      }
+      echo '</tr>';
+    }
+    echo '</tbody>';
+
+    echo '</table></div>';
   }
 }

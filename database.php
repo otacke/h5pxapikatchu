@@ -84,6 +84,19 @@ class Database {
       PRIMARY KEY (id)
     ) $charset_collate;";
     $ok = dbDelta( $sql );
+
+    $ok = $wpdb->insert(
+      self::$TABLE_RESULT,
+      array(
+        'id' => 1,
+        'result_response' => NULL,
+        'result_score_raw' => NULL,
+        'result_score_scaled' => NULL,
+        'result_completion' => false,
+        'result_success' => false,
+        'result_duration' => NULL
+      )
+    );
   }
 
   /**
@@ -387,7 +400,12 @@ class Database {
       $result['duration']
   	) );
 
-    if ( is_null( $result_id ) && ! is_null( $result['response'] ) ) {
+    // Common type: xAPI statement without a result. Rerouted to default entry
+    if ( is_null( $result['response'] ) ) {
+      $result_id = 1;
+    }
+
+    if ( is_null( $result_id ) ) {
       $ok = $wpdb->insert(
         self::$TABLE_RESULT,
         array(
