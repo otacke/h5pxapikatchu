@@ -289,7 +289,6 @@ class Database {
     return $wpdb->insert_id;
   }
 
-
   static function init() {
 	  global $wpdb;
     self::$TABLE_MAIN = $wpdb->prefix . 'h5pxapikatchu';

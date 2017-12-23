@@ -12,6 +12,7 @@ class Display {
   private static $L10N_SLUG = 'H%PXAPIKATCHU';
 
   private $CLASS_DATATABLE = 'h5pxapikatchu-data-table';
+  private $menu_icon;
 
   /**
    * Start up
@@ -19,6 +20,8 @@ class Display {
   public function __construct() {
     add_action( 'admin_enqueue_scripts', array($this, 'add_scripts') );
     add_action( 'admin_menu', array( $this, 'add_admin_page' ), 999 );
+
+    $this->menu_icon = 'data:image/svg+xml;base64,' . base64_encode('<svg width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M896 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-384q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-1152q208 0 385 34.5t280 93.5 103 128v128q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-128q0-69 103-128t280-93.5 385-34.5z"/></svg>');
   }
 
   public function add_scripts () {
@@ -36,7 +39,8 @@ class Display {
   }
 
   public function add_admin_page () {
-    add_menu_page( 'h5pxapikatchu_options', 'H5PxAPIkatchu', 'manage_options', 'h5pxapikatchu_options', array( $this, 'add_plugin_page'), 'none' );
+    error_log(  get_template_directory_uri() . '/img/h5pxapikatchu_menu_icon.png' );
+    add_menu_page( 'h5pxapikatchu_options', 'H5PxAPIkatchu', 'manage_options', 'h5pxapikatchu_options', array( $this, 'add_plugin_page'), $this->menu_icon );
   }
 
   public function add_plugin_page () {
