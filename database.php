@@ -9,8 +9,6 @@ namespace H5PXAPIKATCHU;
  * @since 0.1
  */
 class Database {
-
-  private static $L10N_SLUG = 'H5PXAPIKATCHU';
   private static $TABLE_MAIN;
   private static $TABLE_ACTOR;
   private static $TABLE_VERB;
@@ -423,9 +421,37 @@ class Database {
   }
 
   /**
+   * Set the names for columns inlcuding translations.
+   */
+  static function set_column_names () {
+    // Those might become handy if we make make the SELECTs flexible.
+    self::$COLUMN_TITLE_NAMES = array(
+      'id' => 'ID',
+      'actor_id' => __( 'Actor Id', 'H5PXAPIKATCHU' ),
+      'actor_name' => __( 'Actor Name', 'H5PXAPIKATCHU' ),
+      'actor_members' => __( 'Actor Group Members', 'H5PXAPIKATCHU' ),
+      'verb_id' => __( 'Verb Id', 'H5PXAPIKATCHU' ),
+      'verb_display' => __( 'Verb Display', 'H5PXAPIKATCHU' ),
+      'xobject_id' => __( 'Object Id', 'H5PXAPIKATCHU' ),
+      'object_name' => __( 'Object Def. Name', 'H5PXAPIKATCHU' ),
+      'object_description' => __( 'Object Def. Description', 'H5PXAPIKATCHU' ),
+      'object_choices' => __( 'Object Def. Choices', 'H5PXAPIKATCHU' ),
+      'object_correct_responses_pattern' => __( 'Object Def. Correct Responses', 'H5PXAPIKATCHU' ),
+      'result_response' => __( 'Result Response', 'H5PXAPIKATCHU' ),
+      'result_score_raw' => __( 'Result Score Raw', 'H5PXAPIKATCHU' ),
+      'result_score_scaled' => __( 'Result Score Scaled', 'H5PXAPIKATCHU' ),
+      'result_completion' => __( 'Result Completion', 'H5PXAPIKATCHU' ),
+      'result_success' => __( 'Result Success', 'H5PXAPIKATCHU' ),
+      'result_duration' => __( 'Result Duration', 'H5PXAPIKATCHU' ),
+      'time' => __( 'Time', 'H5PXAPIKATCHU' ),
+      'xapi' => __( 'xAPI', 'H5PXAPIKATCHU' ),
+    );
+  }
+
+  /**
    * Initialize class variables/constants
    */
-  static function init() {
+  static function init () {
 	  global $wpdb;
     self::$TABLE_MAIN = $wpdb->prefix . 'h5pxapikatchu';
     self::$TABLE_ACTOR = $wpdb->prefix . 'h5pxapikatchu_actor';
@@ -434,29 +460,8 @@ class Database {
     self::$TABLE_RESULT = $wpdb->prefix . 'h5pxapikatchu_result';
     self::$TABLE_H5P_CONTENT_TYPES = $wpdb->prefix . 'h5p_contents';
     self::$TABLE_H5P_LIBRARIES = $wpdb->prefix . 'h5p_libraries';
-
-    // Those might become handy if we make make the SELECTs flexible.
-    self::$COLUMN_TITLE_NAMES = array(
-      'id' => 'ID',
-      'actor_id' => __( 'Actor Id', self::$L10N_SLUG),
-      'actor_name' => __( 'Actor Name', self::$L10N_SLUG),
-      'actor_members' => __( 'Actor Group Members', self::$L10N_SLUG),
-      'verb_id' => __( 'Verb Id', self::$L10N_SLUG),
-      'verb_display' => __( 'Verb Display', self::$L10N_SLUG),
-      'xobject_id' => __( 'Object Id', self::$L10N_SLUG),
-      'object_name' => __( 'Object Def. Name', self::$L10N_SLUG ),
-      'object_description' => __( 'Object Def. Description', self::$L10N_SLUG ),
-      'object_choices' => __( 'Object Def. Choices', self::$L10N_SLUG ),
-      'object_correct_responses_pattern' => __( 'Object Def. Correct Responses', self::$L10N_SLUG ),
-      'result_response' => __( 'Result Response', self::$L10N_SLUG ),
-      'result_score_raw' => __( 'Result Score Raw', self::$L10N_SLUG ),
-      'result_score_scaled' => __( 'Result Score Scaled', self::$L10N_SLUG ),
-      'result_completion' => __( 'Result Completion', self::$L10N_SLUG ),
-      'result_success' => __( 'Result Success', self::$L10N_SLUG ),
-      'result_duration' => __( 'Result Duration', self::$L10N_SLUG ),
-      'time' => __( 'Time', self::$L10N_SLUG ),
-      'xapi' => __( 'xAPI', self::$L10N_SLUG ),
-    );
   }
 }
 Database::init();
+// This is neccessary for the translation to work from within an array.
+add_action('admin_init', 'H5PXAPIKATCHU\Database::set_column_names');

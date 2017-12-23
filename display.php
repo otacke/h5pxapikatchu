@@ -9,8 +9,6 @@ namespace H5PXAPIKATCHU;
  * @since 0.1
  */
 class Display {
-  private static $L10N_SLUG = 'H%PXAPIKATCHU';
-
   private $CLASS_DATATABLE = 'h5pxapikatchu-data-table';
   private $menu_icon;
 
@@ -35,7 +33,13 @@ class Display {
 
     // pass variables to JavaScript
     wp_localize_script( 'BuildDataTable', 'classDataTable', $this->CLASS_DATATABLE );
-    wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', self::$L10N_SLUG ) );
+    wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
+    // Only pass the language file name to DataTables if it exists, will output an error in the JavaScript console otherwise
+    $language_file = plugins_url( 'DataTables/i18n', __FILE__ ) . '/' . strtolower( get_locale() ) . '.lang';
+    if ( $this->url_exists( $language_file ) === false ) {
+      $language_file = '';
+    }
+    wp_localize_script( 'BuildDataTable', 'languageFile', $language_file );
   }
 
   public function add_admin_page () {
@@ -44,7 +48,7 @@ class Display {
 
   public function add_plugin_page () {
     if ( !current_user_can( 'manage_options' ) )  {
-  		wp_die( __( 'You do not have sufficient permissions to access this page.', self::$L10N_SLUG ) );
+  		wp_die( __( 'You do not have sufficient permissions to access this page.', 'H5PXAPIKATCHU' ) );
   	}
 
     global $wpdb;
@@ -52,9 +56,9 @@ class Display {
     $complete_table = Database::get_complete_table();
     $column_titles = Database::get_column_titles();
 
-    echo '<h2>' . __( 'H5PxAPIkatchu', self::$L10N_SLUG ) . '</h2>';
+    echo '<h2>' . __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h2>';
     if ( ! $complete_table ) {
-      echo __( 'There is no xAPI information stored.', self::$L10N_SLUG );
+      echo __( 'There is no xAPI information stored.', 'H5PXAPIKATCHU' );
       wp_die();
     }
 
@@ -65,8 +69,8 @@ class Display {
     $heads = '';
     for ( $i = 0; $i < sizeof( (array)$complete_table[0] ); $i++ ) {
       $heads .= '<th>';
-      $heads .= ( isset (Database::$COLUMN_TITLE_NAMES[$column_titles[$i]]) ?
-          Database::$COLUMN_TITLE_NAMES[$column_titles[$i]] :
+      $heads .= ( isset( Database::$COLUMN_TITLE_NAMES[ $column_titles[ $i ] ]) ?
+          Database::$COLUMN_TITLE_NAMES[ $column_titles[ $i ] ] :
           '' );
       $heads .= '</th>';
     }
@@ -87,5 +91,15 @@ class Display {
     echo '</tbody>';
 
     echo '</table></div>';
+  }
+
+  /**
+   * Check if a given URL/file exists.
+   * @param {string} $file - File to check.
+   * @return {boolean} True, if found.
+   */
+   function url_exists ( $url ) {
+    $headers = @get_headers( $url );
+    return ( $headers === false || strpos( $headers[0], '404') === false );
   }
 }

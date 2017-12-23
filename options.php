@@ -13,7 +13,6 @@ class Options {
   // Waiting for PhP 7 to hit the mainstream ...
   private static $OPTION_SLUG = 'h5pxapikatchu_option';
   private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table';
-  private static $L10N_SLUG = 'H5PXAPIKATCHU';
   private static $OPTIONS;
 
   private $options;
@@ -101,14 +100,14 @@ class Options {
 
       add_settings_section(
           'general_settings',
-          __( 'General', self::$L10N_SLUG ),
+          __( 'General', 'H5PXAPIKATCHU' ),
           array( $this, 'print_general_section_info' ),
           'h5pxapikatchu-admin'
       );
 
       add_settings_field(
           'store_complete_xapi',
-          __( 'Store complete statements', self::$L10N_SLUG ),
+          __( 'Store complete statements', 'H5PXAPIKATCHU' ),
           array( $this, 'store_complete_xapi_callback' ),
           'h5pxapikatchu-admin',
           'general_settings'
@@ -116,7 +115,7 @@ class Options {
 
       add_settings_field(
           'debug_enabled',
-          __( 'Debug', self::$L10N_SLUG ),
+          __( 'Debug', 'H5PXAPIKATCHU' ),
           array( $this, 'debug_enabled_callback' ),
           'h5pxapikatchu-admin',
           'general_settings'
@@ -124,7 +123,7 @@ class Options {
 
       add_settings_field(
           'capture_all_h5p_content_types',
-          __( 'Capture everything', self::$L10N_SLUG ),
+          __( 'Capture everything', 'H5PXAPIKATCHU' ),
           array( $this, 'capture_all_h5p_content_types_callback' ),
           'h5pxapikatchu-admin',
           'general_settings'
@@ -132,14 +131,14 @@ class Options {
 
       add_settings_section(
           'content_type_settings',
-          __( 'Content types', self::$L10N_SLUG ),
+          __( 'H5P content types', 'H5PXAPIKATCHU' ),
           array( $this, 'print_content_type_section_info' ),
           'h5pxapikatchu-admin'
       );
 
       add_settings_field(
           'h5p_content_types',
-          __( 'H5P Content Types', self::$L10N_SLUG ),
+          __( 'H5P content types', 'H5PXAPIKATCHU' ),
           array( $this, 'h5p_content_types_callback' ),
           'h5pxapikatchu-admin',
           'content_type_settings'
@@ -205,7 +204,7 @@ class Options {
       value="1"
       <?php echo isset( $this->options['store_complete_xapi']) ? checked( '1', $this->options['store_complete_xapi'], false ) : '' ?>
     />
-    <?php echo __('Enable option to store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', self::$L10N_SLUG); ?>
+    <?php echo __('Store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PXAPIKATCHU'); ?>
   	</label>
     <?php
   }
@@ -223,7 +222,7 @@ class Options {
       value="1"
       <?php echo isset( $this->options['debug_enabled']) ? checked( '1', $this->options['debug_enabled'], false ) : '' ?>
     />
-		<?php echo __('Enable option to display xAPI statements in the JavaScript debug console', self::$L10N_SLUG); ?>
+		<?php echo __('Display xAPI statements in the JavaScript debug console', 'H5PXAPIKATCHU'); ?>
 		</label>
     <?php
   }
@@ -241,7 +240,7 @@ class Options {
       value="1"
       <?php echo isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '' ?>
     />
-    <?php echo __('Capture the xAPI statements of all H5P content types', self::$L10N_SLUG); ?>
+    <?php echo __('Capture the xAPI statements of all H5P content types', 'H5PXAPIKATCHU'); ?>
     </label>
     <?php
   }
@@ -253,7 +252,7 @@ class Options {
   public function h5p_content_types_callback () {
     $content_types = Database::get_h5p_content_types();
     if ( empty( $content_types ) ) {
-      echo __( 'It seems that H5P is not installed on this WordPress system.', self::$L10N_SLUG );
+      echo __( 'It seems that H5P is not installed on this WordPress system.', 'H5PXAPIKATCHU' );
       return;
     }
 
@@ -262,9 +261,9 @@ class Options {
     echo '<thead>';
     echo '<tr>';
     echo '<th></th>';
-    echo '<th>' . __( 'Title', self::$L10N_SLUG ) . '</th>';
-    echo '<th>' . __( 'Type', self::$L10N_SLUG ) . '</th>';
-    echo '<th>' . __( 'Id', self::$L10N_SLUG ) . '</th>';
+    echo '<th>' . __( 'Title', 'H5PXAPIKATCHU' ) . '</th>';
+    echo '<th>' . __( 'Type', 'H5PXAPIKATCHU' ) . '</th>';
+    echo '<th>' . __( 'Id', 'H5PXAPIKATCHU' ) . '</th>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';

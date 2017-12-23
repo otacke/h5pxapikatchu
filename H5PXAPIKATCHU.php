@@ -3,8 +3,6 @@
 /**
  * Plugin Name: H5PxAPIkatchu
  * Plugin URI: https://github.com/otacke/h5pxapikatchu
- * Text Domain: H5PXAPIKATCHU
- * Domain Path: /languages
  * Description: Catch and store xAPI statements of H5P
  * Version: 0.1
  * Author: Oliver Tacke
@@ -34,7 +32,7 @@ function setup () {
 	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', OPTIONS::is_debug_enabled() ? '1' : '0' );
 	wp_localize_script( 'H5PxAPIkatchu', 'captureAllH5pContentTypes', OPTIONS::capture_all_h5p_content_types() ? '1' : '0' );
 	wp_localize_script( 'H5PxAPIkatchu', 'h5pContentTypes', OPTIONS::get_h5p_content_types() );
-	//load_plugin_textdomain( 'H5PxAPIkatchu', false, basename( dirname( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'H5PxAPIkatchu', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 /**
@@ -86,13 +84,6 @@ function insert_data () {
 	wp_die();
 }
 
-/**
- * Load the text domain for internationalization.
- */
-function h5pxapikatchu_load_plugin_textdomain() {
-    load_plugin_textdomain( 'H5PXAPIKATCHU', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
-}
-
 // Start setup
 register_activation_hook( __FILE__, 'H5PXAPIKATCHU\on_activation' );
 register_deactivation_hook( __FILE__, 'H5PXAPIKATCHU\on_deactivation' );
@@ -101,8 +92,6 @@ register_uninstall_hook( __FILE__, 'H5PXAPIKATCHU\on_uninstall' );
 add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
 add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
-add_action( 'plugins_loaded', 'H5PXAPIKATCHU\h5pxapikatchu_load_plugin_textdomain' );
-
 
 // Include options
 $h5pxapikatchu_options = new Options;

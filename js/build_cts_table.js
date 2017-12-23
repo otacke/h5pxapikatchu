@@ -5,6 +5,7 @@
 	jQuery( document ).ready( function () {
 		// classCtsTable passed by PHP
 		jQuery( '#' + classCtsTable ).DataTable( {
+			"dom": "t",
     	"paging": false,
 			"searching": false,
 			"columnDefs": [
