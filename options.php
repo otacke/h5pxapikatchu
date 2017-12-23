@@ -10,7 +10,7 @@ namespace H5PXAPIKATCHU;
  */
 class Options {
 
-  // Waiting for PhP 7 to hit the mainstream ...
+  // Waiting for PHP 7 to hit the mainstream ...
   private static $OPTION_SLUG = 'h5pxapikatchu_option';
   private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table';
   private static $OPTIONS;

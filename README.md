@@ -1,13 +1,31 @@
 # H5PxAPIkatchu
-This Wordpress plugin is intended to become a simple solution to catch 'em all,
-those xAPI statements that have been sent by [H5P](https://h5p.org) content types. Users should be
-able to filter, store and view/export the xAPI statements.
+This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements
+that have been sent by [H5P](https://h5p.org) content types. Users should be able
+to store and view/export the xAPI statements.
 
-No, it is not intended to provide funtionality for analytics, etc. There is no point in recreating what is already available in Learning Record Stores. I am just planning to offer a halfway decent option for storing the xAPI results. If you need more, you should give [Learning Locker](https://learninglocker.net/) a shot. It's [open](https://github.com/LearningLocker/learninglocker), free and shiny.
+This plugin is NOT intended to provide functionality for analysis, etc. There is
+no point in recreating what is already available in Learning Record Stores or
+what you can do yourself with a spreadsheet software, scikit-learn, etc.
 
-## TODO
-- add option to select xAPI values that should be stored
-- add option to select which content types to track
-- CLEAN UP THE MESS!
-  - WordPress guidelines
-  - Refactoring
+If you need more, you should give [Learning Locker](https://learninglocker.net/)
+a shot. It's [open](https://github.com/LearningLocker/learninglocker), free and shiny.
+
+## Features
+* Store important values of xAPI statements emitted from H5P content types in your database.
+* View and export the data for further analysis.
+* Optionally limit capturing to particular H5P content types only.
+* Optionally store the complete xAPI statements as a string - know what you're doing ...
+
+## Support me at patreon!
+If you like what I do, please consider to become my supporter at patreon: https://www.patreon.com/otacke
+
+## Install/Usage
+Install H5PxAPIkatchu from the Wordpress Plugin directory or via your Wordpress
+instance and activate it. Done.
+
+The most important parts  of the xAPI statements that are emitted by H5P content
+types on your system should now be stored in your database. You can view and
+download them via the new WordPress menu item.
+
+## License
+H5PxAPIkatchu is is licensed under the [MIT License](https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE).
