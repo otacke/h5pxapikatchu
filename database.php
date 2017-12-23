@@ -19,7 +19,7 @@ class Database {
   private static $TABLE_H5P_CONTENT_TYPES;
   private static $TABLE_H5P_LIBRARIES;
 
-  // TODO: See below, could get rid of this public var.
+  // Those might become handy if we make make the SELECTs flexible.
   public static $COLUMN_TITLE_NAMES;
 
   /**
@@ -194,17 +194,52 @@ class Database {
    * @param {Array} $object - Object data.
    * @param {Array} $result - Result data.
    * @param {String} $xapi - Original xapi data.
+   * @return {true|false} - False on error within database transactions.
    */
   public static function insert_data ( $actor, $verb, $object, $result, $xapi ) {
-    // TODO: Error handling for not OK
-    // TODO: Error handling for single tables (atomicity???)
+    global $wpdb;
+
+    $error_count = 0;
+    $ok = $wpdb->query( "START TRANSACTION" );
+
+    $actor_id = self::insert_actor( $actor );
+    if ( $actor_id === false ) {
+      $error_count++;
+    }
+
+    $verb_id = self::insert_verb( $verb );
+    if ( $verb_id === false ) {
+      $error_count++;
+    }
+
+    $object_id = self::insert_object( $object );
+    if ( $object_id === false ) {
+      $error_count++;
+    }
+
+    $result_id = self::insert_result( $result );
+    if ( $result_id === false ) {
+      $error_count++;
+    }
+
     $ok = self::insert_main(
-      self::insert_actor( $actor ),
-      self::insert_verb( $verb ),
-      self::insert_object( $object ),
-      self::insert_result( $result ),
+      $actor_id,
+      $verb_id,
+      $object_id,
+      $result_id,
       $xapi
     );
+    if ( $ok === false ) {
+      $error_count++;
+    }
+
+    if ( $error_count !== 0 ) {
+      $ok = $wpdb->query( "ROLLBACK" );
+      return false;
+    }
+
+    $ok = $wpdb->query( "COMMIT" );
+    return true;
   }
 
   /**
@@ -230,7 +265,7 @@ class Database {
         'xapi' => $xapi
       )
     );
-    return ( $ok === true ) ? $ok : null;
+    return ( $ok === false ) ? false : true; // {int|false}
   }
 
   /**
@@ -255,9 +290,7 @@ class Database {
   				'actor_members' => $actor['members']
   			)
   		);
-      if ( $ok === true ) {
-  		    $actor_id = $wpdb->insert_id;
-      }
+      $actor_id = ( $ok === 1 ) ? $wpdb->insert_id : false;
   	}
     return $actor_id;
   }
@@ -283,9 +316,7 @@ class Database {
   				'verb_display' => $verb['display']
   			)
   		);
-      if ( $ok === true ) {
-  		    $verb_id = $wpdb->insert_id;
-      }
+      $verb_id = ( $ok === 1 ) ? $wpdb->insert_id : false;
   	}
     return $verb_id;
   }
@@ -325,9 +356,7 @@ class Database {
   				'object_correct_responses_pattern' => $object['correctResponsesPattern']
   			)
   		);
-      if ( $ok === true ) {
-  		    $object_id = $wpdb->insert_id;
-      }
+      $object_id = ( $ok === 1 ) ? $wpdb->insert_id : false;
   	}
     return $object_id;
   }
@@ -340,18 +369,39 @@ class Database {
   private static function insert_result ( $result ) {
     global $wpdb;
 
-    $ok = $wpdb->insert(
-      self::$TABLE_RESULT,
-      array(
-        'result_response' => $result['response'],
-        'result_score_raw' => $result['score_raw'],
-        'result_score_scaled' => $result['score_scaled'],
-        'result_completion' => $result['completion'],
-        'result_success' => $result['success'],
-        'result_duration' => $result['duration']
-      )
-    );
-    return ( $ok === true ) ? $wpdb->insert_id : null;
+    // Check if entry already exists and return index accordingly.
+  	$result_id = $wpdb->get_var( $wpdb->prepare(
+  		"SELECT id FROM	" . self::$TABLE_RESULT . " WHERE
+  				result_response = %s AND
+  				result_score_raw = %s AND
+  				result_score_scaled = %s AND
+          result_completion = %d AND
+  				result_success = %d AND
+  				result_duration = %s
+  		",
+  		$result['response'],
+  		$result['score_raw'],
+  		$result['score_scaled'],
+  		$result['completion'],
+  		$result['success'],
+      $result['duration']
+  	) );
+
+    if ( is_null( $result_id ) && ! is_null( $result['response'] ) ) {
+      $ok = $wpdb->insert(
+        self::$TABLE_RESULT,
+        array(
+          'result_response' => $result['response'],
+          'result_score_raw' => $result['score_raw'],
+          'result_score_scaled' => $result['score_scaled'],
+          'result_completion' => $result['completion'],
+          'result_success' => $result['success'],
+          'result_duration' => $result['duration']
+        )
+      );
+      $result_id = ( $ok !== false ) ? $wpdb->insert_id : false;
+    }
+    return $result_id;
   }
 
   /**
@@ -367,7 +417,7 @@ class Database {
     self::$TABLE_H5P_CONTENT_TYPES = $wpdb->prefix . 'h5p_contents';
     self::$TABLE_H5P_LIBRARIES = $wpdb->prefix . 'h5p_libraries';
 
-    // TODO: Think about ditching this since we now have a fixed set.
+    // Those might become handy if we make make the SELECTs flexible.
     self::$COLUMN_TITLE_NAMES = array(
       'id' => 'ID',
       'actor_id' => __( 'Actor Id', self::$L10N_SLUG),

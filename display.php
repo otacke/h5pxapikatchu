@@ -39,7 +39,6 @@ class Display {
   }
 
   public function add_admin_page () {
-    error_log(  get_template_directory_uri() . '/img/h5pxapikatchu_menu_icon.png' );
     add_menu_page( 'h5pxapikatchu_options', 'H5PxAPIkatchu', 'manage_options', 'h5pxapikatchu_options', array( $this, 'add_plugin_page'), $this->menu_icon );
   }
 

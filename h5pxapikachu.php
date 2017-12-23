@@ -77,7 +77,9 @@ function insert_data () {
 
 	$xapi = ( Options::store_complete_xapi() ) ? str_replace('\"', '"', $xapi) : null;
 
-	DATABASE::insert_data( $actor, $verb, $object, $result, $xapi );
+	$ok = DATABASE::insert_data( $actor, $verb, $object, $result, $xapi );
+
+	// We could handle database errors here using $ok.
 
 	wp_die();
 }
