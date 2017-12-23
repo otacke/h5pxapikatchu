@@ -39,7 +39,7 @@ function setup () {
  * Activate the plugin.
  */
 function on_activation () {
-	Database::build_table();
+	Database::build_tables();
 	Options::setDefaults();
 }
 
@@ -92,8 +92,8 @@ add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 
 // Include options
-$options = new Options;
+$h5pxapikatchu_options = new Options;
 
 if ( is_admin() ) {
-	$display = new Display;
+	$h5pxapikatchu_display = new Display;
 }

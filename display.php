@@ -9,9 +9,9 @@ namespace H5PXAPIKATCHU;
  * @since 0.1
  */
 class Display {
-  private static $CLASS_DATATABLE = 'h5pxapikatchu-data-table';
+  private static $L10N_SLUG = 'H%PXAPIKATCHU';
 
-  // TODO: Make slug H5PXAPIKATCHU global
+  private $CLASS_DATATABLE = 'h5pxapikatchu-data-table';
 
   /**
    * Start up
@@ -31,8 +31,8 @@ class Display {
     wp_enqueue_style( 'DataTablesStyle' );
 
     // pass variables to JavaScript
-    wp_localize_script( 'BuildDataTable', 'classDataTable', self::$CLASS_DATATABLE );
-    wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
+    wp_localize_script( 'BuildDataTable', 'classDataTable', $this->CLASS_DATATABLE );
+    wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', self::$L10N_SLUG ) );
   }
 
   public function add_admin_page () {
@@ -41,7 +41,7 @@ class Display {
 
   public function add_plugin_page () {
     if ( !current_user_can( 'manage_options' ) )  {
-  		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+  		wp_die( __( 'You do not have sufficient permissions to access this page.', self::$L10N_SLUG ) );
   	}
 
     global $wpdb;
@@ -50,17 +50,20 @@ class Display {
     $column_titles = Database::get_column_titles();
 
   	echo '<div class="wrap">';
-    echo '<h2>' . __( 'H5PxAPIkatchu', 'H5PxAPIkatchu' ) . '</h2>';
+    echo '<h2>' . __( 'H5PxAPIkatchu', self::$L10N_SLUG ) . '</h2>';
 
     if ( ! $complete_table ) {
-      echo __( 'There is no xAPI information stored.', 'H5PxAPIkatchu' );
+      echo __( 'There is no xAPI information stored.', self::$L10N_SLUG );
     } else {
-      // TODO: Clean this!
-      echo '<div><table id="' . self::$CLASS_DATATABLE . '" class="table-striped table-bordered" cellspacing="0">';
+      echo '<div><table id="' . $this->CLASS_DATATABLE . '" class="table-striped table-bordered" cellspacing="0">';
 
       $heads = '';
       for ( $i = 0; $i < sizeof( (array)$complete_table[0] ); $i++ ) {
-        $heads .= '<th>' . ( isset (Database::$COLUMN_TITLES[$column_titles[$i]]) ? Database::$COLUMN_TITLES[$column_titles[$i]] : '' ) . '</th>';
+        $heads .= '<th>';
+        $heads .= ( isset (Database::$COLUMN_TITLE_NAMES[$column_titles[$i]]) ?
+            Database::$COLUMN_TITLE_NAMES[$column_titles[$i]] :
+            '' );
+        $heads .= '</th>';
       }
       echo '<thead>' . $heads . '</thead>';
       echo '<tfoot>' . $heads . '</tfoot>';
@@ -70,6 +73,7 @@ class Display {
         $values = array_map( function( $field ) {
           return '\'' . $field . '\'';
         }, (array)$fields );
+
         echo '<tr>';
         foreach ( $fields as $key => $value ) {
           echo '<td>' . $value . '</td>';

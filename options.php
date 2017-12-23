@@ -10,11 +10,12 @@ namespace H5PXAPIKATCHU;
  */
 class Options {
 
-  public static $SLUG_GENERAL = 'h5pxapikatchu_option';
-  public static $OPTIONS;
+  // Waiting for PhP 7 to hit the mainstream ...
+  private static $OPTION_SLUG = 'h5pxapikatchu_option';
   private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table';
+  private static $L10N_SLUG = 'H5PXAPIKATCHU';
+  private static $OPTIONS;
 
-  // TODO: Make slug H5PXAPIKATCHU global
   private $options;
 
   /**
@@ -40,17 +41,17 @@ class Options {
     wp_enqueue_style( 'DataTablesStyle' );
 
     // pass variables to JavaScript
-    wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$CLASS_CTS_TABLE, 'H5PXAPIKATCHU' );
+    wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$CLASS_CTS_TABLE );
   }
 
   public static function setDefaults () {
     // Store all content types be default
-    update_option( self::$SLUG_GENERAL, array( 'capture_all_h5p_content_types' => 1 ) );
+    update_option( self::$OPTION_SLUG, array( 'capture_all_h5p_content_types' => 1 ) );
   }
 
   public static function delete_options () {
-	  delete_option( self::$SLUG_GENERAL );
-	  delete_site_option( self::$SLUG_GENERAL );
+	  delete_option( self::$OPTION_SLUG );
+	  delete_site_option( self::$OPTION_SLUG );
   }
 
   /**
@@ -100,14 +101,14 @@ class Options {
 
       add_settings_section(
           'general_settings',
-          __( 'General', 'H5PXAPIKATCHU' ),
+          __( 'General', self::$L10N_SLUG ),
           array( $this, 'print_general_section_info' ),
           'h5pxapikatchu-admin'
       );
 
       add_settings_field(
           'store_complete_xapi',
-          __( 'Store complete statements', 'H5PxAPIkatchu' ),
+          __( 'Store complete statements', self::$L10N_SLUG ),
           array( $this, 'store_complete_xapi_callback' ),
           'h5pxapikatchu-admin',
           'general_settings'
@@ -115,7 +116,7 @@ class Options {
 
       add_settings_field(
           'debug_enabled',
-          __( 'Debug', 'H5PxAPIkatchu' ),
+          __( 'Debug', self::$L10N_SLUG ),
           array( $this, 'debug_enabled_callback' ),
           'h5pxapikatchu-admin',
           'general_settings'
@@ -123,7 +124,7 @@ class Options {
 
       add_settings_field(
           'capture_all_h5p_content_types',
-          __( 'Capture everything', 'H5PxAPIkatchu' ),
+          __( 'Capture everything', self::$L10N_SLUG ),
           array( $this, 'capture_all_h5p_content_types_callback' ),
           'h5pxapikatchu-admin',
           'general_settings'
@@ -131,14 +132,14 @@ class Options {
 
       add_settings_section(
           'content_type_settings',
-          __( 'Content types', 'H5PXAPIKATCHU' ),
+          __( 'Content types', self::$L10N_SLUG ),
           array( $this, 'print_content_type_section_info' ),
           'h5pxapikatchu-admin'
       );
 
       add_settings_field(
           'h5p_content_types',
-          __( 'H5P Content Types', 'H5PxAPIkatchu' ),
+          __( 'H5P Content Types', self::$L10N_SLUG ),
           array( $this, 'h5p_content_types_callback' ),
           'h5pxapikatchu-admin',
           'content_type_settings'
@@ -163,14 +164,15 @@ class Options {
       if ( isset( $input['capture_all_h5p_content_types'] ) ) {
         $new_input['capture_all_h5p_content_types'] = absint( $input['capture_all_h5p_content_types'] );
       }
+      // Settings for individual content type capturing
       $captured_contents = array();
       $length = sizeof( Database::get_h5p_content_types() );
       for ( $i = 0; $i < $length; $i++ ) {
         if ( isset( $input['h5p_content_types-' . $i ] ) ) {
           array_push( $captured_contents, $input['h5p_content_types-' . $i ] );
-          error_log( $input['h5p_content_types-' . $i ] );
         }
       }
+
       $new_input['h5p_content_types'] = implode( $captured_contents, ',' );
 
       return $new_input;
@@ -195,7 +197,7 @@ class Options {
   public function store_complete_xapi_callback () {
 		echo'<label for="store_complete_xapi">';
 		echo '<input type="checkbox" name="h5pxapikatchu_option[store_complete_xapi]" id="store_complete_xapi" value="1" ' . ( isset( $this->options['store_complete_xapi']) ? checked( '1', $this->options['store_complete_xapi'], false ) : '') . ' />';
-		echo __('Enable option to store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PxAPIkatchu');
+		echo __('Enable option to store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', self::$L10N_SLUG);
 		echo '</label>';
   }
 
@@ -205,21 +207,21 @@ class Options {
   public function debug_enabled_callback () {
 		echo'<label for="debug_enabled">';
 		echo '<input type="checkbox" name="h5pxapikatchu_option[debug_enabled]" id="debug_enabled" value="1" ' . ( isset( $this->options['debug_enabled']) ? checked( '1', $this->options['debug_enabled'], false ) : '') . ' />';
-		echo __('Enable option to display xAPI statements in the JavaScript debug console', 'H5PxAPIkatchu');
+		echo __('Enable option to display xAPI statements in the JavaScript debug console', self::$L10N_SLUG);
 		echo '</label>';
   }
 
   public function capture_all_h5p_content_types_callback () {
     echo'<label for="capture_all_h5p_content_types">';
     echo '<input type="checkbox" name="h5pxapikatchu_option[capture_all_h5p_content_types]" id="h5pxapikatchu_capture_all_content_types" value="1" ' . ( isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '') . ' />';
-    echo __('Capture the xAPI statements of all H5P content types', 'H5PxAPIkatchu');
+    echo __('Capture the xAPI statements of all H5P content types', self::$L10N_SLUG);
     echo '</label>';
   }
 
   public function h5p_content_types_callback () {
     $content_types = Database::get_h5p_content_types();
     if ( empty( $content_types ) ) {
-      echo __( 'It seems that H5P is not installed on this WordPress system.', 'H5PXAPIKATCHU' );
+      echo __( 'It seems that H5P is not installed on this WordPress system.', self::$L10N_SLUG );
       return;
     }
 
@@ -228,9 +230,9 @@ class Options {
     echo '<thead>';
     echo '<tr>';
     echo '<th></th>';
-    echo '<th>' . __( 'Title', 'H5PXAPIKATCHU' ) . '</th>';
-    echo '<th>' . __( 'Type', 'H5PXAPIKATCHU' ) . '</th>';
-    echo '<th>' . __( 'Id', 'H5PXAPIKATCHU' ) . '</th>';
+    echo '<th>' . __( 'Title', self::$L10N_SLUG ) . '</th>';
+    echo '<th>' . __( 'Type', self::$L10N_SLUG ) . '</th>';
+    echo '<th>' . __( 'Id', self::$L10N_SLUG ) . '</th>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
@@ -267,7 +269,7 @@ class Options {
   }
 
   static function init() {
-    self::$OPTIONS = get_option(self::$SLUG_GENERAL, false);
+    self::$OPTIONS = get_option( self::$OPTION_SLUG, false );
   }
 }
 Options::init();

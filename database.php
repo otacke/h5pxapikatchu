@@ -10,18 +10,22 @@ namespace H5PXAPIKATCHU;
  */
 class Database {
 
-  public static $COLUMN_TITLES;
-  public static $TABLE_MAIN;
-  public static $TABLE_ACTOR;
-  public static $TABLE_VERB;
-  public static $TABLE_OBJECT;
-  public static $TABLE_RESULT;
-  public static $TABLE_H5P_CONTENT_TYPES;
-  public static $TABLE_H5P_LIBRARIES;
+  private static $L10N_SLUG = 'H5PXAPIKATCHU';
+  private static $TABLE_MAIN;
+  private static $TABLE_ACTOR;
+  private static $TABLE_VERB;
+  private static $TABLE_OBJECT;
+  private static $TABLE_RESULT;
+  private static $TABLE_H5P_CONTENT_TYPES;
+  private static $TABLE_H5P_LIBRARIES;
 
-  // TODO: Make slug H5PXAPIKATCHU global
+  // TODO: See below, could get rid of this public var.
+  public static $COLUMN_TITLE_NAMES;
 
-  public static function build_table() {
+  /**
+   * Build the tables.
+   */
+  public static function build_tables () {
     global $wpdb;
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -296,27 +300,27 @@ class Database {
     self::$TABLE_H5P_CONTENT_TYPES = $wpdb->prefix . 'h5p_contents';
     self::$TABLE_H5P_LIBRARIES = $wpdb->prefix . 'h5p_libraries';
 
-
-    self::$COLUMN_TITLES = array(
+    // TODO: Think about ditching this since we now have a fixed set.
+    self::$COLUMN_TITLE_NAMES = array(
       'id' => 'ID',
-      'actor_id' => __( 'Actor Id', 'H5PxAPIkatchu'),
-      'actor_name' => __( 'Actor Name', 'H5PxAPIkatchu'),
-      'actor_members' => __( 'Actor Group Members', 'H5PxAPIkatchu'),
-      'verb_id' => __( 'Verb Id', 'H5PxAPIkatchu'),
-      'verb_display' => __( 'Verb Display', 'H5PxAPIkatchu'),
-      'xobject_id' => __( 'Object Id', 'H5PxAPIkatchu'),
-      'object_name' => __( 'Object Def. Name', 'H5PxAPIkatchu' ),
-      'object_description' => __( 'Object Def. Description', 'H5PxAPIkatchu' ),
-      'object_choices' => __( 'Object Def. Choices', 'H5PxAPIkatchu' ),
-      'object_correct_responses_pattern' => __( 'Object Def. Correct Responses', 'H5PxAPIkatchu' ),
-      'result_response' => __( 'Result Response', 'H5PxAPIkatchu' ),
-      'result_score_raw' => __( 'Result Score Raw', 'H5PxAPIkatchu' ),
-      'result_score_scaled' => __( 'Result Score Scaled', 'H5PxAPIkatchu' ),
-      'result_completion' => __( 'Result Completion', 'H5PxAPIkatchu' ),
-      'result_success' => __( 'Result Success', 'H5PxAPIkatchu' ),
-      'result_duration' => __( 'Result Duration', 'H5PxAPIkatchu' ),
-      'time' => __( 'Time', 'H5PxAPIkatchu' ),
-      'xapi' => __( 'xAPI', 'H5PxAPIkatchu' )
+      'actor_id' => __( 'Actor Id', self::$L10N_SLUG),
+      'actor_name' => __( 'Actor Name', self::$L10N_SLUG),
+      'actor_members' => __( 'Actor Group Members', self::$L10N_SLUG),
+      'verb_id' => __( 'Verb Id', self::$L10N_SLUG),
+      'verb_display' => __( 'Verb Display', self::$L10N_SLUG),
+      'xobject_id' => __( 'Object Id', self::$L10N_SLUG),
+      'object_name' => __( 'Object Def. Name', self::$L10N_SLUG ),
+      'object_description' => __( 'Object Def. Description', self::$L10N_SLUG ),
+      'object_choices' => __( 'Object Def. Choices', self::$L10N_SLUG ),
+      'object_correct_responses_pattern' => __( 'Object Def. Correct Responses', self::$L10N_SLUG ),
+      'result_response' => __( 'Result Response', self::$L10N_SLUG ),
+      'result_score_raw' => __( 'Result Score Raw', self::$L10N_SLUG ),
+      'result_score_scaled' => __( 'Result Score Scaled', self::$L10N_SLUG ),
+      'result_completion' => __( 'Result Completion', self::$L10N_SLUG ),
+      'result_success' => __( 'Result Success', self::$L10N_SLUG ),
+      'result_duration' => __( 'Result Duration', self::$L10N_SLUG ),
+      'time' => __( 'Time', self::$L10N_SLUG ),
+      'xapi' => __( 'xAPI', self::$L10N_SLUG ),
     );
   }
 }
