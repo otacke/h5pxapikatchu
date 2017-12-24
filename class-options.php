@@ -28,13 +28,11 @@ class Options {
 
   public function add_scripts() {
     wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
-    wp_register_style( 'Options', plugins_url( '/css/options.css', __FILE__ ));
     wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
     wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_cts_table.js', __FILE__ ) );
     wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
 
     wp_enqueue_script( 'Options' );
-    wp_enqueue_style( 'Options' );
     wp_enqueue_script( 'DataTablesScript' );
     wp_enqueue_script( 'BuildCtsTable' );
     wp_enqueue_style( 'DataTablesStyle' );
