@@ -114,7 +114,7 @@ class Database {
    * Get column titles of all tables + additional columns.
    * This function seems weird, but we possibly want to make the data
    * structure and the retrieval process more flexible in the future.
-   * @return {Array} Database column titles.
+   * @return array Database column titles.
    */
   public static function get_column_titles() {
     global $wpdb;
@@ -131,7 +131,7 @@ class Database {
 
   /**
    * Get complete overview of all stored data.
-   * @return {object} Database results.
+   * @return object Database results.
    */
   public static function get_complete_table() {
     global $wpdb;
@@ -163,7 +163,7 @@ class Database {
 
   /**
    * Get a list of all H5P content types in the database.
-   * @return {Array} Database results.
+   * @return array Database results.
    */
   public static function get_h5p_content_types() {
     global $wpdb;
@@ -200,12 +200,12 @@ class Database {
 
   /**
    * Insert data into all the database tables and create lookup table.
-   * @param {Array} $actor - Actor data.
-   * @param {Array} $verb - Verb data.
-   * @param {Array} $object - Object data.
-   * @param {Array} $result - Result data.
-   * @param {String} $xapi - Original xapi data.
-   * @return {true|false} - False on error within database transactions.
+   * @param array $actor Actor data.
+   * @param array $verb Verb data.
+   * @param array $object Object data.
+   * @param array $result Result data.
+   * @param string $xapi Original xapi data.
+   * @return true|false False on error within database transactions.
    */
   public static function insert_data( $actor, $verb, $object, $result, $xapi ) {
     global $wpdb;
@@ -255,12 +255,12 @@ class Database {
 
   /**
    * Insert data into lookup table.
-   * @param {int} $actor_id - Actor ID.
-   * @param {int} $verb_id - Verb ID.
-   * @param {int} $object_id - Object ID.
-   * @param {int} $result_id - Result ID.
-   * @param {String} $xapi - Original xAPI data.
-   * @param {true|null} True if ok, null else
+   * @param int $actor_id Actor ID.
+   * @param int $verb_id Verb ID.
+   * @param int $object_id Object ID.
+   * @param int $result_id Result ID.
+   * @param string $xapi Original xAPI data.
+   * @param true|null True if ok, null else
    */
   private static function insert_main( $actor_id, $verb_id, $object_id, $result_id, $xapi ) {
     global $wpdb;
@@ -281,8 +281,8 @@ class Database {
 
   /**
    * Insert actor data into database.
-   * @param {Array} $actor - Actor data.
-   * @return {int} database table index.
+   * @param array $actor Actor data.
+   * @return int Database table index.
    */
   private static function insert_actor( $actor ) {
     global $wpdb;
@@ -308,8 +308,8 @@ class Database {
 
   /**
    * Insert verb data into database.
-   * @param {Array} $verb - Verb data.
-   * @return {int} database table index.
+   * @param array $verb Verb data.
+   * @return int Database table index.
    */
   private static function insert_verb( $verb ) {
     global $wpdb;
@@ -334,8 +334,8 @@ class Database {
 
   /**
    * Insert object data into database.
-   * @param {Array} $object - Object data.
-   * @return {int} database table index.
+   * @param array $object Object data.
+   * @return int Database table index.
    */
   private static function insert_object( $object ) {
     global $wpdb;
@@ -374,8 +374,8 @@ class Database {
 
   /**
    * Insert result data into database.
-   * @param {Array} $result - Result data.
-   * @return {int} database table index.
+   * @param array $result Result data.
+   * @return int Database table index.
    */
   private static function insert_result( $result ) {
     global $wpdb;

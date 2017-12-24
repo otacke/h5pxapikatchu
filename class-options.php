@@ -285,7 +285,7 @@ class Options {
 
   /**
    * Get flag for storing the complete xapi statement.
-   * @return {boolean} True, if flag set.
+   * @return boolean True, if flag set.
    */
   public static function store_complete_xapi() {
     return isset( self::$OPTIONS['store_complete_xapi'] );
@@ -293,7 +293,7 @@ class Options {
 
   /**
    * Get flag for showinf debug output.
-   * @return {boolean} True, if flag set.
+   * @return boolean True, if flag set.
    */
   public static function is_debug_enabled() {
     return isset( self::$OPTIONS['debug_enabled'] );
@@ -301,7 +301,7 @@ class Options {
 
   /**
    * Get flag for capturing from all H5P content types.
-   * @return {boolean} True, if flag set.
+   * @return boolean True, if flag set.
    */
   public static function capture_all_h5p_content_types() {
     return isset( self::$OPTIONS['capture_all_h5p_content_types'] );
@@ -309,7 +309,7 @@ class Options {
 
   /**
    * Get list of H5P content type IDs to be captured from.
-   * @return {String} Comma separated list of IDs.
+   * @return string Comma separated list of IDs.
    */
   public static function get_h5p_content_types() {
     return isset( self::$OPTIONS['h5p_content_types'] ) ? explode( ',', self::$OPTIONS['h5p_content_types'] ) : array();

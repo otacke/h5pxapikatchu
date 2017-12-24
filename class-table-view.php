@@ -67,7 +67,7 @@ class Table_View {
 
     // Table Head and Footer
     $heads = '';
-    for ( $i = 0; $i < sizeof( (array)$complete_table[0] ); $i++ ) {
+    for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
       $heads .= '<th>';
       $heads .= ( isset( Database::$COLUMN_TITLE_NAMES[ $column_titles[ $i ] ]) ?
           Database::$COLUMN_TITLE_NAMES[ $column_titles[ $i ] ] :
@@ -81,7 +81,7 @@ class Table_View {
     foreach( $complete_table as $fields ) {
       $values = array_map( function( $field ) {
         return '\'' . $field . '\'';
-      }, (array)$fields );
+      }, (array) $fields );
       echo '<tr>';
       foreach ( $fields as $key => $value ) {
         echo '<td>' . $value . '</td>';
@@ -95,8 +95,8 @@ class Table_View {
 
   /**
    * Check if a given URL/file exists.
-   * @param {string} $file - File to check.
-   * @return {boolean} True, if found.
+   * @param string $file File to check.
+   * @return boolean True, if found.
    */
    function url_exists( $url ) {
     $headers = @get_headers( $url );

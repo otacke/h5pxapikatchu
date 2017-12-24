@@ -61,7 +61,7 @@ function on_uninstall() {
 /**
  * Insert an entry into the database.
  *
- * @param {String} text - Text to be added.
+ * @param string text Text to be added.
  */
 function insert_data() {
 	global $wpdb;
