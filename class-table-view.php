@@ -34,12 +34,21 @@ class Table_View {
     // pass variables to JavaScript
     wp_localize_script( 'BuildDataTable', 'classDataTable', $this->CLASS_DATATABLE );
     wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
-    // Only pass the language file name to DataTables if it exists, will output an error in the JavaScript console otherwise
-    $language_file = plugins_url( 'DataTables/i18n', __FILE__ ) . '/' . strtolower( get_locale() ) . '.lang';
-    if ( false === $this->url_exists( $language_file ) ) {
-      $language_file = '';
-    }
-    wp_localize_script( 'BuildDataTable', 'languageFile', $language_file );
+    // Used to allow translations for Datatables from within WordPress translations
+    $language_datatables = array(
+      'info' => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
+      'loadingRecords' => __( 'Loading...' , 'H5PAPIKATCHU' ),
+      'processing' => __( 'Processing...', 'H5PXAPIKATCHU' ),
+      'search' => __( 'search', 'H5PXAPIKATCHU' ),
+      'zeroRecords' => __( 'No matching records found', 'H5PXAPIKATCHU' ),
+      'paginate' => array(
+        'first' => __( 'First', 'H5PXAPIKATCHU' ),
+        'last' => __( 'Last', 'H5PXAPIKATCHU' ),
+        'next' => __( 'Next', 'H5PXAPIKATCHU' ),
+        'previous' => __( 'Previous', 'H5PXAPIKATCHU' )
+      )
+    );
+    wp_localize_script( 'BuildDataTable', 'languageData', $language_datatables );
   }
 
   public function add_admin_page() {
@@ -91,15 +100,5 @@ class Table_View {
     echo '</tbody>';
 
     echo '</table></div>';
-  }
-
-  /**
-   * Check if a given URL/file exists.
-   * @param string $file File to check.
-   * @return boolean True, if found.
-   */
-   function url_exists( $url ) {
-    $headers = @get_headers( $url );
-    return ( false === $headers || false === strpos( $headers[0], '404') );
   }
 }

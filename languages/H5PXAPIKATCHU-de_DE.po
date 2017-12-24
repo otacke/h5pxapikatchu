@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2017-12-23 23:57+0100\n"
-"PO-Revision-Date: 2017-12-24 00:02+0100\n"
+"POT-Creation-Date: 2017-12-24 02:41+0100\n"
+"PO-Revision-Date: 2017-12-24 02:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -14,122 +14,105 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-SearchPath-0: languages\n"
-"X-Poedit-SearchPath-1: database.php\n"
-"X-Poedit-SearchPath-2: display.php\n"
-"X-Poedit-SearchPath-3: h5pxapikachu.php\n"
-"X-Poedit-SearchPath-4: options.php\n"
-"X-Poedit-SearchPath-5: xapidata.php\n"
+"X-Poedit-SearchPath-0: h5pxapikachu.php\n"
+"X-Poedit-SearchPath-1: class-database.php\n"
+"X-Poedit-SearchPath-2: class-options.php\n"
+"X-Poedit-SearchPath-3: class-table-view.php\n"
+"X-Poedit-SearchPath-4: class-xapidata.php\n"
 
-#: database.php:430
+#: class-database.php:430
 msgid "Actor Id"
 msgstr "Akteur ID"
 
-#: database.php:431
+#: class-database.php:431
 msgid "Actor Name"
 msgstr "Akteur Name"
 
-#: database.php:432
+#: class-database.php:432
 msgid "Actor Group Members"
 msgstr "Akteur Gruppenmitglieder"
 
-#: database.php:433
+#: class-database.php:433
 msgid "Verb Id"
 msgstr "Verb ID"
 
-#: database.php:434
+#: class-database.php:434
 msgid "Verb Display"
 msgstr "Verb Anzeige"
 
-#: database.php:435
+#: class-database.php:435
 msgid "Object Id"
 msgstr "Objekt ID"
 
-#: database.php:436
+#: class-database.php:436
 msgid "Object Def. Name"
 msgstr "Objekt Def. Name"
 
-#: database.php:437
+#: class-database.php:437
 msgid "Object Def. Description"
 msgstr "Objekt Def. Beschreibung"
 
-#: database.php:438
+#: class-database.php:438
 msgid "Object Def. Choices"
 msgstr "Objekt Auswahlmöglichkeiten"
 
-#: database.php:439
+#: class-database.php:439
 msgid "Object Def. Correct Responses"
 msgstr "Objekt Def. Richtige Antworten"
 
-#: database.php:440
+#: class-database.php:440
 msgid "Result Response"
 msgstr "Ergebnis Antwort"
 
-#: database.php:441
+#: class-database.php:441
 msgid "Result Score Raw"
 msgstr "Ergebnis Punkte"
 
-#: database.php:442
+#: class-database.php:442
 msgid "Result Score Scaled"
 msgstr "Ergebnis Punkte, skaliert"
 
-#: database.php:443
+#: class-database.php:443
 msgid "Result Completion"
 msgstr "Ergebnis Abgeschlossen"
 
-#: database.php:444
+#: class-database.php:444
 msgid "Result Success"
 msgstr "Ergebnis Erfolg"
 
-#: database.php:445
+#: class-database.php:445
 msgid "Result Duration"
 msgstr "Ergebnis Dauer"
 
-#: database.php:446
+#: class-database.php:446
 msgid "Time"
 msgstr "Zeit"
 
-#: database.php:447
+#: class-database.php:447
 msgid "xAPI"
 msgstr "xAPI"
 
-#: display.php:36
-msgid "DOWNLOAD"
-msgstr "HERUNTERLADEN"
-
-#: display.php:51
-msgid "You do not have sufficient permissions to access this page."
-msgstr "Du hast nicht genügend Rechte, um diese Seite aufzurufen."
-
-#: display.php:59
-msgid "H5PxAPIkatchu"
-msgstr "H5PxAPIkatchu"
-
-#: display.php:61
-msgid "There is no xAPI information stored."
-msgstr "Es sind keine xAPI-Informationen gespeichert."
-
-#: options.php:103
+#: class-options.php:103
 msgid "General"
 msgstr "Allgemein"
 
-#: options.php:110
+#: class-options.php:110
 msgid "Store complete statements"
 msgstr "Komplette Statements speichern"
 
-#: options.php:118
+#: class-options.php:118
 msgid "Debug"
 msgstr "Debug"
 
-#: options.php:126
+#: class-options.php:126
 msgid "Capture everything"
 msgstr "Alles aufzeichnen"
 
-#: options.php:134 options.php:141
+#: class-options.php:134 class-options.php:141
 msgid "H5P content types"
 msgstr "H5P-Inhaltstypen"
 
-#: options.php:190
+#: class-options.php:190
 msgid ""
 "By checking the H5P content types below you can select their xAPI statements "
 "for being captured."
@@ -137,7 +120,7 @@ msgstr ""
 "Durch das Anwählen einzelner H5P-Inhaltstypen kannst du auswählen, für "
 "welche die xAPI-Statements aufgezeichnet werden sollen."
 
-#: options.php:207
+#: class-options.php:207
 msgid ""
 "Store the complete xAPI statement as JSON data. Be sure to check your "
 "database storage limit!"
@@ -145,48 +128,101 @@ msgstr ""
 "Speichere die kompletten xAPI-Statements als JSON-Daten. Prüfe vorher den "
 "Speicherplatz deiner Datenbank!"
 
-#: options.php:225
+#: class-options.php:225
 msgid "Display xAPI statements in the JavaScript debug console"
 msgstr "Zeige die xAPI-Statements in der JavaScript-Debug-Konsole"
 
-#: options.php:243
+#: class-options.php:243
 msgid "Capture the xAPI statements of all H5P content types"
 msgstr "Schneide die xAPI-Statements aller H5P-Inhaltstypen mit"
 
-#: options.php:255
+#: class-options.php:255
 msgid "It seems that H5P is not installed on this WordPress system."
 msgstr ""
 "Es scheint, als wäre H5P auf diesem WordPress-System nicht installiert."
 
-#: options.php:264
+#: class-options.php:264
 msgid "Title"
 msgstr "Titel"
 
-#: options.php:265
+#: class-options.php:265
 msgid "Type"
 msgstr "Typ"
 
-#: options.php:266
+#: class-options.php:266
 msgid "Id"
 msgstr "ID"
 
-#: xapidata.php:54
+#: class-table-view.php:36
+msgid "DOWNLOAD"
+msgstr "HERUNTERLADEN"
+
+# This item is for DataTables. It uses _START_ and _END_ and _TOTAL_ als placeholders. Don't translate these.
+#: class-table-view.php:39
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Zeige _START_ bis _END_ von _TOTAL_ Einträgen"
+
+#: class-table-view.php:40
+msgid "Loading..."
+msgstr "Wird geladen..."
+
+#: class-table-view.php:41
+msgid "Processing..."
+msgstr "Bitte warten..."
+
+#: class-table-view.php:42
+msgid "search"
+msgstr "Suchen"
+
+#: class-table-view.php:43
+msgid "No matching records found"
+msgstr "Keine Einträge vorhanden."
+
+#: class-table-view.php:45
+msgid "First"
+msgstr "Erste"
+
+#: class-table-view.php:46
+msgid "Last"
+msgstr "Letzte"
+
+#: class-table-view.php:47
+msgid "Next"
+msgstr "Nächste"
+
+#: class-table-view.php:48
+msgid "Previous"
+msgstr "Zurück"
+
+#: class-table-view.php:60
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Du hast nicht genügend Rechte, um diese Seite aufzurufen."
+
+#: class-table-view.php:68
+msgid "H5PxAPIkatchu"
+msgstr "H5PxAPIkatchu"
+
+#: class-table-view.php:70
+msgid "There is no xAPI information stored."
+msgstr "Es sind keine xAPI-Informationen gespeichert."
+
+#: class-xapidata.php:54
 msgid "Group"
 msgstr "Gruppe"
 
-#: xapidata.php:194
+#: class-xapidata.php:194
 msgid "email"
 msgstr "E-Mail-Adresse"
 
-#: xapidata.php:197
+#: class-xapidata.php:197
 msgid "email hash"
 msgstr "E-Mail-Hashwert"
 
-#: xapidata.php:200
+#: class-xapidata.php:200
 msgid "openid"
 msgstr "OpenID"
 
-#: xapidata.php:203
+#: class-xapidata.php:203
 msgid "account"
 msgstr "Konto"
 

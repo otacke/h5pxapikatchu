@@ -143,7 +143,6 @@ class Options {
           'h5pxapikatchu-admin',
           'content_type_settings'
       );
-
   }
 
   /**
