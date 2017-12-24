@@ -36,7 +36,7 @@ class Table_View {
     wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
     // Only pass the language file name to DataTables if it exists, will output an error in the JavaScript console otherwise
     $language_file = plugins_url( 'DataTables/i18n', __FILE__ ) . '/' . strtolower( get_locale() ) . '.lang';
-    if ( $this->url_exists( $language_file ) === false ) {
+    if ( false === $this->url_exists( $language_file ) ) {
       $language_file = '';
     }
     wp_localize_script( 'BuildDataTable', 'languageFile', $language_file );
@@ -100,6 +100,6 @@ class Table_View {
    */
    function url_exists( $url ) {
     $headers = @get_headers( $url );
-    return ( $headers === false || strpos( $headers[0], '404') === false );
+    return ( false === $headers || false === strpos( $headers[0], '404') );
   }
 }

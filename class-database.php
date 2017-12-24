@@ -172,13 +172,13 @@ class Database {
     $ok = $wpdb->get_results(
       "SHOW TABLES LIKE '" . self::$TABLE_H5P_CONTENT_TYPES . "'"
     );
-    if ( sizeof($ok) === 0 ) {
+    if ( 0 === sizeof($ok) ) {
       return;
     }
     $ok = $wpdb->get_results(
       "SHOW TABLES LIKE '" . self::$TABLE_H5P_LIBRARIES . "'"
     );
-    if ( sizeof($ok) === 0 ) {
+    if ( 0 === sizeof($ok) ) {
       return;
     }
 
@@ -219,17 +219,17 @@ class Database {
     }
 
     $verb_id = self::insert_verb( $verb );
-    if ( $verb_id === false ) {
+    if ( false === $verb_id ) {
       $error_count++;
     }
 
     $object_id = self::insert_object( $object );
-    if ( $object_id === false ) {
+    if ( false === $object_id ) {
       $error_count++;
     }
 
     $result_id = self::insert_result( $result );
-    if ( $result_id === false ) {
+    if ( false === $result_id ) {
       $error_count++;
     }
 
@@ -240,11 +240,11 @@ class Database {
       $result_id,
       $xapi
     );
-    if ( $ok === false ) {
+    if ( false === $ok ) {
       $error_count++;
     }
 
-    if ( $error_count !== 0 ) {
+    if ( 0 !== $error_count ) {
       $ok = $wpdb->query( "ROLLBACK" );
       return false;
     }
@@ -276,7 +276,7 @@ class Database {
         'xapi' => $xapi
       )
     );
-    return ( $ok === false ) ? false : true; // {int|false}
+    return ( false === $ok ) ? false : true; // {int|false}
   }
 
   /**
@@ -301,7 +301,7 @@ class Database {
   				'actor_members' => $actor['members']
   			)
   		);
-      $actor_id = ( $ok === 1 ) ? $wpdb->insert_id : false;
+      $actor_id = ( 1 === $ok ) ? $wpdb->insert_id : false;
   	}
     return $actor_id;
   }
@@ -327,7 +327,7 @@ class Database {
   				'verb_display' => $verb['display']
   			)
   		);
-      $verb_id = ( $ok === 1 ) ? $wpdb->insert_id : false;
+      $verb_id = ( 1 === $ok ) ? $wpdb->insert_id : false;
   	}
     return $verb_id;
   }
@@ -367,7 +367,7 @@ class Database {
   				'object_correct_responses_pattern' => $object['correctResponsesPattern']
   			)
   		);
-      $object_id = ( $ok === 1 ) ? $wpdb->insert_id : false;
+      $object_id = ( 1 === $ok ) ? $wpdb->insert_id : false;
   	}
     return $object_id;
   }
@@ -415,7 +415,7 @@ class Database {
           'result_duration' => $result['duration']
         )
       );
-      $result_id = ( $ok !== false ) ? $wpdb->insert_id : false;
+      $result_id = ( false !== $ok ) ? $wpdb->insert_id : false;
     }
     return $result_id;
   }

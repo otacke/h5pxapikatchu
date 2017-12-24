@@ -50,12 +50,12 @@ class XAPIDATA {
       $members = ( array_key_exists( 'member', $actor ) ) ? $this->flatten_members( $actor['member'] ) : '';
 
       // Identified Group or Anonymous Group (we don't need to distinguish here)
-      if ( $object_type === 'Group' ) {
-        $name = ($name !== '') ? $name . ' (' . __( 'Group' , 'H5PXAPIKATCHU' ) . ')' : $name;
+      if ( 'Group' === $object_type  ) {
+        $name = ( '' === $name ) ? $name : $name . ' (' . __( 'Group' , 'H5PXAPIKATCHU' ) . ')';
       }
 
       //Agent
-      if ( $object_type === 'Agent' || $object_type === '' ) {
+      if ( 'Agent' === $object_type || '' === $object_type ) {
         // Not really neccessary, but according to xAPI specs agents have no member data
         $members = '';
       }
@@ -96,7 +96,7 @@ class XAPIDATA {
 
       $id = array_key_exists( 'id', $object ) ? $object['id'] : '';
       $definition = array_key_exists( 'definition', $object ) ? $this->get_definition( $object['definition'] ) : '';
-      if ( $definition !== '' ) {
+      if ( '' !== $definition ) {
         $name = $definition['name'];
         $description = $definition['description'];
         $choices = $definition['choices'];
@@ -123,7 +123,7 @@ class XAPIDATA {
 
       $response = array_key_exists( 'response', $result ) ? $result['response'] : '';
       $scores = array_key_exists( 'score', $result ) ? $this->get_scores( $result['score'] ) : '';
-      if ( $scores !== '' ) {
+      if ( '' !== $scores ) {
         $score_raw = $scores['score_raw'];
         $score_scaled = $scores['score_scaled'];
       }
@@ -172,7 +172,7 @@ class XAPIDATA {
     $name = ( array_key_exists( 'name', $agent ) ) ? $agent['name'] : '';
     $ifi = $this->flatten_inverse_functional_identifier( $agent );
 
-    if ( $name !== '' && $ifi !== '' ) {
+    if ( '' !== $name && '' !== $ifi ) {
       $name = ' (' . $name . ')';
     }
 
@@ -218,7 +218,7 @@ class XAPIDATA {
     $name = ( array_key_exists( 'name', $account ) ) ? $account['name'] : '';
     $homepage = ( array_key_exists( 'homePage', $account ) ) ? $account['homePage'] : '';
 
-    if ( $name !== '' && $homepage !== '' ) {
+    if ( '' !== $name && '' !== $homepage ) {
       $homepage = ' (' . $homepage . ')';
     }
 
@@ -239,12 +239,12 @@ class XAPIDATA {
     $locale = str_replace( '_', '-', get_locale() );
 
     if ( array_key_exists( $locale, $language_map ) ) {
-      return $language_map[$locale];
+      return $language_map[ $locale ];
     }
     if ( array_key_exists( $locale, $language_map ) ) {
-      return $language_map[$LOCALE_DEFAULT];
+      return $language_map[ $LOCALE_DEFAULT ];
     }
-    return array_values($language_map)[0];
+    return array_values( $language_map )[0];
   }
 
   /**
