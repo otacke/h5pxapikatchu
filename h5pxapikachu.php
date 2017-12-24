@@ -18,10 +18,10 @@ namespace H5PXAPIKATCHU;
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 // settings.php contains all functions for the settings
-require_once( __DIR__ . '/database.php' );
-require_once( __DIR__ . '/options.php' );
-require_once( __DIR__ . '/display.php' );
-require_once( __DIR__ . '/xapidata.php' );
+require_once( __DIR__ . '/class-database.php' );
+require_once( __DIR__ . '/class-options.php' );
+require_once( __DIR__ . '/class-table-view.php' );
+require_once( __DIR__ . '/class-xapidata.php' );
 
 /**
  * Setup the plugin.
@@ -105,5 +105,5 @@ add_action( 'plugins_loaded', 'H5PXAPIKATCHU\h5pxapikatchu_load_plugin_textdomai
 $h5pxapikatchu_options = new Options;
 
 if ( is_admin() ) {
-	$h5pxapikatchu_display = new Display;
+	$h5pxapikatchu_table_view = new Table_View;
 }

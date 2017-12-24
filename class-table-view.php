@@ -8,7 +8,7 @@ namespace H5PXAPIKATCHU;
  * @package H5PXAPIKATCHU
  * @since 0.1
  */
-class Display {
+class Table_View {
   private $CLASS_DATATABLE = 'h5pxapikatchu-data-table';
   private $menu_icon;
 
