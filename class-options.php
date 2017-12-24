@@ -26,7 +26,7 @@ class Options {
     add_action( 'admin_init', array( $this, 'page_init' ) );
   }
 
-  public function add_scripts () {
+  public function add_scripts() {
     wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
     wp_register_style( 'Options', plugins_url( '/css/options.css', __FILE__ ));
     wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
@@ -43,12 +43,12 @@ class Options {
     wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$CLASS_CTS_TABLE );
   }
 
-  public static function setDefaults () {
+  public static function setDefaults() {
     // Store all content types be default
     update_option( self::$OPTION_SLUG, array( 'capture_all_h5p_content_types' => 1 ) );
   }
 
-  public static function delete_options () {
+  public static function delete_options() {
 	  delete_option( self::$OPTION_SLUG );
 	  delete_site_option( self::$OPTION_SLUG );
   }
@@ -180,20 +180,20 @@ class Options {
   /**
    * Print section text for general settings
    */
-  public function print_general_section_info () {
+  public function print_general_section_info() {
   }
 
   /**
    * Print section text for content type settings
    */
-  public function print_content_type_section_info () {
+  public function print_content_type_section_info() {
     echo __( 'By checking the H5P content types below you can select their xAPI statements for being captured.', 'H5PXAPIKATCHU' );
   }
 
   /**
    * Get the option for storing the complete xAPI statement in a database field
    */
-  public function store_complete_xapi_callback () {
+  public function store_complete_xapi_callback() {
     // I don't likt this mixing of HTML and PHP, but it seems to be WordPress custom.
     ?>
     <label for="store_complete_xapi">
@@ -212,7 +212,7 @@ class Options {
   /**
    * Show the option for showing xAPI statements in the JavaScript console
    */
-  public function debug_enabled_callback () {
+  public function debug_enabled_callback() {
     ?>
 		<label for="debug_enabled">
 		<input
@@ -230,7 +230,7 @@ class Options {
   /**
    * Show the option for capturing statements from all content types.
    */
-  public function capture_all_h5p_content_types_callback () {
+  public function capture_all_h5p_content_types_callback() {
     ?>
     <label for="capture_all_h5p_content_types">
     <input
@@ -249,7 +249,7 @@ class Options {
    * Show the selector table for choosing H5P content types to be stored.
    * Will be made pretty using Datatables.
    */
-  public function h5p_content_types_callback () {
+  public function h5p_content_types_callback() {
     $content_types = Database::get_h5p_content_types();
     if ( empty( $content_types ) ) {
       echo __( 'It seems that H5P is not installed on this WordPress system.', 'H5PXAPIKATCHU' );
@@ -287,7 +287,7 @@ class Options {
    * Get flag for storing the complete xapi statement.
    * @return {boolean} True, if flag set.
    */
-  public static function store_complete_xapi () {
+  public static function store_complete_xapi() {
     return isset( self::$OPTIONS['store_complete_xapi'] );
   }
 
@@ -295,7 +295,7 @@ class Options {
    * Get flag for showinf debug output.
    * @return {boolean} True, if flag set.
    */
-  public static function is_debug_enabled () {
+  public static function is_debug_enabled() {
     return isset( self::$OPTIONS['debug_enabled'] );
   }
 
@@ -303,7 +303,7 @@ class Options {
    * Get flag for capturing from all H5P content types.
    * @return {boolean} True, if flag set.
    */
-  public static function capture_all_h5p_content_types () {
+  public static function capture_all_h5p_content_types() {
     return isset( self::$OPTIONS['capture_all_h5p_content_types'] );
   }
 
@@ -311,7 +311,7 @@ class Options {
    * Get list of H5P content type IDs to be captured from.
    * @return {String} Comma separated list of IDs.
    */
-  public static function get_h5p_content_types () {
+  public static function get_h5p_content_types() {
     return isset( self::$OPTIONS['h5p_content_types'] ) ? explode( ',', self::$OPTIONS['h5p_content_types'] ) : array();
   }
 

@@ -26,7 +26,7 @@ require_once( __DIR__ . '/class-xapidata.php' );
 /**
  * Setup the plugin.
  */
-function setup () {
+function setup() {
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
 
 	// Pass variables to JavaScript
@@ -39,7 +39,7 @@ function setup () {
 /**
  * Activate the plugin.
  */
-function on_activation () {
+function on_activation() {
 	Database::build_tables();
 	Options::setDefaults();
 }
@@ -47,13 +47,13 @@ function on_activation () {
 /**
  * Deactivate the plugin.
  */
-function on_deactivation () {
+function on_deactivation() {
 }
 
 /**
  * Uninstall the plugin.
  */
-function on_uninstall () {
+function on_uninstall() {
 	Database::delete_tables();
 	Options::delete_options();
 }
@@ -63,7 +63,7 @@ function on_uninstall () {
  *
  * @param {String} text - Text to be added.
  */
-function insert_data () {
+function insert_data() {
 	global $wpdb;
 
 	$xapi = $_REQUEST['xapi'];

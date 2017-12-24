@@ -21,7 +21,7 @@ class XAPIDATA {
    * Constructor
    * @param {string} xapi - Data to work with.
    */
-  public function __construct ( $xapi ) {
+  public function __construct( $xapi ) {
     // Change from JavaScript
     $xapi = str_replace( '\"', '"', $xapi );
     $this->raw = $xapi;
@@ -32,7 +32,7 @@ class XAPIDATA {
   /**
    * Get raw xAPI data.
    */
-  public function get_raw_xapi () {
+  public function get_raw_xapi() {
     return $this->$raw;
   }
 
@@ -40,7 +40,7 @@ class XAPIDATA {
    * Get actor data from xAPI statement.
    * @return {Array} actor data.
    */
-  public function get_actor () {
+  public function get_actor() {
     if ( is_array( $this->data ) && array_key_exists( 'actor', $this->data ) ) {
       $actor = $this->data['actor'];
 
@@ -72,7 +72,7 @@ class XAPIDATA {
    * Get verb data from xAPI statement.
    * @return {Array} verb data.
    */
-  public function get_verb () {
+  public function get_verb() {
     if ( is_array( $this->data ) && array_key_exists( 'verb', $this->data ) ) {
       $verb = $this->data['verb'];
 
@@ -90,7 +90,7 @@ class XAPIDATA {
    * Get object data from xAPI statement.
    * @return {Array} object data.
    */
-  public function get_object () {
+  public function get_object() {
     if ( is_array( $this->data ) && array_key_exists( 'object', $this->data ) ) {
       $object = $this->data['object'];
 
@@ -117,7 +117,7 @@ class XAPIDATA {
    * Get result data from xAPI statement.
    * @return {Array} result data.
    */
-  public function get_result () {
+  public function get_result() {
     if ( is_array( $this->data ) && array_key_exists( 'result', $this->data ) ) {
       $result = $this->data['result'];
 
@@ -147,7 +147,7 @@ class XAPIDATA {
    * @param {Array} members - The members object.
    * @return {string} Flattened member object.
    */
-  private function flatten_members ( $members ) {
+  private function flatten_members( $members ) {
     if ( ! is_array( $members ) || empty( $members ) ) {
       return '';
     }
@@ -164,7 +164,7 @@ class XAPIDATA {
    * @param {Array} agent - The agent object.
    * @return {string} Agent data.
    */
-  private function flatten_agent ( $agent ) {
+  private function flatten_agent( $agent ) {
     if ( ! is_array( $agent ) || empty( $agent ) ) {
       return '';
     }
@@ -184,7 +184,7 @@ class XAPIDATA {
    * @param {Array} actor - The actor object.
    * @return {string} Flattened InverseFunctionalIdentifier.
    */
-  private function flatten_inverse_functional_identifier ( $actor ) {
+  private function flatten_inverse_functional_identifier( $actor ) {
     if ( ! is_array( $actor ) || empty( $actor ) ) {
       return '';
     }
@@ -210,7 +210,7 @@ class XAPIDATA {
    * @param {Array} account - The accout object.
    * @return {string} Flattened account object.
    */
-  private function flatten_account ( $account ) {
+  private function flatten_account( $account ) {
     if ( ! is_array( $account ) || empty( $account ) ) {
       return '';
     }
@@ -230,7 +230,7 @@ class XAPIDATA {
    * @param {Array} language_map - The language map.
    * @return {string} Local string.
    */
-  private function get_locale_string ( $language_map ) {
+  private function get_locale_string( $language_map ) {
     if ( ! is_array( $language_map ) || empty( $language_map ) ) {
       return '';
     }
@@ -273,7 +273,7 @@ class XAPIDATA {
    * @param {Array} choices - Choices object.
    * @return {string} Flattened choices object.
    */
-  private function flatten_choices ( $choices ) {
+  private function flatten_choices( $choices ) {
     if ( ! is_array( $choices ) || empty ( $choices ) ) {
       return '';
     }
@@ -293,7 +293,7 @@ class XAPIDATA {
    * @param {Array} correct_responses_patterns - Correct pattern object.
    * @return {string} Flattened correct responses pattern.
    */
-  private function flatten_correct_responses_pattern ( $correct_responses_patterns ) {
+  private function flatten_correct_responses_pattern( $correct_responses_patterns ) {
     if ( ! is_array( $correct_responses_patterns ) || empty ( $correct_responses_patterns ) ) {
       return '';
     }
@@ -311,7 +311,7 @@ class XAPIDATA {
    * @param {Array} scores - The scores.
    * @return {Array} scores.
    */
-  private function get_scores ( $scores ) {
+  private function get_scores( $scores ) {
     if ( is_array( $scores ) ) {
       $score_raw = array_key_exists( 'raw', $scores ) ? $scores['raw'] : '';
       $score_scaled = array_key_exists( 'scaled', $scores ) ? $scores['scaled'] : '';

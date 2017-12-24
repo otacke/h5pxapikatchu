@@ -23,7 +23,7 @@ class Database {
   /**
    * Build the tables of the plugin.
    */
-  public static function build_tables () {
+  public static function build_tables() {
     global $wpdb;
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -100,7 +100,7 @@ class Database {
   /**
    * Delete all tables of the plugin.
    */
-  public static function delete_tables () {
+  public static function delete_tables() {
     global $wpdb;
 
     $wpdb->query( "DROP TABLE IF EXISTS " . self::$TABLE_MAIN );
@@ -116,7 +116,7 @@ class Database {
    * structure and the retrieval process more flexible in the future.
    * @return {Array} Database column titles.
    */
-  public static function get_column_titles () {
+  public static function get_column_titles() {
     global $wpdb;
 
     return array_merge(
@@ -133,7 +133,7 @@ class Database {
    * Get complete overview of all stored data.
    * @return {object} Database results.
    */
-  public static function get_complete_table () {
+  public static function get_complete_table() {
     global $wpdb;
 
     return $wpdb->get_results(
@@ -165,7 +165,7 @@ class Database {
    * Get a list of all H5P content types in the database.
    * @return {Array} Database results.
    */
-  public static function get_h5p_content_types () {
+  public static function get_h5p_content_types() {
     global $wpdb;
 
     // Stop if H5P doesn't seem to be installed, checked via two database tables.
@@ -207,7 +207,7 @@ class Database {
    * @param {String} $xapi - Original xapi data.
    * @return {true|false} - False on error within database transactions.
    */
-  public static function insert_data ( $actor, $verb, $object, $result, $xapi ) {
+  public static function insert_data( $actor, $verb, $object, $result, $xapi ) {
     global $wpdb;
 
     $error_count = 0;
@@ -262,7 +262,7 @@ class Database {
    * @param {String} $xapi - Original xAPI data.
    * @param {true|null} True if ok, null else
    */
-  private static function insert_main ( $actor_id, $verb_id, $object_id, $result_id, $xapi ) {
+  private static function insert_main( $actor_id, $verb_id, $object_id, $result_id, $xapi ) {
     global $wpdb;
 
     $ok = $wpdb->insert(
@@ -284,7 +284,7 @@ class Database {
    * @param {Array} $actor - Actor data.
    * @return {int} database table index.
    */
-  private static function insert_actor ( $actor ) {
+  private static function insert_actor( $actor ) {
     global $wpdb;
 
     // Check if entry already exists and return index accordingly.
@@ -311,7 +311,7 @@ class Database {
    * @param {Array} $verb - Verb data.
    * @return {int} database table index.
    */
-  private static function insert_verb ( $verb ) {
+  private static function insert_verb( $verb ) {
     global $wpdb;
 
     // Check if entry already exists and return index accordingly.
@@ -337,7 +337,7 @@ class Database {
    * @param {Array} $object - Object data.
    * @return {int} database table index.
    */
-  private static function insert_object ( $object ) {
+  private static function insert_object( $object ) {
     global $wpdb;
 
     // Check if entry already exists and return index accordingly.
@@ -377,7 +377,7 @@ class Database {
    * @param {Array} $result - Result data.
    * @return {int} database table index.
    */
-  private static function insert_result ( $result ) {
+  private static function insert_result( $result ) {
     global $wpdb;
 
     // Check if entry already exists and return index accordingly.
@@ -423,7 +423,7 @@ class Database {
   /**
    * Set the names for columns inlcuding translations.
    */
-  static function set_column_names () {
+  static function set_column_names() {
     // Those might become handy if we make make the SELECTs flexible.
     self::$COLUMN_TITLE_NAMES = array(
       'id' => 'ID',
@@ -451,7 +451,7 @@ class Database {
   /**
    * Initialize class variables/constants
    */
-  static function init () {
+  static function init() {
 	  global $wpdb;
     self::$TABLE_MAIN = $wpdb->prefix . 'h5pxapikatchu';
     self::$TABLE_ACTOR = $wpdb->prefix . 'h5pxapikatchu_actor';
@@ -464,4 +464,4 @@ class Database {
 }
 Database::init();
 // This is neccessary for the translation to work from within an array.
-add_action('admin_init', 'H5PXAPIKATCHU\Database::set_column_names');
+add_action( 'admin_init', 'H5PXAPIKATCHU\Database::set_column_names' );

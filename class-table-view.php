@@ -22,7 +22,7 @@ class Table_View {
     $this->menu_icon = 'data:image/svg+xml;base64,' . base64_encode('<svg width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M896 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-384q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-1152q208 0 385 34.5t280 93.5 103 128v128q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-128q0-69 103-128t280-93.5 385-34.5z"/></svg>');
   }
 
-  public function add_scripts () {
+  public function add_scripts() {
     wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
     wp_register_script( 'BuildDataTable', plugins_url( '/js/build_data_table.js', __FILE__ ) );
     wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
@@ -42,11 +42,11 @@ class Table_View {
     wp_localize_script( 'BuildDataTable', 'languageFile', $language_file );
   }
 
-  public function add_admin_page () {
+  public function add_admin_page() {
     add_menu_page( 'h5pxapikatchu_options', 'H5PxAPIkatchu', 'manage_options', 'h5pxapikatchu_options', array( $this, 'add_plugin_page'), $this->menu_icon );
   }
 
-  public function add_plugin_page () {
+  public function add_plugin_page() {
     if ( !current_user_can( 'manage_options' ) )  {
   		wp_die( __( 'You do not have sufficient permissions to access this page.', 'H5PXAPIKATCHU' ) );
   	}
@@ -98,7 +98,7 @@ class Table_View {
    * @param {string} $file - File to check.
    * @return {boolean} True, if found.
    */
-   function url_exists ( $url ) {
+   function url_exists( $url ) {
     $headers = @get_headers( $url );
     return ( $headers === false || strpos( $headers[0], '404') === false );
   }
