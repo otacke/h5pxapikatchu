@@ -87,7 +87,7 @@ function insert_data() {
  * Load the text domain for internationalization.
  */
 function h5pxapikatchu_load_plugin_textdomain() {
-    load_plugin_textdomain( 'H5PXAPIKATCHU', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'H5PXAPIKATCHU', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 
 // Start setup
