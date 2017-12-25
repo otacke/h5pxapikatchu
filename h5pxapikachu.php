@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/otacke/h5pxapikatchu
  * Text Domain: H5PXAPIKATCHU
  * Domain Path: /languages
- * Description: Catch and store xAPI statements of H5P
+ * Description: Catch and store xAPI statements sent by H5P
  * Version: 0.1
  * Author: Oliver Tacke
  * Author URI: https://www.olivertacke.de
