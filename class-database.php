@@ -186,7 +186,7 @@ class Database {
 		$content_types = $wpdb->get_results(
 			"
 			SELECT
-				CT.id AS ct_id, CT.title AS ct_title, LIB.name AS lib_name
+				CT.id AS ct_id, CT.title AS ct_title, LIB.title AS lib_title
 			FROM
 				" . self::$TABLE_H5P_CONTENT_TYPES . " AS CT,
 				" . self::$TABLE_H5P_LIBRARIES . " AS LIB

@@ -271,7 +271,7 @@ class Options {
 			echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />';
 			echo '</td>';
 			echo '<td>' . $content_type['ct_title'] . '</td>';
-			echo '<td>' . $content_type['lib_name'] . '</td>';
+			echo '<td>' . $content_type['lib_title'] . '</td>';
 			echo '<td>' . $content_type['ct_id'] . '</td>';
 			echo '</tr>';
 		}
