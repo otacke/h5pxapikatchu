@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2017-12-24 02:41+0100\n"
-"PO-Revision-Date: 2017-12-25 16:34+0100\n"
+"POT-Creation-Date: 2017-12-26 11:10+0100\n"
+"PO-Revision-Date: 2017-12-26 11:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -20,99 +20,99 @@ msgstr ""
 "X-Poedit-SearchPath-3: class-table-view.php\n"
 "X-Poedit-SearchPath-4: class-xapidata.php\n"
 
-#: class-database.php:430
+#: class-database.php:499
 msgid "Actor Id"
 msgstr "Akteur ID"
 
-#: class-database.php:431
+#: class-database.php:500
 msgid "Actor Name"
 msgstr "Akteur Name"
 
-#: class-database.php:432
+#: class-database.php:501
 msgid "Actor Group Members"
 msgstr "Akteur Gruppenmitglieder"
 
-#: class-database.php:433
+#: class-database.php:502
 msgid "Verb Id"
 msgstr "Verb ID"
 
-#: class-database.php:434
+#: class-database.php:503
 msgid "Verb Display"
 msgstr "Verb Anzeige"
 
-#: class-database.php:435
+#: class-database.php:504
 msgid "Object Id"
 msgstr "Objekt ID"
 
-#: class-database.php:436
+#: class-database.php:505
 msgid "Object Def. Name"
 msgstr "Objekt Def. Name"
 
-#: class-database.php:437
+#: class-database.php:506
 msgid "Object Def. Description"
 msgstr "Objekt Def. Beschreibung"
 
-#: class-database.php:438
+#: class-database.php:507
 msgid "Object Def. Choices"
 msgstr "Objekt Auswahlmöglichkeiten"
 
-#: class-database.php:439
+#: class-database.php:508
 msgid "Object Def. Correct Responses"
 msgstr "Objekt Def. Richtige Antworten"
 
-#: class-database.php:440
+#: class-database.php:509
 msgid "Result Response"
 msgstr "Ergebnis Antwort"
 
-#: class-database.php:441
+#: class-database.php:510
 msgid "Result Score Raw"
 msgstr "Ergebnis Punkte"
 
-#: class-database.php:442
+#: class-database.php:511
 msgid "Result Score Scaled"
 msgstr "Ergebnis Punkte, skaliert"
 
-#: class-database.php:443
+#: class-database.php:512
 msgid "Result Completion"
 msgstr "Ergebnis Abgeschlossen"
 
-#: class-database.php:444
+#: class-database.php:513
 msgid "Result Success"
 msgstr "Ergebnis Erfolg"
 
-#: class-database.php:445
+#: class-database.php:514
 msgid "Result Duration"
 msgstr "Ergebnis Dauer"
 
-#: class-database.php:446
+#: class-database.php:515
 msgid "Time"
 msgstr "Zeit"
 
-#: class-database.php:447
+#: class-database.php:516
 msgid "xAPI"
 msgstr "xAPI"
 
-#: class-options.php:103
+#: class-options.php:101
 msgid "General"
 msgstr "Allgemein"
 
-#: class-options.php:110
+#: class-options.php:108
 msgid "Store complete statements"
 msgstr "Komplette Statements speichern"
 
-#: class-options.php:118
+#: class-options.php:116
 msgid "Debug"
 msgstr "Debug"
 
-#: class-options.php:126
+#: class-options.php:124
 msgid "Capture everything"
 msgstr "Alles aufzeichnen"
 
-#: class-options.php:134 class-options.php:141
+#: class-options.php:132 class-options.php:139
 msgid "H5P content types"
 msgstr "H5P-Inhaltstypen"
 
-#: class-options.php:190
+#: class-options.php:187
 msgid ""
 "By checking the H5P content types below you can select their xAPI statements "
 "for being captured."
@@ -120,7 +120,7 @@ msgstr ""
 "Durch das Anwählen einzelner H5P-Inhaltstypen kannst du auswählen, für "
 "welche die xAPI-Statements aufgezeichnet werden sollen."
 
-#: class-options.php:207
+#: class-options.php:204
 msgid ""
 "Store the complete xAPI statement as JSON data. Be sure to check your "
 "database storage limit!"
@@ -128,81 +128,93 @@ msgstr ""
 "Speichere die kompletten xAPI-Statements als JSON-Daten. Prüfe vorher den "
 "Speicherplatz deiner Datenbank!"
 
-#: class-options.php:225
+#: class-options.php:222
 msgid "Display xAPI statements in the JavaScript debug console"
 msgstr "Zeige die xAPI-Statements in der JavaScript-Debug-Konsole"
 
-#: class-options.php:243
+#: class-options.php:240
 msgid "Capture the xAPI statements of all H5P content types"
 msgstr "Schneide die xAPI-Statements aller H5P-Inhaltstypen mit"
 
-#: class-options.php:255
+#: class-options.php:252
 msgid "It seems that H5P is not installed on this WordPress system."
 msgstr ""
 "Es scheint, als wäre H5P auf diesem WordPress-System nicht installiert."
 
-#: class-options.php:264
+#: class-options.php:261
 msgid "Title"
 msgstr "Titel"
 
-#: class-options.php:265
+#: class-options.php:262
 msgid "Type"
 msgstr "Typ"
 
-#: class-options.php:266
+#: class-options.php:263
 msgid "Id"
 msgstr "ID"
 
-#: class-table-view.php:36
-msgid "DOWNLOAD"
-msgstr "HERUNTERLADEN"
+#: class-table-view.php:39
+msgid "Download"
+msgstr "Herunterladen"
 
 # This item is for DataTables. It uses _START_ and _END_ and _TOTAL_ als placeholders. Don't translate these.
-#: class-table-view.php:39
+#: class-table-view.php:42
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Zeige _START_ bis _END_ von _TOTAL_ Einträgen"
 
-#: class-table-view.php:40
+#: class-table-view.php:43
 msgid "Loading..."
 msgstr "Wird geladen..."
 
-#: class-table-view.php:41
+#: class-table-view.php:44
 msgid "Processing..."
 msgstr "Bitte warten..."
 
-#: class-table-view.php:42
+#: class-table-view.php:45
 msgid "search"
 msgstr "Suchen"
 
-#: class-table-view.php:43
+#: class-table-view.php:46
 msgid "No matching records found"
 msgstr "Keine Einträge vorhanden."
 
-#: class-table-view.php:45
+#: class-table-view.php:48
 msgid "First"
 msgstr "Erste"
 
-#: class-table-view.php:46
+#: class-table-view.php:49
 msgid "Last"
 msgstr "Letzte"
 
-#: class-table-view.php:47
+#: class-table-view.php:50
 msgid "Next"
 msgstr "Nächste"
 
-#: class-table-view.php:48
+#: class-table-view.php:51
 msgid "Previous"
 msgstr "Zurück"
 
-#: class-table-view.php:60
+#: class-table-view.php:56
+msgid "Delete"
+msgstr "Löschen"
+
+#: class-table-view.php:57
+msgid "Do you really want to delete all the data?"
+msgstr "Willst du wirklich alle Daten löschen?"
+
+#: class-table-view.php:58
+msgid "Sorry, something went wrong with deleting the data."
+msgstr "Entschuldigung. Beim Löschen der Daten ging etwas schief."
+
+#: class-table-view.php:69
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Du hast nicht genügend Rechte, um diese Seite aufzurufen."
 
-#: class-table-view.php:68
+#: class-table-view.php:77
 msgid "H5PxAPIkatchu"
 msgstr "H5PxAPIkatchu"
 
-#: class-table-view.php:70
+#: class-table-view.php:79
 msgid "There is no xAPI information stored."
 msgstr "Es sind keine xAPI-Informationen gespeichert."
 
@@ -226,5 +238,8 @@ msgstr "OpenID"
 msgid "account"
 msgstr "Konto"
 
-msgid "Catch and store xAPI statements sent by H5P"
-msgstr "Schneide xAPI-Statements von H5P mit und speichere sie"
+#~ msgid "DOWNLOAD"
+#~ msgstr "HERUNTERLADEN"
+
+#~ msgid "Catch and store xAPI statements sent by H5P"
+#~ msgstr "Schneide xAPI-Statements von H5P mit und speichere sie"

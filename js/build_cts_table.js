@@ -1,9 +1,9 @@
+/* globals jQuery, classCtsTable */
+// Those globals are passed by PHP
 ( function () {
 	'use strict';
 
-	// jQuery passed by jQuery framework
 	jQuery( document ).ready( function () {
-		// classCtsTable passed by PHP
 		jQuery( '#' + classCtsTable ).DataTable( {
 			"dom": "t",
     	"paging": false,

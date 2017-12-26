@@ -20,6 +20,9 @@ class Table_View {
 		add_action( 'admin_menu', array( $this, 'add_admin_page' ), 999 );
 
 		$this->menu_icon = 'data:image/svg+xml;base64,' . base64_encode('<svg width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M896 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-384q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-1152q208 0 385 34.5t280 93.5 103 128v128q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-128q0-69 103-128t280-93.5 385-34.5z"/></svg>');
+
+		add_action( 'wp_ajax_nopriv_delete_data', 'H5PXAPIKATCHU\delete_data' );
+		add_action( 'wp_ajax_delete_data', 'H5PXAPIKATCHU\delete_data' );
 	}
 
 	public function add_scripts() {
@@ -33,7 +36,7 @@ class Table_View {
 
 		// pass variables to JavaScript
 		wp_localize_script( 'BuildDataTable', 'classDataTable', $this->CLASS_DATATABLE );
-		wp_localize_script( 'BuildDataTable', 'buttonLabel', __( 'DOWNLOAD', 'H5PXAPIKATCHU' ) );
+		wp_localize_script( 'BuildDataTable', 'buttonLabelDownload', __( 'Download', 'H5PXAPIKATCHU' ) );
 		// Used to allow translations for Datatables from within WordPress translations
 		$language_datatables = array(
 			'info' => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
@@ -49,6 +52,11 @@ class Table_View {
 			)
 		);
 		wp_localize_script( 'BuildDataTable', 'languageData', $language_datatables );
+		wp_localize_script( 'BuildDataTable', 'buttonLabelDelete', __( 'Delete', 'H5PXAPIKATCHU' ) );
+		wp_localize_script( 'BuildDataTable', 'dialogTextDelete', __( 'Do you really want to delete all the data?', 'H5PXAPIKATCHU' ) );
+		wp_localize_script( 'BuildDataTable', 'errorMessage', __( 'Sorry, something went wrong with deleting the data.', 'H5PXAPIKATCHU' ) );
+		wp_localize_script( 'BuildDataTable', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
+
 	}
 
 	public function add_admin_page() {

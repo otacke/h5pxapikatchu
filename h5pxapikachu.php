@@ -31,7 +31,7 @@ function setup() {
 
 	// Pass variables to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
-	wp_localize_script( 'H5PxAPIkatchu', 'debug_enabled', OPTIONS::is_debug_enabled() ? '1' : '0' );
+	wp_localize_script( 'H5PxAPIkatchu', 'debugEnabled', OPTIONS::is_debug_enabled() ? '1' : '0' );
 	wp_localize_script( 'H5PxAPIkatchu', 'captureAllH5pContentTypes', OPTIONS::capture_all_h5p_content_types() ? '1' : '0' );
 	wp_localize_script( 'H5PxAPIkatchu', 'h5pContentTypes', OPTIONS::get_h5p_content_types() );
 }
@@ -84,6 +84,15 @@ function insert_data() {
 }
 
 /**
+ * Delete all data.
+ */
+function delete_data() {
+	$response = Database::delete_data();
+	exit( json_encode( $response ) );
+	wp_die();
+}
+
+/**
  * Load the text domain for internationalization.
  */
 function h5pxapikatchu_load_plugin_textdomain() {
@@ -99,7 +108,6 @@ add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
 add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\h5pxapikatchu_load_plugin_textdomain' );
-
 
 // Include options
 $h5pxapikatchu_options = new Options;

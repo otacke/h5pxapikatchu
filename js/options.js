@@ -6,28 +6,6 @@
 	const CLASS_CHECKBOX_SELECT_CONTENT_TYPE_HIDDEN = 'h5pxapikatchu-content-type-selector-hidden';
 
 	/**
-	 * Toggle the content type selector checkboxes between enabled/disabled
-	 */
-	const toggleCTS = function () {
-		const contentTypeSelectors = document.getElementsByClassName( CLASS_CHECKBOX_SELECT_CONTENT_TYPE );
-
-		if ( contentTypeSelectors.length > 0 ) {
-			for ( let i = 0; i < contentTypeSelectors.length; i++ ) {
-				contentTypeSelectors[i].disabled = !contentTypeSelectors[i].disabled;
-				/*
-				 * HTML forms do not contain values of checkbox fields that are disabled,
-				 * even if they are checked. Readonly doesn't work. Circumvent this here.
-				 */
-				if ( contentTypeSelectors[i].disabled === true && contentTypeSelectors[i].checked === true ) {
-					addHiddenCTS( contentTypeSelectors[i] );
-				} else {
-					removeHiddenCTS( contentTypeSelectors[i] );
-				}
-			}
-		}
-	}
-
-	/**
 	 * Add a hidden dummy element to pass form content of disabled fields
 	 * @param {object} cts - Content Type Selector field to add hidden field to.
 	 */
@@ -49,6 +27,28 @@
 		const hiddenCts = cts.nextSibling;
 		if ( hiddenCts !== null ) {
 			hiddenCts.parentNode.removeChild( hiddenCts );
+		}
+	}
+
+	/**
+	 * Toggle the content type selector checkboxes between enabled/disabled
+	 */
+	const toggleCTS = function () {
+		const contentTypeSelectors = document.getElementsByClassName( CLASS_CHECKBOX_SELECT_CONTENT_TYPE );
+
+		if ( contentTypeSelectors.length > 0 ) {
+			for ( let i = 0; i < contentTypeSelectors.length; i++ ) {
+				contentTypeSelectors[i].disabled = !contentTypeSelectors[i].disabled;
+				/*
+				 * HTML forms do not contain values of checkbox fields that are disabled,
+				 * even if they are checked. Readonly doesn't work. Circumvent this here.
+				 */
+				if ( contentTypeSelectors[i].disabled === true && contentTypeSelectors[i].checked === true ) {
+					addHiddenCTS( contentTypeSelectors[i] );
+				} else {
+					removeHiddenCTS( contentTypeSelectors[i] );
+				}
+			}
 		}
 	}
 

@@ -111,6 +111,65 @@ class Database {
 	}
 
 	/**
+	 * Delete all irrelevant data, but leave the tables.
+	 */
+	public static function delete_data() {
+		global $wpdb;
+
+		$error_count = 0;
+		$ok = $wpdb->query( "START TRANSACTION" );
+
+		$ok = $wpdb->query( "TRUNCATE TABLE " . self::$TABLE_ACTOR );
+		if ( false === $ok ) {
+			$error_count++;
+		}
+
+		$ok = $wpdb->query( "TRUNCATE TABLE " . self::$TABLE_VERB );
+		if ( false === $ok ) {
+			$error_count++;
+		}
+
+		$ok = $wpdb->query( "TRUNCATE TABLE " . self::$TABLE_OBJECT );
+		if ( false === $ok ) {
+			$error_count++;
+		}
+
+		$ok = $wpdb->query( "TRUNCATE TABLE " . self::$TABLE_RESULT );
+		if ( false === $ok ) {
+			$error_count++;
+		}
+
+		$ok = $wpdb->insert(
+			self::$TABLE_RESULT,
+			array(
+				'id' => 1,
+				'result_response' => NULL,
+				'result_score_raw' => NULL,
+				'result_score_scaled' => NULL,
+				'result_completion' => false,
+				'result_success' => false,
+				'result_duration' => NULL
+			)
+		);
+		if ( false === $ok ) {
+			$error_count++;
+		}
+
+		$ok = $wpdb->query( "TRUNCATE TABLE " . self::$TABLE_MAIN );
+		if ( false === $ok ) {
+			$error_count++;
+		}
+
+		if ( 0 !== $error_count ) {
+			$ok = $wpdb->query( "ROLLBACK" );
+			return 'error';
+		}
+
+		$ok = $wpdb->query( "COMMIT" );
+		return 'done';
+	}
+
+	/**
 	 * Get column titles of all tables + additional columns.
 	 * This function seems weird, but we possibly want to make the data
 	 * structure and the retrieval process more flexible in the future.

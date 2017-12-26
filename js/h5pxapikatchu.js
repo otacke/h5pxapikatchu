@@ -1,4 +1,5 @@
-// Global variable of H5P framework
+/* globals jQuery, debugEnabled, captureAllH5pContentTypes, wpAJAXurl, h5pContentTypes */
+// Those globals are passed by PHP, H5P is from H5P framework
 var H5P = H5P || {};
 
 ( function () {
@@ -16,8 +17,7 @@ var H5P = H5P || {};
 			data: {
 				action: 'insert_data',
 				xapi: JSON.stringify( xapi )
-			},
-			success: function ( response ) {}
+			}
 		});
 	};
 
@@ -25,17 +25,16 @@ var H5P = H5P || {};
 		// Add xAPI EventListener if H5P content is present
 		if ( document.readyState === 'complete' && H5P && H5P.externalDispatcher ) {
 			H5P.externalDispatcher.on( 'xAPI', function ( event ) {
-				// debug_enabled passed by PHP
-				if ( debug_enabled === '1' ) {
+				if ( debugEnabled === '1' ) {
 					console.log( event.data.statement );
 				}
 				// Retrieve id number from object URL
 				const regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
 				const id = regex.exec( event.data.statement.object.id )[2];
 
-				// captureAllH5pContentTypes and h5pContentTypes passed by PHP
+				console.log( captureAllH5pContentTypes, '/', h5pContentTypes, '/', id  );
+
 				if ( captureAllH5pContentTypes === '1' || h5pContentTypes.includes( id ) ) {
-					// wpAJAXurl passed by PHP
 					sendAJAX( wpAJAXurl, event.data.statement );
 				}
 			} );
