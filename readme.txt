@@ -1,4 +1,5 @@
 === H5PxAPIkatchu ===
+Contributors: otacke
 Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
