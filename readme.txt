@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 0.1
+Stable tag: 0.1.1
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -35,10 +35,16 @@ None yet.
 
 == Changelog ==
 
+= 0.1.1 =
+- Removed unnecessary debug output.
+
 = 0.1 =
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.1.1 =
+Update if you use the debug output feature.
 
 = 0.1 =
 Initial release.

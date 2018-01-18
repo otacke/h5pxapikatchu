@@ -32,8 +32,6 @@ var H5P = H5P || {};
 				const regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
 				const id = regex.exec( event.data.statement.object.id )[2];
 
-				console.log( captureAllH5pContentTypes, '/', h5pContentTypes, '/', id  );
-
 				if ( captureAllH5pContentTypes === '1' || h5pContentTypes.includes( id ) ) {
 					sendAJAX( wpAJAXurl, event.data.statement );
 				}
