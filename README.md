@@ -3,7 +3,8 @@
 # H5PxAPIkatchu
 This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements
 that have been sent by [H5P](https://h5p.org) content types. Users should be able
-to store and view/export the xAPI statements.
+to store and view/export the xAPI statements (
+https://youtu.be/DAcJtKS0NiA).
 
 This plugin is NOT intended to provide functionality for analysis, etc. There is
 no point in recreating what is already available in Learning Record Stores or
