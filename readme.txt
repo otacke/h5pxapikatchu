@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 4.9
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -35,6 +35,9 @@ None yet.
 
 == Changelog ==
 
+= 0.1.2 =
+- Added support for locally embedded iframes for those who don't like short codes.
+
 = 0.1.1 =
 - Removed unnecessary debug output.
 
@@ -42,6 +45,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.1.2 =
+Update if you want to embed local content using iframe code instead of a short code.
 
 = 0.1.1 =
 Update if you use the debug output feature.
