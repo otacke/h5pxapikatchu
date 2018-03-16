@@ -22,7 +22,7 @@ If you need more, you should give Learning Locker (https://learninglocker.net/) 
 
 Install H5PxAPIkatchu from the Wordpress Plugin directory or via your Wordpress instance and activate it. Done.
 
-The most important parts  of the xAPI statements that are emitted by H5P content types on your system should now be stored in your database. You can view and download them via the new WordPress menu item.
+The most important parts of the xAPI statements that are emitted by H5P content types on your system should now be stored in your database. You can view and download them via the new WordPress menu item.
 
 == Frequently Asked Questions ==
 
