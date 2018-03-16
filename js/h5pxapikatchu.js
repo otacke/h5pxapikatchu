@@ -47,8 +47,13 @@ var H5P = H5P || {};
 			const iframes = document.getElementsByTagName( 'iframe' );
 			for ( var i = 0; i < iframes.length; i++ ) {
 				var contentWindow = iframes[i].contentWindow;
-				if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
-					contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI.bind( event ));
+				try {
+					if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
+						contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI.bind( event ));
+					}
+				}
+				catch ( error ) {
+					console.log(error);
 				}
 			}
 		}
