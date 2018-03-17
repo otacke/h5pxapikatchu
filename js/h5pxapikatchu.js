@@ -21,21 +21,41 @@ var H5P = H5P || {};
 		});
 	};
 
+	/**
+	 * Handle storing of xAPI statements.
+	 * @param {Object} event - Event.
+	 */
+	const handleXAPI = function( event ) {
+		if ( debugEnabled === '1' ) {
+			console.log( event.data.statement );
+		}
+		// Retrieve id number from object URL
+		const regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
+		const id = regex.exec( event.data.statement.object.id )[2];
+
+		if ( captureAllH5pContentTypes === '1' || h5pContentTypes.includes( id ) ) {
+			sendAJAX( wpAJAXurl, event.data.statement );
+		}
+	};
+
+	/**
+	 * Add xAPI listeners to all H5P instances that can trigger xAPI.
+	 */
 	document.onreadystatechange = function () {
 		// Add xAPI EventListener if H5P content is present
-		if ( document.readyState === 'complete' && H5P && H5P.externalDispatcher ) {
-			H5P.externalDispatcher.on( 'xAPI', function ( event ) {
-				if ( debugEnabled === '1' ) {
-					console.log( event.data.statement );
+		if ( document.readyState === 'complete' ) {
+			const iframes = document.getElementsByTagName( 'iframe' );
+			for ( var i = 0; i < iframes.length; i++ ) {
+				var contentWindow = iframes[i].contentWindow;
+				try {
+					if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
+						contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI.bind( event ));
+					}
 				}
-				// Retrieve id number from object URL
-				const regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
-				const id = regex.exec( event.data.statement.object.id )[2];
-
-				if ( captureAllH5pContentTypes === '1' || h5pContentTypes.includes( id ) ) {
-					sendAJAX( wpAJAXurl, event.data.statement );
+				catch ( error ) {
+					console.log(error);
 				}
-			} );
+			}
 		}
 	};
 } ) ();

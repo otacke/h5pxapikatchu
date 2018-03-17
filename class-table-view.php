@@ -73,6 +73,7 @@ class Table_View {
 		$complete_table = Database::get_complete_table();
 		$column_titles = Database::get_column_titles();
 
+		echo '<div class="wrap">';
 		echo '<h2>' . __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h2>';
 		if ( ! $complete_table ) {
 			echo __( 'There is no xAPI information stored.', 'H5PXAPIKATCHU' );
@@ -108,5 +109,6 @@ class Table_View {
 		echo '</tbody>';
 
 		echo '</table></div>';
+		echo '</div>';
 	}
 }

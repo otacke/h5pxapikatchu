@@ -3,8 +3,8 @@ Contributors: otacke
 Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
-Tested up to: 4.9
-Stable tag: 0.1.1
+Tested up to: 4.9.4
+Stable tag: 0.1.3
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -35,6 +35,15 @@ None yet.
 
 == Changelog ==
 
+= 0.1.3 =
+- Added support for locally embedded iframes for those who don't like short codes.
+
+= 0.1.2 =
+- Updated Datatables/Bootstrap from 3.3.7 to 4.0.0
+- Updated Datatables/Buttons from 1.4.2 to 1.5.1
+- Modified Bootstrap Stylesheet
+- Changed visual appearance slightly
+
 = 0.1.1 =
 - Removed unnecessary debug output.
 
@@ -42,6 +51,12 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.1.3 =
+Update if you want to embed local content using iframe code instead of a short code.
+
+= 0.1.2 =
+Update if you experience weird visual glitches with WordPress after activating the plugin.
 
 = 0.1.1 =
 Update if you use the debug output feature.
