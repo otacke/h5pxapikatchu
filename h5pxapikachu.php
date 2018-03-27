@@ -6,7 +6,7 @@
  * Text Domain: H5PXAPIKATCHU
  * Domain Path: /languages
  * Description: Catch and store xAPI statements sent by H5P
- * Version: 0.1
+ * Version: 0.2
  * Author: Oliver Tacke
  * Author URI: https://www.olivertacke.de
  * License: MIT
@@ -16,6 +16,10 @@ namespace H5PXAPIKATCHU;
 
 // as suggested by the Wordpress community
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+
+if ( !defined( 'H5PXAPIKATCHU_VERSION' ) ) {
+  define( 'H5PXAPIKATCHU_VERSION', '0.2.0' );
+}
 
 // settings.php contains all functions for the settings
 require_once( __DIR__ . '/class-database.php' );
@@ -59,6 +63,29 @@ function on_uninstall() {
 }
 
 /**
+ * Update the plugin.
+ */
+function update() {
+	if ( H5PXAPIKATCHU_VERSION === get_option( 'h5pxapikatchu_version' ) ) {
+		return;
+	}
+
+	// Update database
+	DATABASE::build_tables();
+
+	// Update from 0.1.3 to 0.2.0
+	if ( false === get_option('h5pxapikatchu_version') || '0.1.3' === get_option('h5pxapikatchu_version') ) {
+
+		// TODO: Update old table: WP UserId
+		// TODO: Update old table: H5P ContentId
+		// TODO: Update old table: WP SubContentId
+		update_option( 'h5pxapikatchu_version', '0.2.0' );
+	}
+
+	update_option( 'h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
+}
+
+/**
  * Insert an entry into the database.
  *
  * @param string text Text to be added.
@@ -70,8 +97,17 @@ function insert_data() {
 	$xapidata = new XAPIDATA( $xapi );
 
 	$actor = $xapidata->get_actor();
+	$actor['wpUserId'] = get_current_user_id();
+	$actor['wpUserId'] = ( $actor['wpUserId'] === 0 ) ? null : $actor['wpUserId'];
+
 	$verb = $xapidata->get_verb();
+
 	$object = $xapidata->get_object();
+	preg_match( "/[&|?]id=([0-9]+)/", $object['id'], $matches );
+	$object['h5pContentId'] = ( sizeof( $matches ) > 0 ) ? $matches[1] : null;
+	preg_match( "/[&|?]subContentId=([0-9a-f-]{36})/", $object['id'], $matches );
+	$object['h5pSubContentId'] = ( sizeof( $matches ) > 0 ) ? $matches[1] : null;
+
 	$result = $xapidata->get_result();
 
 	$xapi = ( Options::store_complete_xapi() ) ? str_replace('\"', '"', $xapi) : null;
@@ -108,6 +144,7 @@ add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
 add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\h5pxapikatchu_load_plugin_textdomain' );
+add_action( 'plugins_loaded', 'H5PXAPIKATCHU\update' );
 
 // Include options
 $h5pxapikatchu_options = new Options;

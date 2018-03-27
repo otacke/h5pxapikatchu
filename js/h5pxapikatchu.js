@@ -53,7 +53,7 @@ var H5P = H5P || {};
 					}
 				}
 				catch ( error ) {
-					console.log(error);
+					console.log( error );
 				}
 			}
 		}

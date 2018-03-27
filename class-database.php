@@ -32,13 +32,13 @@ class Database {
 
 		// naming a row object_id will cause trouble!
 		$sql = "CREATE TABLE " . self::$TABLE_MAIN  ." (
-			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			id_actor mediumint(9),
-			id_verb mediumint(9),
-			id_object mediumint(9),
-			id_result mediumint(9),
+			id MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
+			id_actor MEDIUMINT(9),
+			id_verb MEDIUMINT(9),
+			id_object MEDIUMINT(9),
+			id_result MEDIUMINT(9),
 			time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-			xapi text,
+			xapi TEXT,
 			PRIMARY KEY (id)
 		) $charset_collate;";
 		$ok = dbDelta( $sql );
@@ -48,6 +48,7 @@ class Database {
 			actor_id TEXT,
 			actor_name TEXT,
 			actor_members TEXT,
+			wp_user_id BIGINT(20),
 			PRIMARY KEY (id)
 		) $charset_collate;";
 		$ok = dbDelta( $sql );
@@ -67,6 +68,8 @@ class Database {
 			object_description TEXT,
 			object_choices TEXT,
 			object_correct_responses_pattern TEXT,
+			h5p_content_id INT(10),
+			h5p_subcontent_id VARCHAR(36)
 			PRIMARY KEY (id)
 		) $charset_collate;";
 		$ok = dbDelta( $sql );
@@ -83,18 +86,24 @@ class Database {
 		) $charset_collate;";
 		$ok = dbDelta( $sql );
 
-		$ok = $wpdb->insert(
-			self::$TABLE_RESULT,
-			array(
-				'id' => 1,
-				'result_response' => NULL,
-				'result_score_raw' => NULL,
-				'result_score_scaled' => NULL,
-				'result_completion' => false,
-				'result_success' => false,
-				'result_duration' => NULL
-			)
-		);
+		$filled = $wpdb->get_var( $wpdb->prepare(
+			"SELECT id FROM " . self::$TABLE_ACTOR . " WHERE id = 1", null
+		) );
+
+		if ( !isset( $filled ) ) {
+			$ok = $wpdb->insert(
+				self::$TABLE_RESULT,
+				array(
+					'id' => 1,
+					'result_response' => NULL,
+					'result_score_raw' => NULL,
+					'result_score_scaled' => NULL,
+					'result_completion' => false,
+					'result_success' => false,
+					'result_duration' => NULL
+				)
+			);
+		}
 	}
 
 	/**
@@ -178,13 +187,12 @@ class Database {
 	public static function get_column_titles() {
 		global $wpdb;
 
-		return array_merge(
-			array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_ACTOR, 0 ), 1 ),
-			array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_VERB, 0 ), 1 ),
-			array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_OBJECT, 0 ), 1 ),
-			array_slice( $wpdb->get_col( "DESCRIBE " . self::$TABLE_RESULT, 0 ), 1 ),
-			array( 'time' ),
-			array( 'xapi' )
+		return array(
+			'actor_id', 'actor_name', 'actor_members',
+			'verb_id', 'verb_display',
+			'xobject_id', 'object_name', 'object_description', 'object_choices', 'object_correct_responses_pattern',
+			'result_response', 'result_score_raw', 'result_score_scaled', 'result_completion', 'result_success', 'result_duration',
+			'time', 'xapi', 'wp_user_id', 'h5p_content_id', 'h5p_subcontent_id'
 		);
 	}
 
@@ -202,7 +210,8 @@ class Database {
 				ver.verb_id, ver.verb_display,
 				obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
 				res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
-				mst.time, mst.xapi
+				mst.time, mst.xapi,
+				act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
 			FROM
 				" . self::$TABLE_MAIN . " as mst,
 				" . self::$TABLE_ACTOR . " as act,
@@ -357,7 +366,8 @@ class Database {
 				array(
 					'actor_id' => $actor['inverseFunctionalIdentifier'],
 					'actor_name' => $actor['name'],
-					'actor_members' => $actor['members']
+					'actor_members' => $actor['members'],
+					'wp_user_id' => $actor['wpUserId']
 				)
 			);
 			$actor_id = ( 1 === $ok ) ? $wpdb->insert_id : false;
@@ -428,7 +438,9 @@ class Database {
 					'object_name' => $object['name'],
 					'object_description' => $object['description'],
 					'object_choices' => $object['choices'],
-					'object_correct_responses_pattern' => $object['correctResponsesPattern']
+					'object_correct_responses_pattern' => $object['correctResponsesPattern'],
+					'h5p_content_id' => $object['h5pContentId'],
+					'h5p_subcontent_id' => $object['h5pSubContentId']
 				)
 			);
 			$object_id = ( 1 === $ok ) ? $wpdb->insert_id : false;
@@ -514,6 +526,9 @@ class Database {
 			'result_duration' => __( 'Result Duration', 'H5PXAPIKATCHU' ),
 			'time' => __( 'Time', 'H5PXAPIKATCHU' ),
 			'xapi' => __( 'xAPI', 'H5PXAPIKATCHU' ),
+			'wp_user_id' => __( 'WP User ID', 'H5PXAPIKATCHU' ),
+			'h5p_content_id' => __( 'H5P Content ID', 'H5PXAPIKATCHU' ),
+			'h5p_subcontent_id' => __( 'H5P Subcontent ID', 'H5PXAPIKATCHU' )
 		);
 	}
 

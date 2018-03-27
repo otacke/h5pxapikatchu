@@ -42,8 +42,9 @@ class Options {
 	}
 
 	public static function setDefaults() {
-		// Store all content types be default
+		// Store all content types by default
 		update_option( self::$OPTION_SLUG, array( 'capture_all_h5p_content_types' => 1 ) );
+		update_option('h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
 	}
 
 	public static function delete_options() {
