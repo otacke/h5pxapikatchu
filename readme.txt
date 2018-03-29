@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 4.9.4
-Stable tag: 0.1.3
+Stable tag: 0.2.0
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -35,6 +35,11 @@ None yet.
 
 == Changelog ==
 
+= 0.2.0 =
+- Added support for tracking the WP User ID
+- Added the H5P content ID and H5P subcontent ID (although redundant to the xAPI object ID)
+- Added update routines for old data to set WP User ID, H5P content ID and H5P subcontent ID
+
 = 0.1.3 =
 - Added support for locally embedded iframes for those who don't like short codes.
 
@@ -51,6 +56,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.2.0 =
+Update if you need the WP User ID to combine data with other sources
 
 = 0.1.3 =
 Update if you want to embed local content using iframe code instead of a short code.
