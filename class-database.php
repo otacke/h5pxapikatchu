@@ -502,6 +502,109 @@ class Database {
 	}
 
 	/**
+	 * Complete missing WordPress User ID for old data.
+	 * Just needed for the update from 0.1.3 to 0.2.0
+	 */
+	public static function complete_wp_user_id() {
+		global $wpdb;
+
+		// Get actor ids that are based on email addresses
+		$actor_ids = $wpdb->get_results(
+			"
+			SELECT
+				actor_id
+			FROM
+				" . self::$TABLE_ACTOR . "
+			WHERE
+				wp_user_id IS NULL
+				AND
+				actor_id LIKE 'email:%'
+			"
+		);
+
+		foreach( $actor_ids as $id ) {
+			// Get email address
+			$email = str_replace( ' ', '', substr( $id->actor_id, 6 ) );
+			if ( substr( $email, 0, 7 ) === 'mailto:' ) {
+				$email = substr( $email, 7 );
+			}
+			// Update fields if user id exists for email address
+			$wp_user_id = get_user_by( 'email', $email );
+			if ( $wp_user_id !== FALSE ) {
+				$wpdb->query( $wpdb->prepare(
+					"
+					UPDATE
+						" . self::$TABLE_ACTOR . "
+					SET
+						wp_user_id = " . $wp_user_id->ID . "
+					WHERE
+						actor_id = %s
+					",
+					$id->actor_id
+				) );
+			}
+		}
+
+		// Fill up with 0
+		$wpdb->query(
+			"
+			UPDATE
+				" . self::$TABLE_ACTOR . "
+			SET
+				wp_user_id = 0
+			WHERE
+				wp_user_id IS NULL
+			"
+		);
+	}
+
+	/**
+	 * Complete missing content ids and subcontent_ids for old data.
+	 * Just needed for the update from 0.1.3 to 0.2.0
+	 */
+	public static function complete_content_id_subcontent_id() {
+		global $wpdb;
+
+		// Get object_ids that have not been updated
+		$object_ids = $wpdb->get_results(
+			"
+			SELECT
+				xobject_id
+			FROM
+				" . self::$TABLE_OBJECT . "
+			WHERE
+				h5p_content_id IS NULL
+			"
+		);
+
+		foreach( $object_ids as $id ) {
+			// Extract Ids
+			preg_match( "/[&|?]id=([0-9]+)/", $id->xobject_id, $matches );
+			$h5p_content_id = ( sizeof( $matches ) > 0 ) ? $matches[1] : null;
+			preg_match( "/[&|?]subContentId=([0-9a-f-]{36})/", $id->xobject_id, $matches );
+			$h5p_subcontent_id = ( sizeof( $matches ) > 0 ) ? $matches[1] : null;
+
+			// Update if something new was found
+			if ( ( ! is_null( $h5p_content_id ) ) || ( ! is_null( $h5p_subcontent_id ) ) ) {
+				$wpdb->query( $wpdb->prepare(
+					"
+					UPDATE
+						" . self::$TABLE_OBJECT . "
+					SET
+						h5p_content_id = %s,
+						h5p_subcontent_id = %s
+					WHERE
+						xobject_id = %s
+					",
+					$h5p_content_id,
+					$h5p_subcontent_id,
+					$id->xobject_id
+				) );
+			}
+		}
+	}
+
+	/**
 	 * Set the names for columns inlcuding translations.
 	 */
 	static function set_column_names() {

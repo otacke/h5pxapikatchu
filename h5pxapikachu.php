@@ -75,10 +75,9 @@ function update() {
 
 	// Update from 0.1.3 to 0.2.0
 	if ( false === get_option('h5pxapikatchu_version') || '0.1.3' === get_option('h5pxapikatchu_version') ) {
+    DATABASE::complete_wp_user_id();
+    DATABASE::complete_content_id_subcontent_id();
 
-		// TODO: Update old table: WP UserId
-		// TODO: Update old table: H5P ContentId
-		// TODO: Update old table: WP SubContentId
 		update_option( 'h5pxapikatchu_version', '0.2.0' );
 	}
 
