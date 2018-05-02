@@ -40,3 +40,13 @@ You cannot only view the stored data, but also download them as an CSV file.
 
 ## License
 H5PxAPIkatchu is is licensed under the [MIT License](https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE).
+
+## GDPR
+Please note that as of May 25, 2018 you may have to comply with the General Data Privacy Regulation ([GDPR](http://gdpr-info.eu/)).
+
+If you're using H5PxAPIkachu, by processing the xAPI statements you're processing at least these personal data items according to art. 4 GDPR:
+
+* Actor/name (Full name of the Agent)
+* Actor/Inverse Functional Identifier (email address, openID or account data within the host system)
+
+Please make sure to account for these items in your GDPR processes and documentation.

@@ -18,6 +18,16 @@ This plugin is NOT intended to provide functionality for analysis, etc. There is
 
 If you need more, you should give Learning Locker (https://learninglocker.net/) a shot. It's open, free and shiny.
 
+== GDPR ==
+Please note that as of May 25, 2018 you may have to comply with the General Data Privacy Regulation (GDPR, http://gdpr-info.eu/).
+
+If you're using H5PxAPIkachu, by processing the xAPI statements you're processing at least these personal data items according to art. 4 GDPR:
+
+- Actor/name (Full name of the Agent)
+- Actor/Inverse Functional Identifier (email address, openID or account data within the host system)
+
+Please make sure to account for these items in your GDPR processes and documentation.
+
 == Installation ==
 
 Install H5PxAPIkatchu from the Wordpress Plugin directory or via your Wordpress instance and activate it. Done.
