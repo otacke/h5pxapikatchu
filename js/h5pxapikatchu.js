@@ -49,7 +49,7 @@ var H5P = H5P || {};
 				var contentWindow = iframes[i].contentWindow;
 				try {
 					if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
-						contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI.bind( event ));
+						contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI );
 					}
 				}
 				catch ( error ) {

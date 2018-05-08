@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 4.9.5
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -46,6 +46,9 @@ None yet.
 
 == Changelog ==
 
+= 0.2.1 =
+- Fix bug that prevented recording of events.
+
 = 0.2.0 =
 - Added support for tracking the WP User ID
 - Added the H5P content ID and H5P subcontent ID (although redundant to the xAPI object ID)
@@ -67,6 +70,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.2.1 =
+Update if you want to record with as many browsers as possible. You should.
 
 = 0.2.0 =
 Update if you need the WP User ID to combine data with other sources
