@@ -26,6 +26,7 @@ require_once( __DIR__ . '/class-database.php' );
 require_once( __DIR__ . '/class-options.php' );
 require_once( __DIR__ . '/class-table-view.php' );
 require_once( __DIR__ . '/class-xapidata.php' );
+require_once( __DIR__ . '/class-privacy-policy.php' );
 
 /**
  * Setup the plugin.
@@ -149,5 +150,6 @@ add_action( 'plugins_loaded', 'H5PXAPIKATCHU\update' );
 $h5pxapikatchu_options = new Options;
 
 if ( is_admin() ) {
+  add_action( 'admin_init', array( 'H5PXAPIKATCHU\PrivacyPolicy', 'add_privacy_policy' ), 20 );
 	$h5pxapikatchu_table_view = new Table_View;
 }
