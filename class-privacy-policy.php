@@ -9,6 +9,7 @@ namespace H5PXAPIKATCHU;
  * @since 0.2.2
  */
 class PrivacyPolicy {
+	private static $PAGE_LENGTH = 25;
 
 	/**
 	 * Start up
@@ -59,7 +60,7 @@ class PrivacyPolicy {
 	 * @return array Export data.
 	 */
 	function h5pxapikatchu_exporter( $email, $page = 1 ) {
-		$number = 25; // Limit of xAPI items to process to avoid timeout
+		$number = self::$PAGE_LENGTH; // Limit of xAPI items to process to avoid timeout
 		$page = (int) $page;
 
 		$export_items = array();

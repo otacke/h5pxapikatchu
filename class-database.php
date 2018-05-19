@@ -205,7 +205,7 @@ class Database {
 		global $wpdb;
 
 		// Make the user look like an anonymous user
-		$uuid = DATABASE::create_uuid();
+		$uuid = self::create_uuid();
 		$path = get_home_url();
 		$id = 'account: ' . $uuid . ' (' . $path . ')';
 
@@ -712,7 +712,7 @@ class Database {
 	 * Create a UUID.
 	 * @return string UUID.
 	 */
-	function create_uuid() {
+	static function create_uuid() {
 		// Initialize mt_rand with seed
 		mt_srand( crc32( serialize( [microtime( true ), 'USER_IP', 'ETC'] ) ) );
 		return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',

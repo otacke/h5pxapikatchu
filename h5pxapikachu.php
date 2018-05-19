@@ -36,9 +36,9 @@ function setup() {
 
 	// Pass variables to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
-	wp_localize_script( 'H5PxAPIkatchu', 'debugEnabled', OPTIONS::is_debug_enabled() ? '1' : '0' );
-	wp_localize_script( 'H5PxAPIkatchu', 'captureAllH5pContentTypes', OPTIONS::capture_all_h5p_content_types() ? '1' : '0' );
-	wp_localize_script( 'H5PxAPIkatchu', 'h5pContentTypes', OPTIONS::get_h5p_content_types() );
+	wp_localize_script( 'H5PxAPIkatchu', 'debugEnabled', Options::is_debug_enabled() ? '1' : '0' );
+	wp_localize_script( 'H5PxAPIkatchu', 'captureAllH5pContentTypes', Options::capture_all_h5p_content_types() ? '1' : '0' );
+	wp_localize_script( 'H5PxAPIkatchu', 'h5pContentTypes', Options::get_h5p_content_types() );
 }
 
 /**
@@ -72,12 +72,12 @@ function update() {
 	}
 
 	// Update database
-	DATABASE::build_tables();
+	Database::build_tables();
 
 	// Update from 0.1.3 to 0.2.0
 	if ( false === get_option('h5pxapikatchu_version') || '0.1.3' === get_option('h5pxapikatchu_version') ) {
-    DATABASE::complete_wp_user_id();
-    DATABASE::complete_content_id_subcontent_id();
+    Database::complete_wp_user_id();
+    Database::complete_content_id_subcontent_id();
 
 		update_option( 'h5pxapikatchu_version', '0.2.0' );
 	}
@@ -112,7 +112,7 @@ function insert_data() {
 
 	$xapi = ( Options::store_complete_xapi() ) ? str_replace('\"', '"', $xapi) : null;
 
-	$ok = DATABASE::insert_data( $actor, $verb, $object, $result, $xapi );
+	$ok = Database::insert_data( $actor, $verb, $object, $result, $xapi );
 
 	// We could handle database errors here using $ok.
 
