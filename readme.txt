@@ -22,6 +22,7 @@ If you need more, you should give Learning Locker (https://learninglocker.net/) 
 Please note that as of May 25, 2018 you may have to comply with the General Data Privacy Regulation (GDPR, http://gdpr-info.eu/).
 
 H5PxAPIkatchu supports the functions that WordPress offers to
+
 - use suggestion for your privacy statement text,
 - export personal data of a user, and
 - delete personal data of a user.
