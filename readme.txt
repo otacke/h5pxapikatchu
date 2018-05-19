@@ -3,8 +3,8 @@ Contributors: otacke
 Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
-Tested up to: 4.9.5
-Stable tag: 0.2.1
+Tested up to: 4.9.6
+Stable tag: 0.2.2
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -21,7 +21,12 @@ If you need more, you should give Learning Locker (https://learninglocker.net/) 
 == GDPR ==
 Please note that as of May 25, 2018 you may have to comply with the General Data Privacy Regulation (GDPR, http://gdpr-info.eu/).
 
-If you're using H5PxAPIkachu, by processing the xAPI statements you're processing at least these personal data items according to art. 4 GDPR:
+H5PxAPIkatchu supports the functions that WordPress offers to
+- use suggestion for your privacy statement text,
+- export personal data of a user, and
+- delete personal data of a user.
+
+Background: If you're using H5PxAPIkachu, by processing the xAPI statements you're processing at least these personal data items according to art. 4 GDPR:
 
 - xAPI statement: Actor/name (Full name of the Agent)
 - xAPI statement:Actor/Inverse Functional Identifier (email address, openID or account data within the host system)
@@ -45,6 +50,9 @@ None yet.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.2.2 =
+- Add support for privacy support functions of WordPress.
 
 = 0.2.1 =
 - Fix bug that prevented recording of events.
@@ -70,6 +78,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.2.2 =
+Update if you need support for the privacy (GDPR) support functions of WordPress.
 
 = 0.2.1 =
 Update if you want to record with as many browsers as possible. You should.
