@@ -197,10 +197,49 @@ class Database {
 	}
 
 	/**
-	 * Get all data for one user.
+	 * Anonymize all data for a user.
+	 * @param int $wpid WordPress user id.
+	 * @return (int|false) Number of rows affected/selected or false on error
+	 */
+	public static function anonymize( $wpid ) {
+		global $wpdb;
+
+		// Make the user look like an anonymous user
+		$uuid = DATABASE::create_uuid();
+		$path = get_home_url();
+		$id = 'account: ' . $uuid . ' (' . $path . ')';
+
+		$ok = $wpdb->query( $wpdb->prepare(
+			"
+			UPDATE
+				" . self::$TABLE_ACTOR . " as act
+			SET
+				act.actor_id = %s,
+				act.actor_name = '',
+				act.wp_user_id = NULL
+			WHERE
+				act.wp_user_id = %d
+			",
+			$id,
+			$wpid
+		) );
+
+		/*
+		 * On paper, we'd also have to strip any occurence of the actor_id from
+		 * any actor_members_field in the complete table, because the user might
+		 * have been a member of a group -> luckily, WordPress doesn't support
+		 * group accounts. But just in case you're porting this ...
+		 */
+
+		return $ok;
+	}
+
+	/**
+	 * Get all data for a user.
+	 * @param int $wpid WordPress user id.
 	 * @return object Database results.
 	 */
- public static function get_user_table( $wpid ) {
+	public static function get_user_table( $wpid ) {
 	 global $wpdb;
 
 	 return $wpdb->get_results( $wpdb->prepare(
@@ -227,7 +266,7 @@ class Database {
 			 act.wp_user_id = %d
 		 ",
 		 $wpid
-	 ));
+	 ) );
  }
 
 	/**
@@ -666,6 +705,22 @@ class Database {
 			'wp_user_id' => __( 'WP User ID', 'H5PXAPIKATCHU' ),
 			'h5p_content_id' => __( 'H5P Content ID', 'H5PXAPIKATCHU' ),
 			'h5p_subcontent_id' => __( 'H5P Subcontent ID', 'H5PXAPIKATCHU' )
+		);
+	}
+
+	/**
+	 * Create a UUID.
+	 * @return string UUID.
+	 */
+	function create_uuid() {
+		// Initialize mt_rand with seed
+		mt_srand( crc32( serialize( [microtime( true ), 'USER_IP', 'ETC'] ) ) );
+		return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0x0fff ) | 0x4000,
+			mt_rand( 0, 0x3fff ) | 0x8000,
+			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
 		);
 	}
 

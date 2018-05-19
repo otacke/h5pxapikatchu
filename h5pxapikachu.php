@@ -153,6 +153,7 @@ if ( is_admin() ) {
   // Data privacy hooks
   add_action( 'admin_init', 'H5PXAPIKATCHU\PrivacyPolicy::add_privacy_policy', 20 );
 	add_filter( 'wp_privacy_personal_data_exporters', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_exporter', 10 );
+  add_filter( 'wp_privacy_personal_data_erasers', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_eraser', 10 );
 
 	$h5pxapikatchu_table_view = new Table_View;
 }

@@ -100,13 +100,45 @@ class PrivacyPolicy {
 	/**
 	 * Register the exporter.
 	 * @param array $exporters Previous exporters.
-	 * @return array H5PxAPIkatchu exporter.
+	 * @return array H5PxAPIkatchu exporters.
 	 */
 	function register_h5pxapikatchu_exporter( $exporters ) {
 	  $exporters['h5pxapikatchu'] = array(
 	    'exporter_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
-	    'callback' => array ( 'H5PXAPIKATCHU\PrivacyPolicy', 'h5pxapikatchu_exporter' ),
+	    'callback' => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_exporter'
 	  );
 	  return $exporters;
+	}
+
+	/**
+	 * Anonymize/erase user data
+	 */
+	function h5pxapikatchu_eraser( $email, $page = 1 ) {
+		$wp_user = get_user_by( 'email', $email );
+		$error = false;
+
+		if ($wp_user) {
+			$ok = Database::anonymize( $wp_user->ID );
+		}
+
+		return array(
+			'items_removed' => $ok,
+			'items_retained' => false,
+			'messages' => array(),
+			'done' => true
+		);
+	}
+
+	/**
+	 * Register the eraser.
+	 * @param array $erasers Previous erasers.
+	 * @return array H5PxAPIkatchu erasers.
+	 */
+	function register_h5pxapikatchu_eraser( $erasers ) {
+	  $erasers['h5pxapikatchu'] = array(
+	    'eraser_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+	    'callback' => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_eraser'
+	  );
+	  return $erasers;
 	}
 }
