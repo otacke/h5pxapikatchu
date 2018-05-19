@@ -33,15 +33,17 @@ class PrivacyPolicy {
 				your interaction using <a href="%s" target="_blank">the xAPI standard</a>,
 				e.g. what answer was given, how long did it take to answer,
 				what score was achieved, etc. We use it to learn about how
-				well the interaction is designed and how it could be improved
-				to improve the general experience and learning outcomes in general.</p>
+				well the interaction is designed and how it could be adapted
+				to improve the experience and learning outcomes in general.</p>
 				<p>However, if and only if you are logged in, this data will be tied to
 				<ul>
-				  <li>your full name (as entered in your profile),</li>
-					<li>your email address or openID (whatever you use),</li>
+				  <li>your full name,</li>
+					<li>your email address,</li>
 					<li>and your WordPress user id.</li>
 				</ul>
-				In consequence, your interactions could be linked to you.</p>
+				In consequence, your interactions could be linked to you.
+				Therefore, all personal data can be stripped to anonymize the data.
+				</p>
 			',
 			'H5PXAPIKATCHU' ),
 			'https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md'
