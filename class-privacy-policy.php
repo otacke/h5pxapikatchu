@@ -19,7 +19,7 @@ class PrivacyPolicy {
   /**
    * Add privacy policy text to WP.
    */
-  public function add_privacy_policy() {
+  function add_privacy_policy() {
 		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
       return;
     }
@@ -51,4 +51,62 @@ class PrivacyPolicy {
       wp_kses_post( wpautop( $content, false ) )
     );
   }
+
+	/**
+	 * Export user data.
+	 * @param string $email Email address.
+	 * @param int $page Page.
+	 * @return array Export data.
+	 */
+	function h5pxapikatchu_exporter( $email, $page = 1 ) {
+		$number = 25; // Limit of xAPI items to process to avoid timeout
+		$page = (int) $page;
+
+		$export_items = array();
+		$results = array();
+
+		$wp_user = get_user_by( 'email', $email );
+		if ($wp_user) {
+			// Retrieve xAPI data for user
+			$results = Database::get_user_table( $wp_user->ID );
+			$column_titles = Database::get_column_titles();
+
+			// Build items for exporter
+			foreach ( $results as $result ) {
+				$data = array();
+
+				foreach ( $result as $label => $value ) {
+					$name = isset( Database::$COLUMN_TITLE_NAMES[$label]) ?
+						Database::$COLUMN_TITLE_NAMES[ $label ] :
+						$label;
+					$data[] = array( 'name' => $name, 'value' => $value );
+				}
+
+				$export_items[] = array(
+					'group_id' => 'h5pxapikatchu',
+					'group_label' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+					'item_id' => "h5pxapikatchu-{$result->id}",
+					'data' => $data
+				);
+			}
+		}
+
+		return array(
+			'data' => $export_items,
+			'done' => count ( $results ) < $number,
+		);
+	}
+
+	/**
+	 * Register the exporter.
+	 * @param array $exporters Previous exporters.
+	 * @return array H5PxAPIkatchu exporter.
+	 */
+	function register_h5pxapikatchu_exporter( $exporters ) {
+	  $exporters['h5pxapikatchu'] = array(
+	    'exporter_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+	    'callback' => array ( 'H5PXAPIKATCHU\PrivacyPolicy', 'h5pxapikatchu_exporter' ),
+	  );
+	  return $exporters;
+	}
 }
