@@ -25,29 +25,31 @@ class PrivacyPolicy {
       return;
     }
 
-		$content = sprintf(
-			__( '
-				<h2>What personal data we collect and why we collect it</h2>
-				<h3>H5PxAPIkatchu</h3>
-				<p>When you use interactive content, we may collect data about
-				your interaction using <a href="%s" target="_blank">the xAPI standard</a>,
-				e.g. what answer was given, how long did it take to answer,
-				what score was achieved, etc. We use it to learn about how
-				well the interaction is designed and how it could be adapted
-				to improve the experience and learning outcomes in general.</p>
-				<p>However, if and only if you are logged in, this data will be tied to
-				<ul>
-				  <li>your full name,</li>
-					<li>your email address,</li>
-					<li>and your WordPress user id.</li>
-				</ul>
-				In consequence, your interactions could be linked to you.
-				Therefore, all personal data can be stripped to anonymize the data.
-				</p>
-			',
-			'H5PXAPIKATCHU' ),
-			'https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md'
+		$link_xapi = sprintf(
+			'<a href="https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md" target="_blank">%s</a>',
+			__( 'xAPI', 'H5PXAPIKATCHU')
 		);
+
+		// Intentionally using the WordPress translation here.
+		$content  = '<h2>' . __( 'What personal data we collect and why we collect it' ) . '</h2>';
+
+		$content .= '<h3>' . __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h3>';
+		$content .= '<p>';
+		$content .= sprintf(
+			__(
+				'When you use interactive content, we may collect data about your interaction using %s.',
+				'H5PXAPIKATCHU'
+			),
+			$link_xapi
+		) . ' ';
+		$content .= __( 'The data may e.g. contain what answer was given, how long it took to answer, what score was achieved, etc.', 'H5PXAPIKATCHU' ) . ' ';
+		$content .= __( 'We use the data to learn about how well the interaction is designed and how it could be adapted to improve the usability and learning outcomes in general.', 'H5PXAPIKATCHU' );
+		$content .= '</p>';
+		$content .= '<p>';
+		$content .= __( 'However, if and only if you are logged in, this data will be tied to your full name, your email address, and your WordPress user id.', 'H5PXAPIKATCHU' ) . ' ';
+		$content .= __( 'In consequence, your interactions could be linked to you.', 'H5PXAPIKATCHU' ) . ' ';
+		$content .= __( 'Therefore, all personal data can be stripped to anonymize the data.', 'H5PXAPIKATCHU' );
+		$content .= '</p>';
 
     wp_add_privacy_policy_content(
       __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),

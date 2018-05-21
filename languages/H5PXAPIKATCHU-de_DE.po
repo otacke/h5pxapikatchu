@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2018-05-19 19:51+0200\n"
-"PO-Revision-Date: 2018-05-19 19:59+0200\n"
+"POT-Creation-Date: 2018-05-21 15:08+0200\n"
+"PO-Revision-Date: 2018-05-21 15:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -21,87 +21,87 @@ msgstr ""
 "X-Poedit-SearchPath-4: class-xapidata.php\n"
 "X-Poedit-SearchPath-5: class-privacy-policy.php\n"
 
-#: class-database.php:687
+#: class-database.php:693
 msgid "Actor Id"
 msgstr "Akteur ID"
 
-#: class-database.php:688
+#: class-database.php:694
 msgid "Actor Name"
 msgstr "Akteur Name"
 
-#: class-database.php:689
+#: class-database.php:695
 msgid "Actor Group Members"
 msgstr "Akteur Gruppenmitglieder"
 
-#: class-database.php:690
+#: class-database.php:696
 msgid "Verb Id"
 msgstr "Verb ID"
 
-#: class-database.php:691
+#: class-database.php:697
 msgid "Verb Display"
 msgstr "Verb Anzeige"
 
-#: class-database.php:692
+#: class-database.php:698
 msgid "Object Id"
 msgstr "Objekt ID"
 
-#: class-database.php:693
+#: class-database.php:699
 msgid "Object Def. Name"
 msgstr "Objekt Def. Name"
 
-#: class-database.php:694
+#: class-database.php:700
 msgid "Object Def. Description"
 msgstr "Objekt Def. Beschreibung"
 
-#: class-database.php:695
+#: class-database.php:701
 msgid "Object Def. Choices"
 msgstr "Objekt Auswahlmöglichkeiten"
 
-#: class-database.php:696
+#: class-database.php:702
 msgid "Object Def. Correct Responses"
 msgstr "Objekt Def. Richtige Antworten"
 
-#: class-database.php:697
+#: class-database.php:703
 msgid "Result Response"
 msgstr "Ergebnis Antwort"
 
-#: class-database.php:698
+#: class-database.php:704
 msgid "Result Score Raw"
 msgstr "Ergebnis Punkte"
 
-#: class-database.php:699
+#: class-database.php:705
 msgid "Result Score Scaled"
 msgstr "Ergebnis Punkte, skaliert"
 
-#: class-database.php:700
+#: class-database.php:706
 msgid "Result Completion"
 msgstr "Ergebnis Abgeschlossen"
 
-#: class-database.php:701
+#: class-database.php:707
 msgid "Result Success"
 msgstr "Ergebnis Erfolg"
 
-#: class-database.php:702
+#: class-database.php:708
 msgid "Result Duration"
 msgstr "Ergebnis Dauer"
 
-#: class-database.php:703
+#: class-database.php:709
 msgid "Time"
 msgstr "Zeit"
 
-#: class-database.php:704
+#: class-database.php:710 class-privacy-policy.php:30
 msgid "xAPI"
 msgstr "xAPI"
 
-#: class-database.php:705
+#: class-database.php:711
 msgid "WP User ID"
 msgstr "WP User ID"
 
-#: class-database.php:706
+#: class-database.php:712
 msgid "H5P Content ID"
 msgstr "H5P Content ID"
 
-#: class-database.php:707
+#: class-database.php:713
 msgid "H5P Subcontent ID"
 msgstr "H5P Subcontent ID"
 
@@ -166,63 +166,61 @@ msgstr "Typ"
 msgid "Id"
 msgstr "ID"
 
-#: class-privacy-policy.php:29
-#, php-format
-msgid ""
-"\n"
-"\t\t\t\t<h2>What personal data we collect and why we collect it</h2>\n"
-"\t\t\t\t<h3>H5PxAPIkatchu</h3>\n"
-"\t\t\t\t<p>When you use interactive content, we may collect data about\n"
-"\t\t\t\tyour interaction using <a href=\"%s\" target=\"_blank\">the xAPI "
-"standard</a>,\n"
-"\t\t\t\te.g. what answer was given, how long did it take to answer,\n"
-"\t\t\t\twhat score was achieved, etc. We use it to learn about how\n"
-"\t\t\t\twell the interaction is designed and how it could be adapted\n"
-"\t\t\t\tto improve the experience and learning outcomes in general.</p>\n"
-"\t\t\t\t<p>However, if and only if you are logged in, this data will be tied "
-"to\n"
-"\t\t\t\t<ul>\n"
-"\t\t\t\t  <li>your full name,</li>\n"
-"\t\t\t\t\t<li>your email address,</li>\n"
-"\t\t\t\t\t<li>and your WordPress user id.</li>\n"
-"\t\t\t\t</ul>\n"
-"\t\t\t\tIn consequence, your interactions could be linked to you.\n"
-"\t\t\t\tTherefore, all personal data can be stripped to anonymize the data.\n"
-"\t\t\t\t</p>\n"
-"\t\t\t"
-msgstr ""
-"\n"
-"\t\t\t\t<h2>Welche personenbezogenen Daten wir sammeln und warum wir sie "
-"sammeln</h2>\n"
-"\t\t\t\t<h3>H5PxAPIkatchu</h3>\n"
-"\t\t\t\t<p>Wenn du interaktive Inhalte benutzt, können Daten über\n"
-"\t\t\t\tdeine Interaktionen im <a href=\"%s\" target=\"_blank\">xAPI-"
-"Standard</a> gesammelt werden,\n"
-"\t\t\t\tetwa welche Antwort du gegeben hast, wie lange du dafür benötigt "
-"hast,\n"
-"\t\t\t\twelche Punkzahl du erreicht hast, usw. Wir nutzen diese Daten um zu "
-"lernen,\n"
-"\t\t\t\twie gut die Interaktion entwickelt wurde und wie wir sie anpassen "
-"können,\n"
-"\t\t\t\tum die Bedienung und die Lernergebnisse zu verbessern.</p>\n"
-"\t\t\t\t<p>Falls du allerdings angemeldet bist, und nur dann, werden diese "
-"Daten verknüpft mit\n"
-"\t\t\t\t<ul>\n"
-"\t\t\t\t  <li>deinem kompletten Namen,</li>\n"
-"\t\t\t\t\t<li>deiner E-Mail-Adresse und</li>\n"
-"\t\t\t\t\t<li>deiner WordPress-Benutzer-ID.</li>\n"
-"\t\t\t\t</ul>\n"
-"\t\t\t\tFolglich können dir deine Interaktionen zugeordnet werden.\n"
-"\t\t\t\tDeine persönlichen Daten können daher entfernt werden, so dass nur "
-"anonymisierte Datensätze verbleiben.\n"
-"\t\t\t\t</p>\n"
-"\t\t\t"
+#: class-privacy-policy.php:34
+msgid "What personal data we collect and why we collect it"
+msgstr "Welche personenbezogenen Daten wir sammeln und warum wir sie sammeln"
 
-#: class-privacy-policy.php:53 class-privacy-policy.php:90
-#: class-privacy-policy.php:110 class-privacy-policy.php:142
-#: class-table-view.php:77
+#: class-privacy-policy.php:36 class-privacy-policy.php:55
+#: class-privacy-policy.php:92 class-privacy-policy.php:112
+#: class-privacy-policy.php:146 class-table-view.php:77
 msgid "H5PxAPIkatchu"
 msgstr "H5PxAPIkatchu"
+
+#: class-privacy-policy.php:40
+#, php-format
+msgid ""
+"When you use interactive content, we may collect data about your interaction "
+"using %s."
+msgstr ""
+"Wenn du interaktive Inhalte benutzt, können Daten über deine Interaktionen "
+"mittels %s gesammelt werden."
+
+#: class-privacy-policy.php:45
+msgid ""
+"The data may e.g. contain what answer was given, how long it took to answer, "
+"what score was achieved, etc."
+msgstr ""
+"Die Daten können beispielsweise umfassen, welche Antworten gegeben wurden, "
+"wie lange zum Antworten benötigt wurde, welche Punktzahl erreicht wurde, usw."
+
+#: class-privacy-policy.php:46
+msgid ""
+"We use the data to learn about how well the interaction is designed and how "
+"it could be adapted to improve the usability and learning outcomes in "
+"general."
+msgstr ""
+"Wir nutzen die Daten um zu lernen, wie gut die Interaktionen entworfen "
+"wurden und wie sie angepasst werden könnten, um die Bedienung und die "
+"Lernergebnisse zu verbessern."
+
+#: class-privacy-policy.php:49
+msgid ""
+"However, if and only if you are logged in, this data will be tied to your "
+"full name, your email address, and your WordPress user id."
+msgstr ""
+"Wenn du allerdings auf der Plattform angemeldet bist, werden diese Daten mit "
+"deinem vollen Namen, deiner E-Mail-Adresse und deiner WordPress-Benutzer-ID "
+"verknüpft."
+
+#: class-privacy-policy.php:50
+msgid "In consequence, your interactions could be linked to you."
+msgstr ""
+"Infolgedessen können deine Interaktionen mit dir in Verbindung gebracht "
+"werden."
+
+#: class-privacy-policy.php:51
+msgid "Therefore, all personal data can be stripped to anonymize the data."
+msgstr "Daher ist es möglich, alle persönlichen Daten anonymisieren zu lassen."
 
 #: class-table-view.php:39
 msgid "Download"
@@ -304,9 +302,3 @@ msgstr "OpenID"
 #: class-xapidata.php:203
 msgid "account"
 msgstr "Konto"
-
-#~ msgid "DOWNLOAD"
-#~ msgstr "HERUNTERLADEN"
-
-#~ msgid "Catch and store xAPI statements sent by H5P"
-#~ msgstr "Schneide xAPI-Statements von H5P mit und speichere sie"
