@@ -201,7 +201,7 @@ class Database {
 	 * @param int $wpid WordPress user id.
 	 * @return (int|false) Number of rows affected/selected or false on error
 	 */
-	public static function anonymize( $wpid ) {
+	public static function anonymize( $wpid, $page_size ) {
 		global $wpdb;
 
 		// Make the user look like an anonymous user
@@ -219,9 +219,12 @@ class Database {
 				act.wp_user_id = NULL
 			WHERE
 				act.wp_user_id = %d
+			LIMIT
+				%d
 			",
 			$id,
-			$wpid
+			$wpid,
+			$page_size
 		) );
 
 		/*
@@ -239,35 +242,38 @@ class Database {
 	 * @param int $wpid WordPress user id.
 	 * @return object Database results.
 	 */
-	public static function get_user_table( $wpid ) {
-	 global $wpdb;
+	public static function get_user_table( $wpid, $page, $page_size ) {
+	  global $wpdb;
 
-	 return $wpdb->get_results( $wpdb->prepare(
-		 "
-		 SELECT
-			 mst.id,
-			 act.actor_id, act.actor_name, act.actor_members,
-			 ver.verb_id, ver.verb_display,
-			 obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
-			 res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
-			 mst.time, mst.xapi,
-			 act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
-		 FROM
-			 " . self::$TABLE_MAIN . " as mst,
-			 " . self::$TABLE_ACTOR . " as act,
-			 " . self::$TABLE_VERB . " as ver,
-			 " . self::$TABLE_OBJECT . " as obj,
-			 " . self::$TABLE_RESULT . " as res
-		 WHERE
-			 mst.id_actor = act.id AND
-			 mst.id_verb = ver.id AND
-			 mst.id_object = obj.id AND
-			 mst.id_result = res.id AND
-			 act.wp_user_id = %d
-		 ",
-		 $wpid
-	 ) );
- }
+	  return $wpdb->get_results( $wpdb->prepare(
+		  "
+		  SELECT
+				mst.id,
+				act.actor_id, act.actor_name, act.actor_members,
+				ver.verb_id, ver.verb_display,
+			  obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
+			  res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
+			  mst.time, mst.xapi,
+			  act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
+		  FROM
+			  " . self::$TABLE_MAIN . " as mst,
+			  " . self::$TABLE_ACTOR . " as act,
+			  " . self::$TABLE_VERB . " as ver,
+			  " . self::$TABLE_OBJECT . " as obj,
+			  " . self::$TABLE_RESULT . " as res
+		  WHERE
+			  mst.id_actor = act.id AND
+			  mst.id_verb = ver.id AND
+			  mst.id_object = obj.id AND
+			  mst.id_result = res.id AND
+			  act.wp_user_id = %d
+		  LIMIT %d, %d
+		  ",
+		  $wpid,
+			($page -1 ) * $page_size,
+			$page_size
+	  ) );
+  }
 
 	/**
 	 * Get complete overview of all stored data.

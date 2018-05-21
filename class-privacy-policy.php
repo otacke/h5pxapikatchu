@@ -9,7 +9,7 @@ namespace H5PXAPIKATCHU;
  * @since 0.2.2
  */
 class PrivacyPolicy {
-	private static $PAGE_LENGTH = 25;
+	private static $PAGE_SIZE = 25;
 
 	/**
 	 * Start up
@@ -62,7 +62,7 @@ class PrivacyPolicy {
 	 * @return array Export data.
 	 */
 	function h5pxapikatchu_exporter( $email, $page = 1 ) {
-		$number = self::$PAGE_LENGTH; // Limit of xAPI items to process to avoid timeout
+		$page_size = self::$PAGE_SIZE; // Limit of xAPI items to process to avoid timeout
 		$page = (int) $page;
 
 		$export_items = array();
@@ -71,7 +71,7 @@ class PrivacyPolicy {
 		$wp_user = get_user_by( 'email', $email );
 		if ($wp_user) {
 			// Retrieve xAPI data for user
-			$results = Database::get_user_table( $wp_user->ID );
+			$results = Database::get_user_table( $wp_user->ID, $page, $page_size );
 			$column_titles = Database::get_column_titles();
 
 			// Build items for exporter
@@ -96,7 +96,7 @@ class PrivacyPolicy {
 
 		return array(
 			'data' => $export_items,
-			'done' => count ( $results ) < $number,
+			'done' => count ( $results ) < $page_size,
 		);
 	}
 
@@ -117,18 +117,20 @@ class PrivacyPolicy {
 	 * Anonymize/erase user data
 	 */
 	function h5pxapikatchu_eraser( $email, $page = 1 ) {
+		$page_size = self::$PAGE_SIZE;
 		$wp_user = get_user_by( 'email', $email );
 		$error = false;
 
 		if ($wp_user) {
-			$ok = Database::anonymize( $wp_user->ID );
+      // There should only be one actor with the user ID, but pagination doesn't hurt
+			$number = Database::anonymize( $wp_user->ID, $page_size );
 		}
 
 		return array(
-			'items_removed' => $ok,
+			'items_removed' => $number,
 			'items_retained' => false,
 			'messages' => array(),
-			'done' => true
+			'done' => $number < $page_size
 		);
 	}
 
