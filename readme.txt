@@ -52,6 +52,10 @@ None yet.
 
 == Changelog ==
 
+= 0.2.3 =
+- Add support for pagination in GDPR exporter and eraser (avoid timeout for huge data)
+- Improve translation structure.
+
 = 0.2.2 =
 - Add support for privacy support functions of WordPress.
 
@@ -79,6 +83,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.2.3 =
+Update if you're dealing with huge data that might need to be exported for GDPR compliance.
 
 = 0.2.2 =
 Update if you need support for the privacy (GDPR) support functions of WordPress.
