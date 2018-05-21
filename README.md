@@ -44,10 +44,16 @@ H5PxAPIkatchu is is licensed under the [MIT License](https://github.com/otacke/h
 ## GDPR
 Please note that as of May 25, 2018 you may have to comply with the General Data Privacy Regulation ([GDPR](http://gdpr-info.eu/)).
 
-If you're using H5PxAPIkachu, by processing the xAPI statements you're processing at least these personal data items according to art. 4 GDPR:
+H5PxAPIkatchu supports the functions that WordPress offers to
 
-* xAPI statement: Actor/name (Full name of the Agent)
-* xAPI statement:Actor/Inverse Functional Identifier (email address, openID or account data within the host system)
-* WordPress user id (ID given by the WordPress host system)
+- use suggestion for your privacy statement text,
+- export personal data of a user, and
+- delete personal data of a user.
+
+Background: If you're using H5PxAPIkachu, by processing the xAPI statements you're processing at least these personal data items according to art. 4 GDPR:
+
+- xAPI statement: Actor/name (Full name of the Agent)
+- xAPI statement:Actor/Inverse Functional Identifier (email address, openID or account data within the host system)
+- WordPress user id (ID given by the WordPress host system)
 
 Please make sure to account for these items in your GDPR processes and documentation.
