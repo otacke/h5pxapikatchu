@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 4.9.6
-Stable tag: 0.2.3
+Stable tag: 0.2.4
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -52,6 +52,11 @@ None yet.
 
 == Changelog ==
 
+= 0.2.4 =
+- Fix bug introduced in 0.2.0 that could prevent plugin from initializing the
+  database properly. Thanks to "thedeviousdev" finding it!
+- Fix behavior that was declared as deprecated. Thanks to "thedeviousdev" finding it!
+
 = 0.2.3 =
 - Add support for pagination in GDPR exporter and eraser (avoid timeout for huge data)
 - Improve translation structure.
@@ -83,6 +88,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.2.4 =
+Update if you want to be future proof.
 
 = 0.2.3 =
 Update if you're dealing with huge data that might need to be exported for GDPR compliance.
