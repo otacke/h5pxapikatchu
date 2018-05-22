@@ -20,7 +20,7 @@ class PrivacyPolicy {
   /**
    * Add privacy policy text to WP.
    */
-  function add_privacy_policy() {
+  static function add_privacy_policy() {
 		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
       return;
     }
