@@ -69,7 +69,7 @@ class Database {
 			object_choices TEXT,
 			object_correct_responses_pattern TEXT,
 			h5p_content_id INT(10),
-			h5p_subcontent_id VARCHAR(36)
+			h5p_subcontent_id VARCHAR(36),
 			PRIMARY KEY (id)
 		) $charset_collate;";
 		$ok = dbDelta( $sql );
