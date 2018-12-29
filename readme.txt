@@ -3,8 +3,8 @@ Contributors: otacke
 Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
-Tested up to: 4.9.6
-Stable tag: 0.2.4
+Tested up to: 5.0.2
+Stable tag: 0.2.5
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -52,6 +52,9 @@ None yet.
 
 == Changelog ==
 
+= 0.2.5 =
+- Add support for H5P content types that use divs instead of iframes, e.g Memory Game.
+
 = 0.2.4 =
 - Fix bug introduced in 0.2.0 that could prevent plugin from initializing the
   database properly. Thanks to "thedeviousdev" finding it!
@@ -88,6 +91,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.2.5 =
+Update if you use content types that use divs instead of iframes, e.g. Memory Game.
 
 = 0.2.4 =
 Update if you want to be future proof.

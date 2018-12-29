@@ -56,6 +56,19 @@ var H5P = H5P || {};
 					console.log( error );
 				}
 			}
+
+			// Add listener if DIVs are used.
+			const h5pDiv = document.getElementsByClassName( 'h5p-frame' );
+			if (h5pDiv.length !== 0) {
+				try {
+					if ( H5P && H5P.externalDispatcher ) {
+						H5P.externalDispatcher.on( 'xAPI', handleXAPI );
+					}
+				}
+				catch ( error ) {
+					console.log( error );
+				}
+			}
 		}
 	};
 } ) ();
