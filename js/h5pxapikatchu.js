@@ -58,7 +58,7 @@ var H5P = H5P || {};
 			}
 
 			// Add listener if DIVs are used.
-			const h5pDiv = document.getElementsByClassName( 'h5p-frame' );
+			const h5pDiv = document.getElementsByClassName( 'h5p-no-frame' );
 			if (h5pDiv.length !== 0) {
 				try {
 					if ( H5P && H5P.externalDispatcher ) {
