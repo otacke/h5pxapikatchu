@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.0.2
-Stable tag: 0.2.5
+Stable tag: 0.2.6
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -52,6 +52,10 @@ None yet.
 
 == Changelog ==
 
+= 0.2.6 =
+- Add support for divs instead of iframes and there's no item in the action bar.
+  Thanks to Damien Romito for finding the gap.
+
 = 0.2.5 =
 - Add support for H5P content types that use divs instead of iframes, e.g Memory Game.
 
@@ -91,6 +95,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+== 0.2.6 =
+Update if you use divs instead of iframes, but have no item in the action bar (e.g. "Download").
 
 = 0.2.5 =
 Update if you use content types that use divs instead of iframes, e.g. Memory Game.
