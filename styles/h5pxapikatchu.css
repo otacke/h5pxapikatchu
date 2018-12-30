@@ -1,0 +1,14 @@
+#h5pxapikatchu-data-table_wrapper .btn {
+  border-radius: .25rem;
+  font-size: inherit;
+  margin-right: .5rem;
+}
+
+#h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu {
+  font-size: inherit;
+  padding: .2rem;
+}
+
+#h5pxapikatchu-data-table_wrapper .dt-button-collection-title {
+  display: none;
+}

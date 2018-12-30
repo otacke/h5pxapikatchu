@@ -155,5 +155,8 @@ if ( is_admin() ) {
   add_filter( 'wp_privacy_personal_data_exporters', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_exporter', 10 );
   add_filter( 'wp_privacy_personal_data_erasers', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_eraser', 10 );
 
+  // Custom style
+  wp_enqueue_style( 'H5PxAPIkatchu', plugins_url( '/styles/h5pxapikatchu.css', __FILE__ ));
+
 	$h5pxapikatchu_table_view = new Table_View;
 }
