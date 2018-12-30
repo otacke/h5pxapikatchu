@@ -1,4 +1,4 @@
-/* globals question, wpAJAXurl, jQuery, errorMessage, classDataTable, buttonLabelDownload, languageData, buttonLabelDelete, dialogTextDelete */
+/* globals question, wpAJAXurl, jQuery, errorMessage, classDataTable, buttonLabelDownload, buttonLabelColumnVisibility, languageData, buttonLabelDelete, dialogTextDelete */
 // Those globals are passed by PHP
 ( function () {
 	'use strict';
@@ -55,11 +55,17 @@
 	jQuery( document ).ready( function () {
 		jQuery( '#' + classDataTable ).DataTable( {
 			"dom": "Bfrtip",
-			"buttons": [ {
-				"extend": "csv",
-				"text": buttonLabelDownload,
-				"title": "h5pxapikatchu-" + new Date().toISOString().substr( 0, 10 )
-			} ],
+			"buttons": [
+				{
+					"extend": "colvis",
+					"text": buttonLabelColumnVisibility
+				},
+				{
+					"extend": "csv",
+					"text": buttonLabelDownload,
+					"title": "h5pxapikatchu-" + new Date().toISOString().substr( 0, 10 )
+				}
+			],
 			"language": languageData,
 			"initComplete": function() {
 				const buttonGroup = document.getElementsByClassName( 'dt-buttons btn-group' )[0];

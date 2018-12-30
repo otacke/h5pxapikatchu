@@ -37,6 +37,8 @@ class Table_View {
 		// pass variables to JavaScript
 		wp_localize_script( 'BuildDataTable', 'classDataTable', $this->CLASS_DATATABLE );
 		wp_localize_script( 'BuildDataTable', 'buttonLabelDownload', __( 'Download', 'H5PXAPIKATCHU' ) );
+		wp_localize_script( 'BuildDataTable', 'buttonLabelColumnVisibility', __( 'Show/hide columns', 'H5PXAPIKATCHU' ) );
+
 		// Used to allow translations for Datatables from within WordPress translations
 		$language_datatables = array(
 			'info' => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
