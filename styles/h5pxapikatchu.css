@@ -9,6 +9,10 @@
   padding: .2rem;
 }
 
-#h5pxapikatchu-data-table_wrapper .dt-button-collection-title {
+#h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu .dt-button-collection-title {
   display: none;
+}
+
+#h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu .dropdown-item {
+  padding: .25rem .75rem;
 }
