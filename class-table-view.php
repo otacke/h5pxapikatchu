@@ -23,8 +23,6 @@ class Table_View {
 
 		add_action( 'wp_ajax_nopriv_delete_data', 'H5PXAPIKATCHU\delete_data' );
 		add_action( 'wp_ajax_delete_data', 'H5PXAPIKATCHU\delete_data' );
-
-		$this->columns_hidden = Options::get_columns_hidden();
 	}
 
 	public function add_scripts() {
@@ -38,7 +36,7 @@ class Table_View {
 
 		// pass variables to JavaScript
 		wp_localize_script( 'BuildDataTable', 'classDataTable', $this->CLASS_DATATABLE );
-		wp_localize_script( 'BuildDataTable', 'h5pxapikatchuColumnsHidden', $this->columns_hidden );
+		wp_localize_script( 'BuildDataTable', 'h5pxapikatchuColumnsHidden', Options::get_columns_hidden() );
 		wp_localize_script( 'BuildDataTable', 'buttonLabelDownload', __( 'Download', 'H5PXAPIKATCHU' ) );
 		wp_localize_script( 'BuildDataTable', 'buttonLabelColumnVisibility', __( 'Show/hide columns', 'H5PXAPIKATCHU' ) );
 
