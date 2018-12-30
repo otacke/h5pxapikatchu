@@ -12,7 +12,8 @@ class Options {
 
 	// Waiting for PHP 7 to hit the mainstream ...
 	private static $OPTION_SLUG = 'h5pxapikatchu_option';
-	private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table';
+	private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table'; // Content types
+	private static $CLASS_COLVIS_TABLE = 'h5pxapikatchu-colvis-table'; // Column visibility
 	private static $OPTIONS;
 
 	private $options;
@@ -30,21 +31,58 @@ class Options {
 		wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
 		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
 		wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_cts_table.js', __FILE__ ) );
+		wp_register_script( 'BuildColVisTable', plugins_url( '/js/build_column_visibility_table.js', __FILE__ ) );
 		wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
 
 		wp_enqueue_script( 'Options' );
 		wp_enqueue_script( 'DataTablesScript' );
 		wp_enqueue_script( 'BuildCtsTable' );
+		wp_enqueue_script( 'BuildColVisTable' );
 		wp_enqueue_style( 'DataTablesStyle' );
 
 		// pass variables to JavaScript
 		wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$CLASS_CTS_TABLE );
+		wp_localize_script( 'BuildColVisTable', 'h5pxapikatchuClassColVisTable', self::$CLASS_COLVIS_TABLE );
 	}
 
 	public static function setDefaults() {
-		// Store all content types by default
-		update_option( self::$OPTION_SLUG, array( 'capture_all_h5p_content_types' => 1 ) );
+		// Set version
 		update_option('h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
+
+		if ( get_option( 'h5pxapikatchu_defaults_set') ) {
+			return; // No need to set defaults
+		}
+
+		// Remember that defaults have been set
+		update_option( 'h5pxapikatchu_defaults_set', true );
+
+		// Store all content types by default, show all columns by default
+		update_option( self::$OPTION_SLUG, array(
+			'capture_all_h5p_content_types' => 1,
+			'columns_visible' => implode( Database::get_column_titles(), ',' )
+		) );
+	}
+
+	/**
+	 * Get column ids that should be hidden in table view.
+	 */
+	public static function get_columns_hidden() {
+		$column_titles = Database::get_column_titles();
+
+		$columns_visible = array();
+		$options = get_option( self::$OPTION_SLUG );
+		if ( false !== $options && isset( $options['columns_visible'] ) ) {
+			$columns_visible = explode( ',', $options['columns_visible'] );
+		}
+
+		$columns_hidden = array_diff( $column_titles, $columns_visible );
+
+		$ids = [];
+		foreach ($columns_hidden as $column_title) {
+			array_push( $ids, array_search( $column_title, $column_titles ) );
+		}
+
+		return $ids;
 	}
 
 	public static function delete_options() {
@@ -142,6 +180,21 @@ class Options {
 			'h5pxapikatchu-admin',
 			'content_type_settings'
 		);
+
+		add_settings_section(
+			'columns_visible_settings',
+			__( 'Visible columns', 'H5PXAPIKATCHU' ),
+			array( $this, 'print_columns_visible_section_info' ),
+			'h5pxapikatchu-admin'
+		);
+
+		add_settings_field(
+			'columns_visible',
+			__( 'Visible columns', 'H5PXAPIKATCHU' ),
+			array( $this, 'columns_visible_callback' ),
+			'h5pxapikatchu-admin',
+			'columns_visible_settings'
+		);
 	}
 
 	/**
@@ -169,8 +222,16 @@ class Options {
 				array_push( $captured_contents, $input['h5p_content_types-' . $i ] );
 			}
 		}
-
 		$new_input['h5p_content_types'] = implode( $captured_contents, ',' );
+
+		// Settings for column title
+		$columns_visible = array();
+		foreach ( Database::get_column_titles() as $column_title ) {
+			if ( isset( $input['column_titles-' . $column_title] ) ) {
+				array_push( $columns_visible, $input['column_titles-' . $column_title ] );
+			}
+		}
+		$new_input['columns_visible'] = implode( $columns_visible, ',' );
 
 		return $new_input;
 	}
@@ -179,6 +240,13 @@ class Options {
 	 * Print section text for general settings
 	 */
 	public function print_general_section_info() {
+	}
+
+	/**
+	 * Print section text for column labels settings
+	 */
+	public function print_columns_visible_section_info() {
+		echo __( 'By checking the column titles below you can select if the corresponding columns will be displayed by default.', 'H5PXAPIKATCHU' );
 	}
 
 	/**
@@ -244,6 +312,51 @@ class Options {
 	}
 
 	/**
+	 * Show the selector table for choosing columns to be displayed by default.
+	 * Will be made pretty using Datatables.
+	 */
+	public function columns_visible_callback() {
+		$column_titles = Database::get_column_titles();
+		if ( empty( $column_titles ) ) {
+			echo __( 'It seems there are no column titles defined. Wicked!', 'H5PXAPIKATCHU' );
+			return;
+		}
+
+		$columns_visible = self::get_columns_visible();
+
+		echo '<div><table id="' . self::$CLASS_COLVIS_TABLE . '" class="table-striped table-bordered">';
+		echo '<thead>';
+		echo '<tr>';
+		echo '<th></th>';
+		echo '<th>' . __( 'Column title', 'H5PXAPIKATCHU' ) . '</th>';
+		echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
+
+		foreach ( $column_titles as $column_title ) {
+			echo '<tr>';
+			echo '<td>';
+			echo '<input ' .
+				'type="checkbox" ' .
+				'name="h5pxapikatchu_option[column_titles-' . $column_title . ']" ' .
+				'id="h5pxapikatchu-column-title-' . $column_title . '" ' .
+				'class="h5pxapikatchu-column-labels-selector" ' .
+				'value="' . $column_title . '" ' . checked( in_array( $column_title, $columns_visible ), true, false ) .
+				' />';
+			echo '</td>';
+			echo '<td>' .
+				(isset( Database::$COLUMN_TITLE_NAMES[ $column_title ]) ?
+					Database::$COLUMN_TITLE_NAMES[ $column_title ] :
+					$column_title) .
+				'</td>';
+			echo '</tr>';
+		}
+
+		echo '</tbody>';
+		echo '</table></div>';
+	}
+
+	/**
 	 * Show the selector table for choosing H5P content types to be stored.
 	 * Will be made pretty using Datatables.
 	 */
@@ -255,7 +368,7 @@ class Options {
 		}
 
 		$content_types_options = self::get_h5p_content_types();
-		echo '<div><table id="' . self::$CLASS_CTS_TABLE . '" class="table-striped table-bordered" cellspacing="0">';
+		echo '<div><table id="' . self::$CLASS_CTS_TABLE . '" class="table-striped table-bordered">';
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';
@@ -303,6 +416,25 @@ class Options {
 	 */
 	public static function capture_all_h5p_content_types() {
 		return isset( self::$OPTIONS['capture_all_h5p_content_types'] );
+	}
+
+	/**
+	 * Get list of column labels to be displayed.
+	 * @return string[] Array of column titles.
+	 */
+	public static function get_columns_visible() {
+		return isset( self::$OPTIONS['columns_visible'] ) ?
+			explode( ',', self::$OPTIONS['columns_visible'] ) :
+			array();
+	}
+
+	/**
+	 * Set default values for columns visible.
+	 */
+	public static function set_defaults_columns_visible() {
+		$settings = get_option( self::$OPTION_SLUG );
+		$settings['columns_visible'] = implode( ',', Database::get_column_titles() );
+		update_option( self::$OPTION_SLUG, $settings );
 	}
 
 	/**

@@ -16,3 +16,13 @@
 #h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu .dropdown-item {
   padding: .25rem .75rem;
 }
+
+#h5pxapikatchu-data-table_wrapper .h5pxapikatchu-cts-table {
+  cellspacing: 0;
+}
+
+#h5pxapikatchu-data-table_wrapper .h5pxapikatchu-cts-table,
+#h5pxapikatchu-data-table_wrapper .h5pxapikatchu-colvis-table,
+#h5pxapikatchu-data-table_wrapper .h5pxapikatchu-data-table {
+  cellspacing: 0;
+}

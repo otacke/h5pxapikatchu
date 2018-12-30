@@ -1,4 +1,4 @@
-/* globals question, wpAJAXurl, jQuery, errorMessage, classDataTable, buttonLabelDownload, buttonLabelColumnVisibility, languageData, buttonLabelDelete, dialogTextDelete */
+/* globals h5pxapikatchuColumnsHidden, wpAJAXurl, jQuery, errorMessage, classDataTable, buttonLabelDownload, buttonLabelColumnVisibility, languageData, buttonLabelDelete, dialogTextDelete */
 // Those globals are passed by PHP
 ( function () {
 	'use strict';
@@ -55,6 +55,12 @@
 	jQuery( document ).ready( function () {
 		jQuery( '#' + classDataTable ).DataTable( {
 			"dom": "Bfrtip",
+			"columnDefs": [
+				{
+					"visible": false,
+					"targets": h5pxapikatchuColumnsHidden.map(id => parseInt(id))
+				}
+			],
 			"buttons": [
 				{
 					"extend": "colvis",
@@ -70,7 +76,7 @@
 			"initComplete": function() {
 				const buttonGroup = document.getElementsByClassName( 'dt-buttons btn-group' )[0];
 				buttonGroup.appendChild( createButton( buttonLabelDelete, dialogTextDelete ) );
-		  }
+			}
 		} );
 
 	} );

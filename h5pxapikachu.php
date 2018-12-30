@@ -18,7 +18,7 @@ namespace H5PXAPIKATCHU;
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 if ( !defined( 'H5PXAPIKATCHU_VERSION' ) ) {
-  define( 'H5PXAPIKATCHU_VERSION', '0.2.6' );
+  define( 'H5PXAPIKATCHU_VERSION', '0.3.0' );
 }
 
 // settings.php contains all functions for the settings
@@ -81,6 +81,18 @@ function update() {
 
 		update_option( 'h5pxapikatchu_version', '0.2.0' );
 	}
+
+	// Update from 0.2.x to 0.3.0
+  $version = explode( '.', get_option( 'h5pxapikatchu_version' ) );
+  if ( $version[0] === '0' && $version[1] === '2' ) {
+    // Add defaults for showing/hiding column labels
+    Options::set_defaults_columns_visible();
+
+    // From now on remember that defaults have been set already
+    update_option( 'h5pxapikatchu_defaults_set', true );
+
+		update_option( 'h5pxapikatchu_version', '0.3.0' );
+  }
 
 	update_option( 'h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
 }

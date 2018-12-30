@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2018-12-30 17:18+0100\n"
-"PO-Revision-Date: 2018-12-30 17:19+0100\n"
+"POT-Creation-Date: 2018-12-30 22:34+0100\n"
+"PO-Revision-Date: 2018-12-30 22:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -105,27 +105,39 @@ msgstr "H5P Content ID"
 msgid "H5P Subcontent ID"
 msgstr "H5P Subcontent ID"
 
-#: class-options.php:102
+#: class-options.php:140
 msgid "General"
 msgstr "Allgemein"
 
-#: class-options.php:109
+#: class-options.php:147
 msgid "Store complete statements"
 msgstr "Komplette Statements speichern"
 
-#: class-options.php:117
+#: class-options.php:155
 msgid "Debug"
 msgstr "Debug"
 
-#: class-options.php:125
+#: class-options.php:163
 msgid "Capture everything"
 msgstr "Alles aufzeichnen"
 
-#: class-options.php:133 class-options.php:140
+#: class-options.php:171 class-options.php:178
 msgid "H5P content types"
 msgstr "H5P-Inhaltstypen"
 
-#: class-options.php:188
+#: class-options.php:186 class-options.php:193
+msgid "Visible columns"
+msgstr "Sichtbare Spalten"
+
+#: class-options.php:249
+msgid ""
+"By checking the column titles below you can select if the corresponding "
+"columns will be displayed by default."
+msgstr ""
+"Durch das Anwählen einzelner Spaltentitel kannst du auswählen, welche "
+"Spalten standardmäßig angezeigt werden."
+
+#: class-options.php:256
 msgid ""
 "By checking the H5P content types below you can select their xAPI statements "
 "for being captured."
@@ -133,7 +145,7 @@ msgstr ""
 "Durch das Anwählen einzelner H5P-Inhaltstypen kannst du auswählen, für "
 "welche die xAPI-Statements aufgezeichnet werden sollen."
 
-#: class-options.php:205
+#: class-options.php:273
 msgid ""
 "Store the complete xAPI statement as JSON data. Be sure to check your "
 "database storage limit!"
@@ -141,28 +153,36 @@ msgstr ""
 "Speichere die kompletten xAPI-Statements als JSON-Daten. Prüfe vorher den "
 "Speicherplatz deiner Datenbank!"
 
-#: class-options.php:223
+#: class-options.php:291
 msgid "Display xAPI statements in the JavaScript debug console"
 msgstr "Zeige die xAPI-Statements in der JavaScript-Debug-Konsole"
 
-#: class-options.php:241
+#: class-options.php:309
 msgid "Capture the xAPI statements of all H5P content types"
 msgstr "Schneide die xAPI-Statements aller H5P-Inhaltstypen mit"
 
-#: class-options.php:253
+#: class-options.php:321
+msgid "It seems there are no column titles defined. Wicked!"
+msgstr "Es scheint as seien keine Spaltentitel festgelegt. Seltsam!"
+
+#: class-options.php:331
+msgid "Column title"
+msgstr "Spaltentitel"
+
+#: class-options.php:366
 msgid "It seems that H5P is not installed on this WordPress system."
 msgstr ""
 "Es scheint, als wäre H5P auf diesem WordPress-System nicht installiert."
 
-#: class-options.php:262
+#: class-options.php:375
 msgid "Title"
 msgstr "Titel"
 
-#: class-options.php:263
+#: class-options.php:376
 msgid "Type"
 msgstr "Typ"
 
-#: class-options.php:264
+#: class-options.php:377
 msgid "Id"
 msgstr "ID"
 
@@ -172,7 +192,7 @@ msgstr "Welche personenbezogenen Daten wir sammeln und warum wir sie sammeln"
 
 #: class-privacy-policy.php:36 class-privacy-policy.php:55
 #: class-privacy-policy.php:92 class-privacy-policy.php:112
-#: class-privacy-policy.php:146 class-table-view.php:79
+#: class-privacy-policy.php:146 class-table-view.php:82
 msgid "H5PxAPIkatchu"
 msgstr "H5PxAPIkatchu"
 
@@ -222,68 +242,68 @@ msgstr ""
 msgid "Therefore, all personal data can be stripped to anonymize the data."
 msgstr "Daher ist es möglich, alle persönlichen Daten anonymisieren zu lassen."
 
-#: class-table-view.php:39
+#: class-table-view.php:42
 msgid "Download"
 msgstr "Herunterladen"
 
-#: class-table-view.php:40
+#: class-table-view.php:43
 msgid "Show/hide columns"
 msgstr "Zeige/verstecke Spalten"
 
 # This item is for DataTables. It uses _START_ and _END_ and _TOTAL_ als placeholders. Don't translate these.
-#: class-table-view.php:44
+#: class-table-view.php:47
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Zeige _START_ bis _END_ von _TOTAL_ Einträgen"
 
-#: class-table-view.php:45
+#: class-table-view.php:48
 msgid "Loading..."
 msgstr "Wird geladen..."
 
-#: class-table-view.php:46
+#: class-table-view.php:49
 msgid "Processing..."
 msgstr "Bitte warten..."
 
-#: class-table-view.php:47
+#: class-table-view.php:50
 msgid "search"
 msgstr "Suchen"
 
-#: class-table-view.php:48
+#: class-table-view.php:51
 msgid "No matching records found"
 msgstr "Keine Einträge vorhanden."
 
-#: class-table-view.php:50
+#: class-table-view.php:53
 msgid "First"
 msgstr "Erste"
 
-#: class-table-view.php:51
+#: class-table-view.php:54
 msgid "Last"
 msgstr "Letzte"
 
-#: class-table-view.php:52
+#: class-table-view.php:55
 msgid "Next"
 msgstr "Nächste"
 
-#: class-table-view.php:53
+#: class-table-view.php:56
 msgid "Previous"
 msgstr "Zurück"
 
-#: class-table-view.php:57
+#: class-table-view.php:60
 msgid "Delete"
 msgstr "Löschen"
 
-#: class-table-view.php:58
+#: class-table-view.php:61
 msgid "Do you really want to delete all the data?"
 msgstr "Willst du wirklich alle Daten löschen?"
 
-#: class-table-view.php:59
+#: class-table-view.php:62
 msgid "Sorry, something went wrong with deleting the data."
 msgstr "Entschuldigung. Beim Löschen der Daten ging etwas schief."
 
-#: class-table-view.php:70
+#: class-table-view.php:73
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Du hast nicht genügend Rechte, um diese Seite aufzurufen."
 
-#: class-table-view.php:81
+#: class-table-view.php:84
 msgid "There is no xAPI information stored."
 msgstr "Es sind keine xAPI-Informationen gespeichert."
 
