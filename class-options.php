@@ -27,7 +27,11 @@ class Options {
 		add_action( 'admin_init', array( $this, 'page_init' ) );
 	}
 
-	public function add_scripts() {
+	public function add_scripts( $hook ) {
+		if ( 'settings_page_h5pxapikatchu-admin' !== $hook ) {
+			return;
+		}
+
 		wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
 		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
 		wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_cts_table.js', __FILE__ ) );
