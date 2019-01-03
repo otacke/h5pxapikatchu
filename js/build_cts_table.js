@@ -1,24 +1,22 @@
-/* globals jQuery, classCtsTable */
-// Those globals are passed by PHP
-( function () {
+( function() {
 	'use strict';
 
-	jQuery( document ).ready( function () {
-		jQuery( '#' + classCtsTable ).DataTable( {
-			"dom": "t",
-    	"paging": false,
-			"searching": false,
-			"columnDefs": [
-    		{ "orderable": false, "targets": 0 }
-  		],
-			"columns": [
-    		{ "width": "min-content" },
+	jQuery( document ).ready( function() {
+		jQuery( '#' + classCtsTable ).DataTable({
+			'dom': 't',
+			'paging': false,
+			'searching': false,
+			'columnDefs': [
+				{ 'orderable': false, 'targets': 0 }
+			],
+			'columns': [
+				{ 'width': 'min-content' },
 				null,
 				null,
-    		{ "width": "min-content"}
+				{ 'width': 'min-content'}
 				],
-			"order": [[ 3, 'desc' ]],
-			"autoWidth": false
-		} );
-	} );
-}) ();
+			'order': [ [ 3, 'desc' ] ],
+			'autoWidth': false
+		});
+	});
+} () );

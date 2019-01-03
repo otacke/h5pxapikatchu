@@ -1,8 +1,6 @@
-/* globals jQuery, debugEnabled, captureAllH5pContentTypes, wpAJAXurl, h5pContentTypes */
-// Those globals are passed by PHP, H5P is from H5P framework
 var H5P = H5P || {};
 
-( function () {
+( function() {
 	'use strict';
 
 	/**
@@ -10,8 +8,8 @@ var H5P = H5P || {};
 	 * @param {string} wpAJAXurl - URL for AJAX call.
 	 * @param {Object} xapi - JSON object with xAPI data.
 	 */
- 	const sendAJAX = function ( wpAJAXurl, xapi ) {
-		jQuery.ajax( {
+	var sendAJAX = function( wpAJAXurl, xapi ) {
+		jQuery.ajax({
 			url: wpAJAXurl,
 			type: 'post',
 			data: {
@@ -25,15 +23,17 @@ var H5P = H5P || {};
 	 * Handle storing of xAPI statements.
 	 * @param {Object} event - Event.
 	 */
-	const handleXAPI = function( event ) {
-		if ( debugEnabled === '1' ) {
+	var handleXAPI = function( event ) {
+
+		// Retrieve id number from object URL
+		var regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
+		var id = regex.exec( event.data.statement.object.id )[2];
+
+		if ( '1' === debugEnabled ) {
 			console.log( event.data.statement );
 		}
-		// Retrieve id number from object URL
-		const regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
-		const id = regex.exec( event.data.statement.object.id )[2];
 
-		if ( captureAllH5pContentTypes === '1' || h5pContentTypes.includes( id ) ) {
+		if ( '1' === captureAllH5pContentTypes || h5pContentTypes.includes( id ) ) {
 			sendAJAX( wpAJAXurl, event.data.statement );
 		}
 	};
@@ -41,34 +41,36 @@ var H5P = H5P || {};
 	/**
 	 * Add xAPI listeners to all H5P instances that can trigger xAPI.
 	 */
-	document.onreadystatechange = function () {
+	document.onreadystatechange = function() {
+		var iframes = document.getElementsByTagName( 'iframe' );
+		var i;
+		var contentWindow;
+		var h5pDiv;
+
 		// Add xAPI EventListener if H5P content is present
-		if ( document.readyState === 'complete' ) {
-			const iframes = document.getElementsByTagName( 'iframe' );
-			for ( var i = 0; i < iframes.length; i++ ) {
-				var contentWindow = iframes[i].contentWindow;
+		if ( 'complete' === document.readyState ) {
+			for ( i = 0; i < iframes.length; i++ ) {
+				contentWindow = iframes[i].contentWindow;
 				try {
 					if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
 						contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI );
 					}
-				}
-				catch ( error ) {
+				} catch ( error ) {
 					console.log( error );
 				}
 			}
 
 			// Add listener if DIVs are used.
-			const h5pDiv = document.getElementsByClassName( 'h5p-content' );
-			if (h5pDiv.length !== 0) {
+			h5pDiv = document.getElementsByClassName( 'h5p-content' );
+			if ( 0 !== h5pDiv.length ) {
 				try {
 					if ( H5P && H5P.externalDispatcher ) {
 						H5P.externalDispatcher.on( 'xAPI', handleXAPI );
 					}
-				}
-				catch ( error ) {
+				} catch ( error ) {
 					console.log( error );
 				}
 			}
 		}
 	};
-} ) ();
+}  () );

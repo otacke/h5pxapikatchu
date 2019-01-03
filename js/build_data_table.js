@@ -1,27 +1,25 @@
-/* globals h5pxapikatchuColumnsHidden, wpAJAXurl, jQuery, errorMessage, classDataTable, buttonLabelDownload, buttonLabelColumnVisibility, languageData, buttonLabelDelete, dialogTextDelete */
-// Those globals are passed by PHP
-( function () {
+( function() {
 	'use strict';
 
 	/**
 	 * Send an AJAX request to insert xAPI data.
 	 * @param {string} wpAJAXurl - URL for AJAX call.
 	 */
-	 	const sendAJAX = function ( wpAJAXurl ) {
-		jQuery.ajax( {
+	var sendAJAX = function( wpAJAXurl ) {
+		jQuery.ajax({
 			url: wpAJAXurl,
 			type: 'post',
 			data: {
 				action: 'delete_data'
 			},
-			success: function ( response ) {
-				if ( response === '"done"' ) {
+			success: function( response ) {
+				if ( '"done"' === response ) {
 					location.reload();
 				} else {
 					alert( errorMessage );
 				}
 			},
-			error: function () {
+			error: function() {
 				alert( errorMessage );
 			}
 		});
@@ -33,51 +31,53 @@
 	 * @param string $question The question.
 	 * @return object DOM object for the button.
 	 */
-	const createButton = function ( label, question ) {
-		const anchor = document.createElement('a');
+	var createButton = function( label, question ) {
+		var anchor = document.createElement( 'a' );
 		anchor.classList.add( 'btn', 'btn-default', 'buttons-csv', 'buttons-html5' );
 		anchor.setAttribute( 'tabindex', '0' );
 		anchor.setAttribute( 'aria-controls', 'h5pxapikatchu-data-table' );
 		anchor.setAttribute( 'href', '#' );
 		anchor.innerHTML = '<span>' + label + '</span>';
 
-		anchor.addEventListener( 'click', function () {
-			const choice = confirm( question );
-			if ( choice === true ) {
+		anchor.addEventListener( 'click', function() {
+			var choice = confirm( question );
+			if ( true === choice ) {
 				sendAJAX( wpAJAXurl );
 			}
 			this.blur();
-		} );
+		});
 
 		return anchor;
-	}
+	};
 
-	jQuery( document ).ready( function () {
-		jQuery( '#' + classDataTable ).DataTable( {
-			"dom": "Bfrtip",
-			"columnDefs": [
+	jQuery( document ).ready( function() {
+		jQuery( '#' + classDataTable ).DataTable({
+			'dom': 'Bfrtip',
+			'columnDefs': [
 				{
-					"visible": false,
-					"targets": h5pxapikatchuColumnsHidden.map(id => parseInt(id))
+					'visible': false,
+					'targets': h5pxapikatchuColumnsHidden.map( function( id ) {
+						return parseInt( id );
+					})
 				}
 			],
-			"buttons": [
+			'buttons': [
 				{
-					"extend": "colvis",
-					"text": buttonLabelColumnVisibility
+					'extend': 'colvis',
+					'text': buttonLabelColumnVisibility
 				},
 				{
-					"extend": "csv",
-					"text": buttonLabelDownload,
-					"title": "h5pxapikatchu-" + new Date().toISOString().substr( 0, 10 )
+					'extend': 'csv',
+					'text': buttonLabelDownload,
+					'title': 'h5pxapikatchu-' + new Date().toISOString().substr( 0, 10 )
 				}
 			],
-			"language": languageData,
-			"initComplete": function() {
-				const buttonGroup = document.getElementsByClassName( 'dt-buttons btn-group' )[0];
+			'language': languageData,
+			'initComplete': function() {
+				var buttonGroup = document.getElementsByClassName( 'dt-buttons btn-group' )[0];
 				buttonGroup.appendChild( createButton( buttonLabelDelete, dialogTextDelete ) );
 			}
-		} );
+		});
 
-	} );
-}) ();
+	});
+} () );
