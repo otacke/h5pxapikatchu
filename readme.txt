@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.0.2
-Stable tag: 0.2.6
+Stable tag: 0.3.0
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -52,6 +52,17 @@ None yet.
 
 == Changelog ==
 
+= 0.3.0 =
+- Add support for showing/hiding columns on table view page
+- Add option to set defaults for showing/hiding columns on table view page
+- Add custom stylesheet file for easier customization
+- Update DataTables from 1.10.16 to 1.10.18
+- Update Datatables/Bootstrap from 4.0.0 to 4.1.1
+- Update Datatables/Buttons from 1.5.1 to 1.5.4
+- Make button design more appealing on table view page
+- Add cache busting to script/style loading
+- Improve performance in WordPress admin view
+
 = 0.2.6 =
 - Add support for divs instead of iframes and there's no item in the action bar.
   Thanks to Damien Romito for finding the gap.
@@ -96,7 +107,10 @@ Initial release.
 
 == Upgrade Notice ==
 
-== 0.2.6 =
+= 0.3.0 =
+Update if you want to be able to show/hide columns on the table view page.
+
+= 0.2.6 =
 Update if you use divs instead of iframes, but have no item in the action bar (e.g. "Download").
 
 = 0.2.5 =
