@@ -32,11 +32,11 @@ class Options {
 			return;
 		}
 
-		wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ) );
-		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
-		wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_cts_table.js', __FILE__ ) );
-		wp_register_script( 'BuildColVisTable', plugins_url( '/js/build_column_visibility_table.js', __FILE__ ) );
-		wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
+		wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
+		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ), H5PXAPIKATCHU_VERSION );
+		wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_cts_table.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
+		wp_register_script( 'BuildColVisTable', plugins_url( '/js/build_column_visibility_table.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
+		wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
 
 		wp_enqueue_script( 'Options' );
 		wp_enqueue_script( 'DataTablesScript' );

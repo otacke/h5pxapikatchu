@@ -28,9 +28,9 @@ class Table_View {
 			return;
 		}
 
-		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ) );
-		wp_register_script( 'BuildDataTable', plugins_url( '/js/build_data_table.js', __FILE__ ) );
-		wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ));
+		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ), H5PXAPIKATCHU_VERSION );
+		wp_register_script( 'BuildDataTable', plugins_url( '/js/build_data_table.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
+		wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
 
 		wp_enqueue_script( 'DataTablesScript' );
 		wp_enqueue_script( 'BuildDataTable' );
