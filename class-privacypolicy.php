@@ -9,7 +9,7 @@ namespace H5PXAPIKATCHU;
  * @since 0.2.2
  */
 class PrivacyPolicy {
-	private static $PAGE_SIZE = 25;
+	private static $page_size = 25;
 
 	/**
 	 * Start up
@@ -17,25 +17,25 @@ class PrivacyPolicy {
 	public function __construct() {
 	}
 
-  /**
-   * Add privacy policy text to WP.
-   */
-  static function add_privacy_policy() {
+	/**
+	 * Add privacy policy text to WP.
+	 */
+	static function add_privacy_policy() {
 		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
-      return;
-    }
+			return;
+		}
 
 		$link_xapi = sprintf(
 			'<a href="https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md" target="_blank">%s</a>',
-			__( 'xAPI', 'H5PXAPIKATCHU')
+			__( 'xAPI', 'H5PXAPIKATCHU' )
 		);
 
 		// Intentionally using the WordPress translation here.
 		$content  = '<h2>' . __( 'What personal data we collect and why we collect it' ) . '</h2>';
-
 		$content .= '<h3>' . __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h3>';
 		$content .= '<p>';
 		$content .= sprintf(
+			// translators: %s will be replaced by the name of the service
 			__(
 				'When you use interactive content, we may collect data about your interaction using %s.',
 				'H5PXAPIKATCHU'
@@ -51,11 +51,11 @@ class PrivacyPolicy {
 		$content .= __( 'Therefore, all personal data can be stripped to anonymize the data.', 'H5PXAPIKATCHU' );
 		$content .= '</p>';
 
-    wp_add_privacy_policy_content(
-      __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
-      wp_kses_post( wpautop( $content, false ) )
-    );
-  }
+		wp_add_privacy_policy_content(
+			__( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+			wp_kses_post( wpautop( $content, false ) )
+		);
+	}
 
 	/**
 	 * Export user data.
@@ -64,16 +64,17 @@ class PrivacyPolicy {
 	 * @return array Export data.
 	 */
 	function h5pxapikatchu_exporter( $email, $page = 1 ) {
-		$page_size = self::$PAGE_SIZE; // Limit of xAPI items to process to avoid timeout
-		$page = (int) $page;
+		$page_size = self::$page_size; // Limit of xAPI items to process to avoid timeout
+		$page      = (int) $page;
 
 		$export_items = array();
+
 		$results = array();
 
 		$wp_user = get_user_by( 'email', $email );
-		if ($wp_user) {
+		if ( $wp_user ) {
 			// Retrieve xAPI data for user
-			$results = Database::get_user_table( $wp_user->ID, $page, $page_size );
+			$results       = Database::get_user_table( $wp_user->ID, $page, $page_size );
 			$column_titles = Database::get_column_titles();
 
 			// Build items for exporter
@@ -81,24 +82,28 @@ class PrivacyPolicy {
 				$data = array();
 
 				foreach ( $result as $label => $value ) {
-					$name = isset( Database::$COLUMN_TITLE_NAMES[$label]) ?
-						Database::$COLUMN_TITLE_NAMES[ $label ] :
+					$name = isset( Database::$column_title_names[ $label ] ) ?
+						Database::$column_title_names[ $label ] :
 						$label;
-					$data[] = array( 'name' => $name, 'value' => $value );
+
+					$data[] = array(
+						'name'  => $name,
+						'value' => $value,
+					);
 				}
 
 				$export_items[] = array(
-					'group_id' => 'h5pxapikatchu',
+					'group_id'    => 'h5pxapikatchu',
 					'group_label' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
-					'item_id' => "h5pxapikatchu-{$result->id}",
-					'data' => $data
+					'item_id'     => "h5pxapikatchu-{$result->id}",
+					'data'        => $data,
 				);
 			}
 		}
 
 		return array(
 			'data' => $export_items,
-			'done' => count ( $results ) < $page_size,
+			'done' => count( $results ) < $page_size,
 		);
 	}
 
@@ -108,31 +113,31 @@ class PrivacyPolicy {
 	 * @return array H5PxAPIkatchu exporters.
 	 */
 	function register_h5pxapikatchu_exporter( $exporters ) {
-	  $exporters['h5pxapikatchu'] = array(
-	    'exporter_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
-	    'callback' => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_exporter'
-	  );
-	  return $exporters;
+		$exporters['h5pxapikatchu'] = array(
+			'exporter_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+			'callback'               => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_exporter',
+		);
+		return $exporters;
 	}
 
 	/**
 	 * Anonymize/erase user data
 	 */
 	function h5pxapikatchu_eraser( $email, $page = 1 ) {
-		$page_size = self::$PAGE_SIZE;
-		$wp_user = get_user_by( 'email', $email );
-		$error = false;
+		$page_size = self::$page_size;
+		$wp_user   = get_user_by( 'email', $email );
+		$error     = false;
 
-		if ($wp_user) {
-      // There should only be one actor with the user ID, but pagination doesn't hurt
+		if ( $wp_user ) {
+			// There should only be one actor with the user ID, but pagination doesn't hurt
 			$number = Database::anonymize( $wp_user->ID, $page_size );
 		}
 
 		return array(
-			'items_removed' => $number,
+			'items_removed'  => $number,
 			'items_retained' => false,
-			'messages' => array(),
-			'done' => $number < $page_size
+			'messages'       => array(),
+			'done'           => $number < $page_size,
 		);
 	}
 
@@ -142,10 +147,10 @@ class PrivacyPolicy {
 	 * @return array H5PxAPIkatchu erasers.
 	 */
 	function register_h5pxapikatchu_eraser( $erasers ) {
-	  $erasers['h5pxapikatchu'] = array(
-	    'eraser_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
-	    'callback' => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_eraser'
-	  );
-	  return $erasers;
+		$erasers['h5pxapikatchu'] = array(
+			'eraser_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+			'callback'             => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_eraser',
+		);
+		return $erasers;
 	}
 }

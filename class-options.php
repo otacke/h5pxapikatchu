@@ -11,12 +11,10 @@ namespace H5PXAPIKATCHU;
 class Options {
 
 	// Waiting for PHP 7 to hit the mainstream ...
-	private static $OPTION_SLUG = 'h5pxapikatchu_option';
-	private static $CLASS_CTS_TABLE = 'h5pxapikatchu-cts-table'; // Content types
-	private static $CLASS_COLVIS_TABLE = 'h5pxapikatchu-colvis-table'; // Column visibility
-	private static $OPTIONS;
-
-	private $options;
+	private static $option_slug        = 'h5pxapikatchu_option';
+	private static $class_cts_table    = 'h5pxapikatchu-cts-table'; // Content types
+	private static $class_colvis_table = 'h5pxapikatchu-colvis-table'; // Column visibility
+	private static $options;
 
 	/**
 	 * Start up
@@ -45,15 +43,15 @@ class Options {
 		wp_enqueue_style( 'DataTablesStyle' );
 
 		// pass variables to JavaScript
-		wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$CLASS_CTS_TABLE );
-		wp_localize_script( 'BuildColVisTable', 'h5pxapikatchuClassColVisTable', self::$CLASS_COLVIS_TABLE );
+		wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$class_cts_table );
+		wp_localize_script( 'BuildColVisTable', 'h5pxapikatchuClassColVisTable', self::$class_colvis_table );
 	}
 
-	public static function setDefaults() {
+	public static function set_defaults() {
 		// Set version
-		update_option('h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
+		update_option( 'h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
 
-		if ( get_option( 'h5pxapikatchu_defaults_set') ) {
+		if ( get_option( 'h5pxapikatchu_defaults_set' ) ) {
 			return; // No need to set defaults
 		}
 
@@ -61,10 +59,13 @@ class Options {
 		update_option( 'h5pxapikatchu_defaults_set', true );
 
 		// Store all content types by default, show all columns by default
-		update_option( self::$OPTION_SLUG, array(
-			'capture_all_h5p_content_types' => 1,
-			'columns_visible' => implode( Database::get_column_titles(), ',' )
-		) );
+		update_option(
+			self::$option_slug,
+			array(
+				'capture_all_h5p_content_types' => 1,
+				'columns_visible'               => implode( Database::get_column_titles(), ',' ),
+			)
+		);
 	}
 
 	/**
@@ -74,15 +75,14 @@ class Options {
 		$column_titles = Database::get_column_titles();
 
 		$columns_visible = array();
-		$options = get_option( self::$OPTION_SLUG );
-		if ( false !== $options && isset( $options['columns_visible'] ) ) {
-			$columns_visible = explode( ',', $options['columns_visible'] );
+		if ( false !== self::$options && isset( self::$options['columns_visible'] ) ) {
+			$columns_visible = explode( ',', self::$options['columns_visible'] );
 		}
 
 		$columns_hidden = array_diff( $column_titles, $columns_visible );
 
 		$ids = [];
-		foreach ($columns_hidden as $column_title) {
+		foreach ( $columns_hidden as $column_title ) {
 			array_push( $ids, array_search( $column_title, $column_titles ) );
 		}
 
@@ -90,8 +90,8 @@ class Options {
 	}
 
 	public static function delete_options() {
-		delete_option( self::$OPTION_SLUG );
-		delete_site_option( self::$OPTION_SLUG );
+		delete_option( self::$option_slug );
+		delete_site_option( self::$option_slug );
 		delete_option( 'h5pxapikatchu_defaults_set' );
 		delete_option( 'h5pxapikatchu_version' );
 	}
@@ -115,7 +115,6 @@ class Options {
 	 */
 	public function create_admin_page() {
 		// Set class property
-		$this->options = get_option( 'h5pxapikatchu_option' );
 		?>
 		<div class="wrap">
 			<h2>H5PxAPIkatchu</h2>
@@ -222,10 +221,11 @@ class Options {
 		}
 		// Settings for individual content type capturing
 		$captured_contents = array();
+
 		$length = sizeof( Database::get_h5p_content_types() );
 		for ( $i = 0; $i < $length; $i++ ) {
-			if ( isset( $input['h5p_content_types-' . $i ] ) ) {
-				array_push( $captured_contents, $input['h5p_content_types-' . $i ] );
+			if ( isset( $input[ 'h5p_content_types-' . $i ] ) ) {
+				array_push( $captured_contents, $input[ 'h5p_content_types-' . $i ] );
 			}
 		}
 		$new_input['h5p_content_types'] = implode( $captured_contents, ',' );
@@ -233,8 +233,8 @@ class Options {
 		// Settings for column title
 		$columns_visible = array();
 		foreach ( Database::get_column_titles() as $column_title ) {
-			if ( isset( $input['column_titles-' . $column_title] ) ) {
-				array_push( $columns_visible, $input['column_titles-' . $column_title ] );
+			if ( isset( $input[ 'column_titles-' . $column_title ] ) ) {
+				array_push( $columns_visible, $input[ 'column_titles-' . $column_title ] );
 			}
 		}
 		$new_input['columns_visible'] = implode( $columns_visible, ',' );
@@ -274,9 +274,15 @@ class Options {
 			name="h5pxapikatchu_option[store_complete_xapi]"
 			id="store_complete_xapi"
 			value="1"
-			<?php echo isset( $this->options['store_complete_xapi']) ? checked( '1', $this->options['store_complete_xapi'], false ) : '' ?>
+			<?php
+				echo isset( self::$options['store_complete_xapi'] ) ?
+				checked( '1', self::$options['store_complete_xapi'], false ) :
+				''
+			?>
 		/>
-		<?php echo __('Store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PXAPIKATCHU'); ?>
+		<?php
+			echo __( 'Store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PXAPIKATCHU' );
+		?>
 		</label>
 		<?php
 	}
@@ -292,9 +298,13 @@ class Options {
 			name="h5pxapikatchu_option[debug_enabled]"
 			id="debug_enabled"
 			value="1"
-			<?php echo isset( $this->options['debug_enabled']) ? checked( '1', $this->options['debug_enabled'], false ) : '' ?>
+			<?php
+				echo isset( self::$options['debug_enabled'] ) ?
+					checked( '1', self::$options['debug_enabled'], false ) :
+					''
+			?>
 		/>
-		<?php echo __('Display xAPI statements in the JavaScript debug console', 'H5PXAPIKATCHU'); ?>
+		<?php echo __( 'Display xAPI statements in the JavaScript debug console', 'H5PXAPIKATCHU' ); ?>
 		</label>
 		<?php
 	}
@@ -310,9 +320,15 @@ class Options {
 			name="h5pxapikatchu_option[capture_all_h5p_content_types]"
 			id="h5pxapikatchu_capture_all_content_types"
 			value="1"
-			<?php echo isset( $this->options['capture_all_h5p_content_types']) ? checked( '1', $this->options['capture_all_h5p_content_types'], false ) : '' ?>
+			<?php
+				echo isset( self::$options['capture_all_h5p_content_types'] ) ?
+					checked( '1', self::$options['capture_all_h5p_content_types'], false ) :
+					''
+			?>
 		/>
-		<?php echo __('Capture the xAPI statements of all H5P content types', 'H5PXAPIKATCHU'); ?>
+		<?php
+			echo __( 'Capture the xAPI statements of all H5P content types', 'H5PXAPIKATCHU' );
+		?>
 		</label>
 		<?php
 	}
@@ -330,7 +346,7 @@ class Options {
 
 		$columns_visible = self::get_columns_visible();
 
-		echo '<div><table id="' . self::$CLASS_COLVIS_TABLE . '" class="table-striped table-bordered">';
+		echo '<div><table id="' . self::$class_colvis_table . '" class="table-striped table-bordered">';
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';
@@ -351,9 +367,9 @@ class Options {
 				' />';
 			echo '</td>';
 			echo '<td>' .
-				(isset( Database::$COLUMN_TITLE_NAMES[ $column_title ]) ?
-					Database::$COLUMN_TITLE_NAMES[ $column_title ] :
-					$column_title) .
+				( isset( Database::$column_title_names[ $column_title ] ) ?
+					Database::$column_title_names[ $column_title ] :
+					$column_title ) .
 				'</td>';
 			echo '</tr>';
 		}
@@ -374,7 +390,7 @@ class Options {
 		}
 
 		$content_types_options = self::get_h5p_content_types();
-		echo '<div><table id="' . self::$CLASS_CTS_TABLE . '" class="table-striped table-bordered">';
+		echo '<div><table id="' . self::$class_cts_table . '" class="table-striped table-bordered">';
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';
@@ -405,7 +421,7 @@ class Options {
 	 * @return boolean True, if flag set.
 	 */
 	public static function store_complete_xapi() {
-		return isset( self::$OPTIONS['store_complete_xapi'] );
+		return isset( self::$options['store_complete_xapi'] );
 	}
 
 	/**
@@ -413,7 +429,7 @@ class Options {
 	 * @return boolean True, if flag set.
 	 */
 	public static function is_debug_enabled() {
-		return isset( self::$OPTIONS['debug_enabled'] );
+		return isset( self::$options['debug_enabled'] );
 	}
 
 	/**
@@ -421,7 +437,7 @@ class Options {
 	 * @return boolean True, if flag set.
 	 */
 	public static function capture_all_h5p_content_types() {
-		return isset( self::$OPTIONS['capture_all_h5p_content_types'] );
+		return isset( self::$options['capture_all_h5p_content_types'] );
 	}
 
 	/**
@@ -429,8 +445,8 @@ class Options {
 	 * @return string[] Array of column titles.
 	 */
 	public static function get_columns_visible() {
-		return isset( self::$OPTIONS['columns_visible'] ) ?
-			explode( ',', self::$OPTIONS['columns_visible'] ) :
+		return isset( self::$options['columns_visible'] ) ?
+			explode( ',', self::$options['columns_visible'] ) :
 			array();
 	}
 
@@ -438,9 +454,9 @@ class Options {
 	 * Set default values for columns visible.
 	 */
 	public static function set_defaults_columns_visible() {
-		$settings = get_option( self::$OPTION_SLUG );
+		$settings                    = get_option( self::$option_slug );
 		$settings['columns_visible'] = implode( ',', Database::get_column_titles() );
-		update_option( self::$OPTION_SLUG, $settings );
+		update_option( self::$option_slug, $settings );
 	}
 
 	/**
@@ -448,14 +464,14 @@ class Options {
 	 * @return string Comma separated list of IDs.
 	 */
 	public static function get_h5p_content_types() {
-		return isset( self::$OPTIONS['h5p_content_types'] ) ? explode( ',', self::$OPTIONS['h5p_content_types'] ) : array();
+		return isset( self::$options['h5p_content_types'] ) ? explode( ',', self::$options['h5p_content_types'] ) : array();
 	}
 
 	/**
 	 * Init function for the class.
 	 */
 	static function init() {
-		self::$OPTIONS = get_option( self::$OPTION_SLUG, false );
+		self::$options = get_option( self::$option_slug, false );
 	}
 }
 Options::init();

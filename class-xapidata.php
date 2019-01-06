@@ -24,6 +24,7 @@ class XAPIDATA {
 	public function __construct( $xapi ) {
 		// Change from JavaScript
 		$xapi = str_replace( '\"', '"', $xapi );
+
 		$this->raw = $xapi;
 
 		$this->data = json_decode( $xapi, true );
@@ -44,14 +45,14 @@ class XAPIDATA {
 		if ( is_array( $this->data ) && array_key_exists( 'actor', $this->data ) ) {
 			$actor = $this->data['actor'];
 
-			$object_type = ( array_key_exists( 'objectType', $actor ) ) ? $actor['objectType'] : '';
-			$inverse_functional_identifier = $this->flatten_inverse_functional_identifier ( $actor );
-			$name = ( array_key_exists( 'name', $actor )) ? $actor['name'] : '';
-			$members = ( array_key_exists( 'member', $actor ) ) ? $this->flatten_members( $actor['member'] ) : '';
+			$object_type                   = ( array_key_exists( 'objectType', $actor ) ) ? $actor['objectType'] : '';
+			$inverse_functional_identifier = $this->flatten_inverse_functional_identifier( $actor );
+			$name                          = ( array_key_exists( 'name', $actor ) ) ? $actor['name'] : '';
+			$members                       = ( array_key_exists( 'member', $actor ) ) ? $this->flatten_members( $actor['member'] ) : '';
 
 			// Identified Group or Anonymous Group (we don't need to distinguish here)
-			if ( 'Group' === $object_type  ) {
-				$name = ( '' === $name ) ? $name : $name . ' (' . __( 'Group' , 'H5PXAPIKATCHU' ) . ')';
+			if ( 'Group' === $object_type ) {
+				$name = ( '' === $name ) ? $name : $name . ' (' . __( 'Group', 'H5PXAPIKATCHU' ) . ')';
 			}
 
 			//Agent
@@ -62,9 +63,9 @@ class XAPIDATA {
 		}
 
 		return array(
-			'inverseFunctionalIdentifier' => isset( $inverse_functional_identifier ) ? $inverse_functional_identifier : NULL,
-			'name' => isset( $name ) ? $name : NULL,
-			'members' => isset( $members ) ? $members : NULL
+			'inverseFunctionalIdentifier' => isset( $inverse_functional_identifier ) ? $inverse_functional_identifier : null,
+			'name'                        => isset( $name ) ? $name : null,
+			'members'                     => isset( $members ) ? $members : null,
 		);
 	}
 
@@ -76,13 +77,13 @@ class XAPIDATA {
 		if ( is_array( $this->data ) && array_key_exists( 'verb', $this->data ) ) {
 			$verb = $this->data['verb'];
 
-			$id = array_key_exists( 'id', $verb ) ? $verb['id'] : '';
-			$display = array_key_exists( 'display', $verb ) ? $this-> get_locale_string( $verb['display'] ) : '';
+			$id      = array_key_exists( 'id', $verb ) ? $verb['id'] : '';
+			$display = array_key_exists( 'display', $verb ) ? $this->get_locale_string( $verb['display'] ) : '';
 		}
 
 		return array(
-			'id' => (isset( $id ) ) ? $id : NULL,
-			'display' => ( isset( $display ) ) ? $display : NULL
+			'id'      => ( isset( $id ) ) ? $id : null,
+			'display' => ( isset( $display ) ) ? $display : null,
 		);
 	}
 
@@ -94,22 +95,23 @@ class XAPIDATA {
 		if ( is_array( $this->data ) && array_key_exists( 'object', $this->data ) ) {
 			$object = $this->data['object'];
 
-			$id = array_key_exists( 'id', $object ) ? $object['id'] : '';
+			$id         = array_key_exists( 'id', $object ) ? $object['id'] : '';
 			$definition = array_key_exists( 'definition', $object ) ? $this->get_definition( $object['definition'] ) : '';
+
 			if ( '' !== $definition ) {
-				$name = $definition['name'];
-				$description = $definition['description'];
-				$choices = $definition['choices'];
+				$name                      = $definition['name'];
+				$description               = $definition['description'];
+				$choices                   = $definition['choices'];
 				$correct_responses_pattern = $definition['correctResponsesPattern'];
 			}
 		}
 
 		return array(
-			'id' => isset( $id ) ? $id : '',
-			'name' => isset( $name ) ? $name : '',
-			'description' => isset( $description ) ? $description : '',
-			'choices' => isset( $choices ) ? $choices : '',
-			'correctResponsesPattern' => isset( $correct_responses_pattern ) ? $correct_responses_pattern : ''
+			'id'                      => isset( $id ) ? $id : '',
+			'name'                    => isset( $name ) ? $name : '',
+			'description'             => isset( $description ) ? $description : '',
+			'choices'                 => isset( $choices ) ? $choices : '',
+			'correctResponsesPattern' => isset( $correct_responses_pattern ) ? $correct_responses_pattern : '',
 		);
 	}
 
@@ -122,23 +124,23 @@ class XAPIDATA {
 			$result = $this->data['result'];
 
 			$response = array_key_exists( 'response', $result ) ? $result['response'] : '';
-			$scores = array_key_exists( 'score', $result ) ? $this->get_scores( $result['score'] ) : '';
+			$scores   = array_key_exists( 'score', $result ) ? $this->get_scores( $result['score'] ) : '';
 			if ( '' !== $scores ) {
-				$score_raw = $scores['score_raw'];
+				$score_raw    = $scores['score_raw'];
 				$score_scaled = $scores['score_scaled'];
 			}
 			$completion = array_key_exists( 'completion', $result ) ? $result['completion'] : '';
-			$success =  array_key_exists( 'success', $result ) ? $result['success'] : '';
-			$duration =  array_key_exists( 'duration', $result ) ? $result['duration'] : '';
+			$success    = array_key_exists( 'success', $result ) ? $result['success'] : '';
+			$duration   = array_key_exists( 'duration', $result ) ? $result['duration'] : '';
 		}
 
 		return array(
-			'response' => isset( $response) ? $response : NULL,
-			'score_raw' => isset( $score_raw ) ? $score_raw : NULL,
-			'score_scaled' => isset( $score_scaled ) ? $score_scaled : NULL,
-			'completion' => isset( $completion ) ? $completion : FALSE,
-			'success' => isset( $success ) ? $success : FALSE,
-			'duration' => isset( $duration ) ? $duration: NULL
+			'response'     => isset( $response ) ? $response : null,
+			'score_raw'    => isset( $score_raw ) ? $score_raw : null,
+			'score_scaled' => isset( $score_scaled ) ? $score_scaled : null,
+			'completion'   => isset( $completion ) ? $completion : false,
+			'success'      => isset( $success ) ? $success : false,
+			'duration'     => isset( $duration ) ? $duration : null,
 		);
 	}
 
@@ -170,13 +172,13 @@ class XAPIDATA {
 		}
 
 		$name = ( array_key_exists( 'name', $agent ) ) ? $agent['name'] : '';
-		$ifi = $this->flatten_inverse_functional_identifier( $agent );
+		$ifi  = $this->flatten_inverse_functional_identifier( $agent );
 
 		if ( '' !== $name && '' !== $ifi ) {
 			$name = ' (' . $name . ')';
 		}
 
-		return $ifi . $name ;
+		return $ifi . $name;
 	}
 
 	/**
@@ -215,7 +217,7 @@ class XAPIDATA {
 			return '';
 		}
 
-		$name = ( array_key_exists( 'name', $account ) ) ? $account['name'] : '';
+		$name     = ( array_key_exists( 'name', $account ) ) ? $account['name'] : '';
 		$homepage = ( array_key_exists( 'homePage', $account ) ) ? $account['homePage'] : '';
 
 		if ( '' !== $name && '' !== $homepage ) {
@@ -235,14 +237,14 @@ class XAPIDATA {
 			return '';
 		}
 
-		$LOCALE_DEFAULT = 'en-US';
-		$locale = str_replace( '_', '-', get_locale() );
+		$locale_default = 'en-US';
+		$locale         = str_replace( '_', '-', get_locale() );
 
 		if ( array_key_exists( $locale, $language_map ) ) {
 			return $language_map[ $locale ];
 		}
 		if ( array_key_exists( $locale, $language_map ) ) {
-			return $language_map[ $LOCALE_DEFAULT ];
+			return $language_map[ $locale_default ];
 		}
 		return array_values( $language_map )[0];
 	}
@@ -254,17 +256,28 @@ class XAPIDATA {
 	 */
 	private function get_definition( $definition ) {
 		if ( is_array( $definition ) ) {
-			$name = array_key_exists( 'name', $definition ) ? $this->get_locale_string( $definition['name'] ) : '';
-			$description = array_key_exists( 'description', $definition ) ? $this->get_locale_string( $definition['description'] ) : '';
-			$choices = array_key_exists( 'choices', $definition ) ? $this->flatten_choices( $definition['choices'] ) : '';
-			$correct_responses_pattern = array_key_exists( 'correctResponsesPattern', $definition ) ? $this->flatten_correct_responses_pattern( $definition['correctResponsesPattern'] ) : '';
+			$name = array_key_exists( 'name', $definition ) ?
+				$this->get_locale_string( $definition['name'] ) :
+				'';
+
+			$description = array_key_exists( 'description', $definition ) ?
+				$this->get_locale_string( $definition['description'] ) :
+				'';
+
+			$choices = array_key_exists( 'choices', $definition ) ?
+				$this->flatten_choices( $definition['choices'] ) :
+				'';
+
+			$correct_responses_pattern = array_key_exists( 'correctResponsesPattern', $definition ) ?
+				$this->flatten_correct_responses_pattern( $definition['correctResponsesPattern'] ) :
+				'';
 		}
 
 		return array(
-			'name' => isset( $name ) ? $name : '',
-			'description' => isset( $description ) ? $description : '',
-			'choices' => isset( $choices ) ? $choices : '',
-			'correctResponsesPattern' => isset( $correct_responses_pattern ) ? $correct_responses_pattern : ''
+			'name'                    => isset( $name ) ? $name : '',
+			'description'             => isset( $description ) ? $description : '',
+			'choices'                 => isset( $choices ) ? $choices : '',
+			'correctResponsesPattern' => isset( $correct_responses_pattern ) ? $correct_responses_pattern : '',
 		);
 	}
 
@@ -274,14 +287,19 @@ class XAPIDATA {
 	 * @return string Flattened choices object.
 	 */
 	private function flatten_choices( $choices ) {
-		if ( ! is_array( $choices ) || empty ( $choices ) ) {
+		if ( ! is_array( $choices ) || empty( $choices ) ) {
 			return '';
 		}
 
 		$output = array();
-		foreach( $choices as $choice ) {
-			$id = array_key_exists( 'id', $choice ) ? $choice['id'] : '';
-			$description = array_key_exists( 'description', $choice ) ? $this->get_locale_string( $choice['description'] ) : '';
+		foreach ( $choices as $choice ) {
+			$id = array_key_exists( 'id', $choice ) ?
+				$choice['id'] :
+				'';
+
+			$description = array_key_exists( 'description', $choice ) ?
+				$this->get_locale_string( $choice['description'] ) :
+				'';
 
 			array_push( $output, '[' . $id . '] ' . $description );
 		}
@@ -294,12 +312,12 @@ class XAPIDATA {
 	 * @return string Flattened correct responses pattern.
 	 */
 	private function flatten_correct_responses_pattern( $correct_responses_patterns ) {
-		if ( ! is_array( $correct_responses_patterns ) || empty ( $correct_responses_patterns ) ) {
+		if ( ! is_array( $correct_responses_patterns ) || empty( $correct_responses_patterns ) ) {
 			return '';
 		}
 
 		$output = array();
-		foreach( $correct_responses_patterns as $key => $pattern ) {
+		foreach ( $correct_responses_patterns as $key => $pattern ) {
 			array_push( $output, '[' . $key . ']: ' . $pattern );
 		}
 
@@ -313,13 +331,13 @@ class XAPIDATA {
 	 */
 	private function get_scores( $scores ) {
 		if ( is_array( $scores ) ) {
-			$score_raw = array_key_exists( 'raw', $scores ) ? $scores['raw'] : '';
+			$score_raw    = array_key_exists( 'raw', $scores ) ? $scores['raw'] : '';
 			$score_scaled = array_key_exists( 'scaled', $scores ) ? $scores['scaled'] : '';
 		}
 
 		return array(
-			'score_raw' => isset( $score_raw ) ? $score_raw : '',
-			'score_scaled' => isset( $score_scaled ) ? $score_scaled : ''
+			'score_raw'    => isset( $score_raw ) ? $score_raw : '',
+			'score_scaled' => isset( $score_scaled ) ? $score_scaled : '',
 		);
 	}
 }
