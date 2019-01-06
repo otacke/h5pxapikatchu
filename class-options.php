@@ -92,6 +92,8 @@ class Options {
 	public static function delete_options() {
 		delete_option( self::$OPTION_SLUG );
 		delete_site_option( self::$OPTION_SLUG );
+		delete_option( 'h5pxapikatchu_defaults_set' );
+		delete_option( 'h5pxapikatchu_version' );
 	}
 
 	/**
