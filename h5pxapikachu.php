@@ -32,7 +32,7 @@ require_once( __DIR__ . '/class-privacy-policy.php' );
  * Setup the plugin.
  */
 function setup() {
-	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), '1.0', true);
+	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu.js', __FILE__ ), array( 'jquery' ), H5PXAPIKATCHU_VERSION );
 
 	// Pass variables to JavaScript
 	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
@@ -168,7 +168,7 @@ if ( is_admin() ) {
   add_filter( 'wp_privacy_personal_data_erasers', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_eraser', 10 );
 
   // Custom style
-  wp_enqueue_style( 'H5PxAPIkatchu', plugins_url( '/styles/h5pxapikatchu.css', __FILE__ ));
+  wp_enqueue_style( 'H5PxAPIkatchu', plugins_url( '/styles/h5pxapikatchu.css', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
 
 	$h5pxapikatchu_table_view = new Table_View;
 }
