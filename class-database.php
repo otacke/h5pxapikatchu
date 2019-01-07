@@ -32,7 +32,7 @@ class Database {
 
 		// naming a row object_id will cause trouble!
 		$sql = 'CREATE TABLE ' . self::$table_main . " (
-			id MEDIUMINT(9) NOT NULL AUTO_INCREMENT
+			id MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
 			id_actor MEDIUMINT(9),
 			id_verb MEDIUMINT(9),
 			id_object MEDIUMINT(9),
