@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.0.2
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -51,6 +51,9 @@ None yet.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.3.1 =
+- Fix bug that prevented to run version 0.3.0 if it was installed freshly.
 
 = 0.3.0 =
 - Add support for showing/hiding columns on table view page
@@ -106,6 +109,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.3.1 =
+If you upgraded from version 0.2.6 or before, you don't need this version - but it won't harm.
 
 = 0.3.0 =
 Update if you want to be able to show/hide columns on the table view page.
