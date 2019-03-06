@@ -122,7 +122,12 @@ function insert_data() {
 
 	$result = $xapidata->get_result();
 
-	$xapi = ( Options::store_complete_xapi() ) ? str_replace( '\"', '"', $xapi ) : null;
+	if ( Options::store_complete_xapi() ) {
+		$xapi = str_replace( '\"', '"', $xapi );
+		$xapi = str_replace( "\'", "'", $xapi );
+	} else {
+		$xapi = null;
+	}
 
 	$ok = Database::insert_data( $actor, $verb, $object, $result, $xapi );
 

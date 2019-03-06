@@ -22,8 +22,10 @@ class XAPIDATA {
 	 * @param string $xapi Data to work with.
 	 */
 	public function __construct( $xapi ) {
+
 		// Change from JavaScript
 		$xapi = str_replace( '\"', '"', $xapi );
+		$xapi = str_replace( "\'", "'", $xapi );
 
 		$this->raw = $xapi;
 
