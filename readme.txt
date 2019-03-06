@@ -3,8 +3,8 @@ Contributors: otacke
 Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
-Tested up to: 5.0.2
-Stable tag: 0.3.1
+Tested up to: 5.1
+Stable tag: 0.3.2
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -51,6 +51,9 @@ None yet.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.3.2 =
+- Fix bug that prevented storing statements when strings contained a single quote.
 
 = 0.3.1 =
 - Fix bug that prevented to run version 0.3.0 if it was installed freshly.
@@ -109,6 +112,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.3.2 =
+You should update if texts in your language are likely to contain a single quote.
 
 = 0.3.1 =
 If you upgraded from version 0.2.6 or before, you don't need this version - but it won't harm.
