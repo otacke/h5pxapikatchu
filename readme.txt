@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.1
-Stable tag: 0.3.2
+Stable tag: 0.3.3
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -51,6 +51,9 @@ None yet.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.3.3 =
+- Fix premature call to wp_enqueue_style.
 
 = 0.3.2 =
 - Fix bug that prevented storing statements when strings contained a single quote.
@@ -112,6 +115,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.3.3 =
+Upgrade if you like clean code :-)
 
 = 0.3.2 =
 You should update if texts in your language are likely to contain a single quote.
