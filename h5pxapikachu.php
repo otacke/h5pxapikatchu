@@ -152,6 +152,14 @@ function h5pxapikatchu_load_plugin_textdomain() {
 	load_plugin_textdomain( 'H5PXAPIKATCHU', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 
+/**
+ * Register custom style for admin area.
+ */
+function h5pxapikatchu_add_admin_styles() {
+	wp_register_style( 'H5PxAPIkatchu', plugins_url( '/styles/h5pxapikatchu.css', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
+	wp_enqueue_style( 'H5PxAPIkatchu' );
+}
+
 // Start setup
 register_activation_hook( __FILE__, 'H5PXAPIKATCHU\on_activation' );
 register_deactivation_hook( __FILE__, 'H5PXAPIKATCHU\on_deactivation' );
@@ -163,6 +171,9 @@ add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\h5pxapikatchu_load_plugin_textdomain' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\update' );
 
+// Custom style for admin area
+add_action( 'admin_enqueue_scripts', 'H5PXAPIKATCHU\h5pxapikatchu_add_admin_styles' );
+
 // Include options
 $h5pxapikatchu_options = new Options;
 
@@ -171,9 +182,6 @@ if ( is_admin() ) {
 	add_action( 'admin_init', 'H5PXAPIKATCHU\PrivacyPolicy::add_privacy_policy', 20 );
 	add_filter( 'wp_privacy_personal_data_exporters', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_exporter', 10 );
 	add_filter( 'wp_privacy_personal_data_erasers', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_eraser', 10 );
-
-	// Custom style
-	wp_enqueue_style( 'H5PxAPIkatchu', plugins_url( '/styles/h5pxapikatchu.css', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
 
 	$h5pxapikatchu_table_view = new Table_View;
 }
