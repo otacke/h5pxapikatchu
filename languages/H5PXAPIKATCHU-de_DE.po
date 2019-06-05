@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
 "POT-Creation-Date: 2019-06-05 20:06+0200\n"
-"PO-Revision-Date: 2019-06-05 20:06+0200\n"
+"PO-Revision-Date: 2019-06-05 20:07+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -297,7 +297,7 @@ msgstr "Nächste"
 
 #: class-table-view.php:59
 msgid "Previous"
-msgstr "Zurück"
+msgstr "Vorherige"
 
 #: class-table-view.php:63
 msgid "Delete"
