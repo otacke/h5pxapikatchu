@@ -45,6 +45,8 @@ class Table_View {
 		// Used to allow translations for Datatables from within WordPress translations
 		$language_datatables = array(
 			'info'           => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
+			'infoEmpty'      => __( 'Showing 0 to 0 of 0 entries', 'H5PXAPIKATCHU' ),
+			'infoFiltered'   => __( 'filtered from _MAX_ total entries', 'H5PXAPIKATCHU' ),
 			'lengthMenu'     => __( 'Show _MENU_ entries', 'H5PXAPIKATCHU' ),
 			'loadingRecords' => __( 'Loading...', 'H5PAPIKATCHU' ),
 			'processing'     => __( 'Processing...', 'H5PXAPIKATCHU' ),
