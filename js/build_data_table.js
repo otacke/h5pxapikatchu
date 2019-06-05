@@ -52,7 +52,7 @@
 
 	jQuery( document ).ready( function() {
 		jQuery( '#' + classDataTable ).DataTable({
-			'dom': 'Bfrtip',
+			'dom': 'B<lf>rtip',
 			'columnDefs': [
 				{
 					'visible': false,

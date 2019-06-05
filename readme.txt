@@ -54,6 +54,7 @@ None yet.
 
 = 0.3.4 =
 - Add filters to table column.
+- Add selector for the number of entries per page.
 
 = 0.3.3 =
 - Fix premature call to wp_enqueue_style.
@@ -120,7 +121,7 @@ Initial release.
 == Upgrade Notice ==
 
 = 0.3.4 =
-Upgrade if you want to filter for particular values in table columns.
+Upgrade if you want to filter for particular values in table columns or to change the number of entries per page.
 
 = 0.3.3 =
 Upgrade if you like clean code :-)
