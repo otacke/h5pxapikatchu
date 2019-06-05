@@ -45,9 +45,10 @@ class Table_View {
 		// Used to allow translations for Datatables from within WordPress translations
 		$language_datatables = array(
 			'info'           => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
+			'lengthMenu'     => __( 'Show _MENU_ entries', 'H5PXAPIKATCHU' ),
 			'loadingRecords' => __( 'Loading...', 'H5PAPIKATCHU' ),
 			'processing'     => __( 'Processing...', 'H5PXAPIKATCHU' ),
-			'search'         => __( 'search', 'H5PXAPIKATCHU' ),
+			'search'         => __( 'Search', 'H5PXAPIKATCHU' ),
 			'zeroRecords'    => __( 'No matching records found', 'H5PXAPIKATCHU' ),
 			'paginate'       => array(
 				'first'    => __( 'First', 'H5PXAPIKATCHU' ),

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2019-01-06 14:03+0100\n"
-"PO-Revision-Date: 2019-01-06 14:03+0100\n"
+"POT-Creation-Date: 2019-06-05 19:52+0200\n"
+"PO-Revision-Date: 2019-06-05 19:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -192,7 +192,7 @@ msgstr "Welche personenbezogenen Daten wir sammeln und warum wir sie sammeln"
 
 #: class-privacypolicy.php:35 class-privacypolicy.php:55
 #: class-privacypolicy.php:97 class-privacypolicy.php:117
-#: class-privacypolicy.php:151 class-table-view.php:83
+#: class-privacypolicy.php:151 class-table-view.php:84
 msgid "H5PxAPIkatchu"
 msgstr "H5PxAPIkatchu"
 
@@ -256,76 +256,83 @@ msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Zeige _START_ bis _END_ von _TOTAL_ Einträgen"
 
 #: class-table-view.php:48
+msgid "Show _MENU_ entries"
+msgstr "Zeige _MENU_ Einträge"
+
+#: class-table-view.php:49
 msgid "Loading..."
 msgstr "Wird geladen..."
 
-#: class-table-view.php:49
+#: class-table-view.php:50
 msgid "Processing..."
 msgstr "Bitte warten..."
 
-#: class-table-view.php:50
-msgid "search"
+#: class-table-view.php:51
+msgid "Search"
 msgstr "Suchen"
 
-#: class-table-view.php:51
+#: class-table-view.php:52
 msgid "No matching records found"
 msgstr "Keine Einträge vorhanden."
 
-#: class-table-view.php:53
+#: class-table-view.php:54
 msgid "First"
 msgstr "Erste"
 
-#: class-table-view.php:54
+#: class-table-view.php:55
 msgid "Last"
 msgstr "Letzte"
 
-#: class-table-view.php:55
+#: class-table-view.php:56
 msgid "Next"
 msgstr "Nächste"
 
-#: class-table-view.php:56
+#: class-table-view.php:57
 msgid "Previous"
 msgstr "Zurück"
 
-#: class-table-view.php:60
+#: class-table-view.php:61
 msgid "Delete"
 msgstr "Löschen"
 
-#: class-table-view.php:61
+#: class-table-view.php:62
 msgid "Do you really want to delete all the data?"
 msgstr "Willst du wirklich alle Daten löschen?"
 
-#: class-table-view.php:62
+#: class-table-view.php:63
 msgid "Sorry, something went wrong with deleting the data."
 msgstr "Entschuldigung. Beim Löschen der Daten ging etwas schief."
 
-#: class-table-view.php:74
+#: class-table-view.php:75
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Du hast nicht genügend Rechte, um diese Seite aufzurufen."
 
-#: class-table-view.php:85
+#: class-table-view.php:86
 msgid "There is no xAPI information stored."
 msgstr "Es sind keine xAPI-Informationen gespeichert."
 
-#: class-xapidata.php:55
+#: class-xapidata.php:57
 msgid "Group"
 msgstr "Gruppe"
 
-#: class-xapidata.php:196
+#: class-xapidata.php:198
 msgid "email"
 msgstr "E-Mail-Adresse"
 
-#: class-xapidata.php:199
+#: class-xapidata.php:201
 msgid "email hash"
 msgstr "E-Mail-Hashwert"
 
-#: class-xapidata.php:202
+#: class-xapidata.php:204
 msgid "openid"
 msgstr "OpenID"
 
-#: class-xapidata.php:205
+#: class-xapidata.php:207
 msgid "account"
 msgstr "Konto"
+
+#~ msgid "search"
+#~ msgstr "Suchen"
 
 #~ msgid "Column Visibility"
 #~ msgstr "Zeige/verstecke Spalten"
