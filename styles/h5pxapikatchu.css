@@ -37,6 +37,23 @@
   margin-top: unset !important;
 }
 
+#h5pxapikatchu-data-table tr {
+  height: 3em;
+}
+#h5pxapikatchu-data-table thead .sorting:before,
+#h5pxapikatchu-data-table thead .sorting:after,
+#h5pxapikatchu-data-table thead .sorting_asc:before,
+#h5pxapikatchu-data-table thead .sorting_asc:after,
+#h5pxapikatchu-data-table thead .sorting_desc:before,
+#h5pxapikatchu-data-table thead .sorting_desc:after,
+#h5pxapikatchu-data-table thead .sorting_asc_disabled:before,
+#h5pxapikatchu-data-table thead .sorting_asc_disabled:after,
+#h5pxapikatchu-data-table thead .sorting_desc_disabled:before,
+#h5pxapikatchu-data-table thead .sorting_desc_disabled:after {
+  bottom: unset;
+  top: 0.9em;
+}
+
 .h5pxapikatchu-data-table-top-bar {
   display: flex;
   justify-content: left;
