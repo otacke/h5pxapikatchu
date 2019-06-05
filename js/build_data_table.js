@@ -52,7 +52,7 @@
 
 	jQuery( document ).ready( function() {
 		jQuery( '#' + classDataTable ).DataTable({
-			'dom': 'B<lf>rtip',
+			'dom': 'B<"h5pxapikatchu-data-table-top-bar"lf>rt<"h5pxapikatchu-data-table-bottom-bar"ip>',
 			'columnDefs': [
 				{
 					'visible': false,

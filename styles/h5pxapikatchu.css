@@ -2,6 +2,7 @@
   border-radius: .25rem;
   font-size: inherit;
   margin-right: .5rem;
+  margin-top: 1em;
 }
 
 #h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu {
@@ -29,4 +30,39 @@
 
 #h5pxapikatchu-data-table_wrapper tfoot select {
   width: 100%;
+}
+
+#h5pxapikatchu-data-table {
+  /* Forced to use !important by Datatables */
+  margin-top: unset !important;
+}
+
+.h5pxapikatchu-data-table-top-bar {
+  display: flex;
+  justify-content: left;
+  margin-top: 1em;
+}
+
+#h5pxapikatchu-data-table_length {
+  flex-grow: 1;
+  margin-right: 1em;
+  margin-top: 1px;
+  text-align: left;
+}
+
+#h5pxapikatchu-data-table_length select {
+  font-size: unset;
+  width: 5em;
+}
+
+.h5pxapikatchu-data-table-bottom-bar {
+  display: flex;
+  justify-content: left;
+  margin-top: 0.5em;
+}
+
+#h5pxapikatchu-data-table_info {
+  flex-grow: 1;
+  margin-right: 1em;
+  text-align: left;
 }
