@@ -26,3 +26,7 @@
 #h5pxapikatchu-data-table_wrapper .h5pxapikatchu-data-table {
   cellspacing: 0;
 }
+
+#h5pxapikatchu-data-table_wrapper tfoot select {
+  width: 100%;
+}
