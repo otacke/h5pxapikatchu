@@ -50,6 +50,17 @@ var H5P = H5P || {};
 		// Add xAPI EventListener if H5P content is present
 		if ( 'complete' === document.readyState ) {
 			for ( i = 0; i < iframes.length; i++ ) {
+
+				// Skip non H5P iframes and remote iframes
+				if ( ! iframes[i].classList.contains( 'h5p-iframe' ) &&
+					(
+						0 !== iframes[i].src.indexOf( window.location.origin ) ||
+						-1 === iframes[i].src.indexOf( 'action=h5p_embed' )
+					)
+				) {
+					continue;
+				}
+
 				contentWindow = iframes[i].contentWindow;
 				try {
 					if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
