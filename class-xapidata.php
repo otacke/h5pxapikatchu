@@ -26,6 +26,7 @@ class XAPIDATA {
 		// Change from JavaScript
 		$xapi = str_replace( '\"', '"', $xapi );
 		$xapi = str_replace( "\'", "'", $xapi );
+		$xapi = str_replace( '\\\\"', '&#x22;', $xapi );
 
 		$this->raw = $xapi;
 
