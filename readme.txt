@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 0.3.4
+Stable tag: 0.3.5
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -51,6 +51,12 @@ None yet.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.3.5 =
+- Skip non H5P iframes from xAPI detection.
+  Thanks to Patrick Kellogg for suggesting.
+- Fix storing data if there's a " inside content.
+  Thanks to Dominic Kennell for reporting.
 
 = 0.3.4 =
 - Add filters to table column.
@@ -119,6 +125,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.3.5 =
+Upgrade if you are using a " inside your content or expect students to type one.
 
 = 0.3.4 =
 Upgrade if you want to filter for particular values in table columns or to change the number of entries per page.
