@@ -303,34 +303,43 @@ class Database {
 
 	/**
 	 * Get complete overview of all stored data.
+	 * Will only return entries of content types that the user with $wp_user_id
+	 * has created. Will return all entries if user is admin ($wp_user_id = '%')
+	 * @param int $wp_user_id ID of current user, -1 if admin
 	 * @return object Database results.
 	 */
-	public static function get_complete_table() {
+	public static function get_complete_table( $wp_user_id = 0 ) {
 		global $wpdb;
 
 		return $wpdb->get_results(
-			'
-			SELECT
-				act.actor_id, act.actor_name, act.actor_members,
-				ver.verb_id, ver.verb_display,
-				obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
-				res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
-				mst.time, mst.xapi,
-				act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
-			FROM
-				' . self::$table_main . ' as mst,
-				' . self::$table_actor . ' as act,
-				' . self::$table_verb . ' as ver,
-				' . self::$table_object . ' as obj,
-				' . self::$table_result . ' as res
-			WHERE
-				mst.id_actor = act.id AND
-				mst.id_verb = ver.id AND
-				mst.id_object = obj.id AND
-				mst.id_result = res.id
-			ORDER BY
-				mst.time DESC
-			'
+			$wpdb->prepare(
+				'
+				SELECT
+					act.actor_id, act.actor_name, act.actor_members,
+					ver.verb_id, ver.verb_display,
+					obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
+					res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
+					mst.time, mst.xapi,
+					act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
+				FROM
+					' . self::$table_main . ' as mst,
+					' . self::$table_actor . ' as act,
+					' . self::$table_verb . ' as ver,
+					' . self::$table_object . ' as obj,
+					' . self::$table_result . ' as res,
+					' . self::$table_h5p_content_types . ' as cnt
+				WHERE
+					mst.id_actor = act.id AND
+					mst.id_verb = ver.id AND
+					mst.id_object = obj.id AND
+					mst.id_result = res.id and
+					obj.h5p_content_id = cnt.id AND
+					cnt.user_id LIKE %s
+				ORDER BY
+					mst.time DESC
+				',
+				$wp_user_id
+			)
 		);
 	}
 

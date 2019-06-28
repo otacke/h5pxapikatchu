@@ -69,17 +69,20 @@ class Table_View {
 	public function add_admin_page() {
 		$this->menu_icon = 'data:image/svg+xml;base64,' . base64_encode( '<svg width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M896 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0 768q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-384q237 0 443-43t325-127v170q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-170q119 84 325 127t443 43zm0-1152q208 0 385 34.5t280 93.5 103 128v128q0 69-103 128t-280 93.5-385 34.5-385-34.5-280-93.5-103-128v-128q0-69 103-128t280-93.5 385-34.5z"/></svg>' );
 
-		add_menu_page( 'h5pxapikatchu_options', 'H5PxAPIkatchu', 'manage_options', 'h5pxapikatchu_options', array( $this, 'add_plugin_page' ), $this->menu_icon );
+		add_menu_page( 'h5pxapikatchu_options', 'H5PxAPIkatchu', 'edit_h5p_contents', 'h5pxapikatchu_options', array( $this, 'add_plugin_page' ), $this->menu_icon );
 	}
 
 	public function add_plugin_page() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'edit_h5p_contents' ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.', 'H5PXAPIKATCHU' ) );
 		}
 
 		global $wpdb;
 
-		$complete_table = Database::get_complete_table();
+		// Admins are allowed to see all entries with wildcard %
+		$wp_user_id = current_user_can( 'manage_options' ) ? '%' : get_current_user_id();
+
+		$complete_table = Database::get_complete_table( $wp_user_id );
 		$column_titles  = Database::get_column_titles();
 
 		echo '<div class="wrap">';
