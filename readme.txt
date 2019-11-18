@@ -43,7 +43,7 @@ The most important parts of the xAPI statements that are emitted by H5P content 
 
 == Frequently Asked Questions ==
 
-=== The plugin does not record anything! Is it broken? ===
+= The plugin does not record anything! Is it broken? =
 Maybe, but hopefully not.
 
 1. The plugin does NOT record xAPI statement if you are using H5P content in the backend of WordPress. That would mess up your statistics, because all the authors' test runs would be recorded, too. So, are you running H5P within a blog post or within a page?
