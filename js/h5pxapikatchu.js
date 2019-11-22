@@ -39,6 +39,20 @@ var H5P = H5P || {};
 	};
 
 	/**
+	 * Handle init of xAPI Event Dispatcher.
+	 * @param {object} contentWindow Content window object containing H5P object.
+	 */
+	var handleInitExternalDispatcher = function( contentWindow ) {
+		try {
+			if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
+				contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI );
+			}
+		} catch ( error ) {
+			console.log( error );
+		}
+	};
+
+	/**
 	 * Add xAPI listeners to all H5P instances that can trigger xAPI.
 	 */
 	document.onreadystatechange = function() {
@@ -61,13 +75,15 @@ var H5P = H5P || {};
 					continue;
 				}
 
+				// Edge needs to wait for iframe to be loaded, others don't
 				contentWindow = iframes[i].contentWindow;
-				try {
-					if ( contentWindow.H5P && contentWindow.H5P.externalDispatcher ) {
-						contentWindow.H5P.externalDispatcher.on( 'xAPI', handleXAPI );
-					}
-				} catch ( error ) {
-					console.log( error );
+				if ( contentWindow.H5P ) {
+					handleInitExternalDispatcher( contentWindow );
+				} else {
+					iframes[i].addEventListener( 'load', function() {
+						contentWindow = this.contentWindow;
+						handleInitExternalDispatcher( contentWindow );
+					});
 				}
 			}
 

@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 0.3.6
+Stable tag: 0.3.7
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -51,6 +51,9 @@ None yet.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.3.7 =
+- Fix listening for xAPI on Edge browsers.
 
 = 0.3.6 =
 - Allow any user that has the capability to create H5P content to see the results of content that he/she has created.
@@ -128,6 +131,9 @@ None yet.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.3.7 =
+Upgrade if you expect someone using Edge.
 
 = 0.3.6 =
 Upgrade if you have "teacher" roles that create H5P content and need to see the results to their contents.
