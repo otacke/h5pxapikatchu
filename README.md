@@ -1,4 +1,4 @@
-![banner](https://www.olivertacke.de/labs/wp-content/uploads/2017/12/h5pxapikatchu_bar_1920.png "banner")
+![banner](https://www.olivertacke.de/labs/wp-content/uploads/2019/12/h5pxapikatchu_bar_1920.png "banner")
 
 # SNORDIAN's H5PxAPIkatchu
 This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements
