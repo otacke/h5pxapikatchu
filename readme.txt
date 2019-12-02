@@ -1,4 +1,4 @@
-=== H5PxAPIkatchu ===
+=== SNORDIAN's H5PxAPIkatchu ===
 Contributors: otacke
 Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
@@ -17,6 +17,8 @@ This Wordpress plugin is a simple solution to catch 'em all, those xAPI statemen
 This plugin is NOT intended to provide functionality for analysis, etc. There is no point in recreating what is already available in Learning Record Stores or what you can do yourself with a spreadsheet software, scikit-learn, etc.
 
 If you need more, you should give Learning Locker (https://learninglocker.net/) a shot. It's open, free and shiny.
+
+PLEASE NOTE: H5P IS A REGISTERED TRADEMARK OF JOUBEL. THIS PLUGIN WAS NEITHER CREATED BY JOUBEL NOR IS IT ENDORSED BY THEM.
 
 == GDPR ==
 Please note that as of May 25, 2018 you may have to comply with the General Data Privacy Regulation (GDPR, http://gdpr-info.eu/).

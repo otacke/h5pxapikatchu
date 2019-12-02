@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: H5PxAPIkatchu
+ * Plugin Name: SNORDIAN's H5PxAPIkatchu
  * Plugin URI: https://github.com/otacke/h5pxapikatchu
  * Text Domain: H5PXAPIKATCHU
  * Domain Path: /languages

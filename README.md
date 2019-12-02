@@ -1,6 +1,6 @@
 ![banner](https://www.olivertacke.de/labs/wp-content/uploads/2017/12/h5pxapikatchu_bar_1920.png "banner")
 
-# H5PxAPIkatchu
+# SNORDIAN's H5PxAPIkatchu
 This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements
 that have been sent by [H5P](https://h5p.org) content types. Users should be able
 to store and view/export the xAPI statements.
@@ -11,6 +11,8 @@ what you can do yourself with a spreadsheet software, scikit-learn, etc.
 
 If you need more, you should give [Learning Locker](https://learninglocker.net/)
 a shot. It's [open](https://github.com/LearningLocker/learninglocker), free and shiny.
+
+*PLEASE NOTE: H5P IS A REGISTERED TRADEMARK OF JOUBEL. THIS PLUGIN WAS NEITHER CREATED BY JOUBEL NOR IS IT ENDORSED BY THEM.*
 
 ## Features
 * Store important values of xAPI statements emitted from H5P content types in your database.
