@@ -4,7 +4,7 @@ Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 0.3.7
+Stable tag: 0.4.0
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -57,6 +57,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.0 =
+- Move xAPI listeners' initialization to H5P content.
 
 = 0.3.7 =
 - Fix listening for xAPI on Edge browsers.
@@ -137,6 +140,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.0 =
+Upgrade if you continuously encounter trouble with recording xAPI statements.
 
 = 0.3.7 =
 Upgrade if you expect someone using Edge.
