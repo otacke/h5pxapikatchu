@@ -66,7 +66,7 @@ var H5P = H5P || {};
 
 	// Get environment variables
 	var H5PxAPIkatchu;
-	var topWindow = getTopWindow();
+	var topWindow = ( window.H5PxAPIkatchu ) ? window : getTopWindow();
 	if ( ! topWindow || ! topWindow.H5PxAPIkatchu ) {
 		console.warn( 'Could not find H5PxAPIkatchu object, cannot store xAPI statements for some content.' );
 		return;
