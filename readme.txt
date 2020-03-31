@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 0.4.0
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
@@ -14,7 +14,7 @@ This Wordpress plugin is a simple solution to catch 'em all, those xAPI statemen
 
 This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements that have been sent by H5P (https://h5p.org) content types. Users should be able to store and view/export the xAPI statements.
 
-This plugin is NOT intended to provide functionality for analysis, etc. There is no point in recreating what is already available in Learning Record Stores or what you can do yourself with a spreadsheet software, scikit-learn, etc.
+This plugin is NOT intended to replace the H5P plugin's reporting or provide functionality for analysis, etc. There is no point in recreating what is already available in Learning Record Stores or what you can do yourself with a spreadsheet software, scikit-learn, etc.
 
 If you need more, you should give Learning Locker (https://learninglocker.net/) a shot. It's open, free and shiny.
 
