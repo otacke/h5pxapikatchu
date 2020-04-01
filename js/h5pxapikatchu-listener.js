@@ -59,7 +59,7 @@ var H5P = H5P || {};
 			console.log( event.data.statement );
 		}
 
-		if ( '1' === H5PxAPIkatchu.captureAllH5pContentTypes || H5PxAPIkatchu.h5pContentTypes.includes( id ) ) {
+		if ( '1' === H5PxAPIkatchu.captureAllH5pContentTypes || -1 !== H5PxAPIkatchu.h5pContentTypes.indexOf( id ) ) {
 			sendAJAX( H5PxAPIkatchu.wpAJAXurl, event.data.statement );
 		}
 	};
