@@ -68,7 +68,7 @@ var H5P = H5P || {};
 	var H5PxAPIkatchu;
 	var topWindow = ( window.H5PxAPIkatchu ) ? window : getTopWindow();
 	if ( ! topWindow || ! topWindow.H5PxAPIkatchu ) {
-		console.warn( 'Could not find H5PxAPIkatchu object, cannot store xAPI statements for some content.' );
+		console.warn( 'Could not find H5PxAPIkatchu object, cannot store xAPI statements for some content. If you are in admin view or embedding, this is expected behavior.' );
 		return;
 	}
 	H5PxAPIkatchu = topWindow.H5PxAPIkatchu;
