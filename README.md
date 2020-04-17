@@ -20,9 +20,6 @@ a shot. It's [open](https://github.com/LearningLocker/learninglocker), free and 
 * Optionally limit capturing to particular H5P content types only.
 * Optionally store the complete xAPI statements as a string - know what you're doing ...
 
-## Support me at patreon!
-If you like what I do, please consider to become my supporter at patreon: https://www.patreon.com/otacke
-
 ## Install/Usage
 Install H5PxAPIkatchu from the [Wordpress Plugin directory](https://wordpress.org/plugins/h5pxapikatchu/) or via your Wordpress
 instance and activate it. Done.
