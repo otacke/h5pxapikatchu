@@ -1,7 +1,6 @@
 === SNORDIAN's H5PxAPIkatchu ===
 Contributors: otacke
 Tags: h5p, xapi
-Donate link: https://www.patreon.com/otacke
 Requires at least: 4.0
 Tested up to: 5.4
 Stable tag: 0.4.0
