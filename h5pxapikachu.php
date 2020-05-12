@@ -6,7 +6,7 @@
  * Text Domain: H5PXAPIKATCHU
  * Domain Path: /languages
  * Description: Catch and store xAPI statements sent by H5P
- * Version: 0.4.0
+ * Version: 0.4.1
  * Author: Oliver Tacke
  * Author URI: https://www.olivertacke.de
  * License: MIT
@@ -18,7 +18,7 @@ namespace H5PXAPIKATCHU;
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 if ( ! defined( 'H5PXAPIKATCHU_VERSION' ) ) {
-	define( 'H5PXAPIKATCHU_VERSION', '0.4.0' );
+	define( 'H5PXAPIKATCHU_VERSION', '0.4.1' );
 }
 
 // settings.php contains all functions for the settings
@@ -42,6 +42,23 @@ function setup() {
 }
 
 /**
+ * Initialize
+ */
+function init() {
+	// Include options
+	$h5pxapikatchu_options = new Options;
+
+	if ( is_admin() ) {
+		// Data privacy hooks
+		add_action( 'admin_init', 'H5PXAPIKATCHU\PrivacyPolicy::add_privacy_policy', 20 );
+		add_filter( 'wp_privacy_personal_data_exporters', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_exporter', 10 );
+		add_filter( 'wp_privacy_personal_data_erasers', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_eraser', 10 );
+
+		$h5pxapikatchu_table_view = new Table_View;
+	}
+}
+
+/**
  * Activate the plugin.
  */
 function on_activation() {
@@ -53,6 +70,32 @@ function on_activation() {
  * Deactivate the plugin.
  */
 function on_deactivation() {
+	// Remove capabilities
+	global $wp_roles;
+	if ( ! isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+
+	$all_roles = $wp_roles->roles;
+	foreach ( $all_roles as $role_name => $role_info ) {
+		$role = get_role( $role_name );
+
+		if ( isset( $role_info['capabilities']['manage_h5pxapikatchu_options'] ) ) {
+			$role->remove_cap( 'manage_h5pxapikatchu_options' );
+		}
+		if ( isset( $role_info['capabilities']['view_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'view_h5pxapikatchu_results' );
+		}
+		if ( isset( $role_info['capabilities']['view_others_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'view_others_h5pxapikatchu_results' );
+		}
+		if ( isset( $role_info['capabilities']['download_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'download_h5pxapikatchu_results' );
+		}
+		if ( isset( $role_info['capabilities']['delete_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'delete_h5pxapikatchu_results' );
+		}
+	}
 }
 
 /**
@@ -61,6 +104,33 @@ function on_deactivation() {
 function on_uninstall() {
 	Database::delete_tables();
 	Options::delete_options();
+
+	// Remove capabilities
+	global $wp_roles;
+	if ( ! isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+
+	$all_roles = $wp_roles->roles;
+	foreach ( $all_roles as $role_name => $role_info ) {
+		$role = get_role( $role_name );
+
+		if ( isset( $role_info['capabilities']['manage_h5pxapikatchu_options'] ) ) {
+			$role->remove_cap( 'manage_h5pxapikatchu_options' );
+		}
+		if ( isset( $role_info['capabilities']['view_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'view_h5pxapikatchu_results' );
+		}
+		if ( isset( $role_info['capabilities']['view_others_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'view_others_h5pxapikatchu_results' );
+		}
+		if ( isset( $role_info['capabilities']['download_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'download_h5pxapikatchu_results' );
+		}
+		if ( isset( $role_info['capabilities']['delete_h5pxapikatchu_results'] ) ) {
+			$role->remove_cap( 'delete_h5pxapikatchu_results' );
+		}
+	}
 }
 
 /**
@@ -94,7 +164,78 @@ function update() {
 		update_option( 'h5pxapikatchu_version', '0.3.0' );
 	}
 
+	// Update from 0.4.0 to 0.4.1
+	if ( '0' === $version[0] && '4' === $version[1] && '0' === $version[2] ) {
+		// Add capabilities
+
+		global $wp_roles;
+		if ( ! isset( $wp_roles ) ) {
+			$wp_roles = new WP_Roles();
+		}
+
+		$all_roles = $wp_roles->roles;
+		foreach ( $all_roles as $role_name => $role_info ) {
+			$role = get_role( $role_name );
+
+			// Not good default options, but basically keeping behavior as in 0.4.0
+			map_capability( $role, $role_info, 'manage_options', 'manage_h5pxapikatchu_options' );
+			map_capability( $role, $role_info, 'edit_h5p_contents', 'view_h5pxapikatchu_results' );
+			map_capability( $role, $role_info, 'edit_h5p_contents', 'view_others_h5pxapikatchu_results' );
+			map_capability( $role, $role_info, 'edit_h5p_contents', 'download_h5pxapikatchu_results' );
+			map_capability( $role, $role_info, 'manage_options', 'delete_h5pxapikatchu_results' );
+		}
+
+		update_option( 'h5pxapikatchu_version', '0.4.1' );
+	}
+
 	update_option( 'h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
+}
+
+/**
+ * Make sure that a role has or hasn't the provided capability depending on
+ * existing roles.
+ *
+ * @since 0.4.1
+ * @param stdClass $role Role object.
+ * @param array $role_info Role information.
+ * @param string|array $existing_cap Existing capability.
+ * @param string $new_cap New capability.
+ */
+function map_capability( $role, $role_info, $existing_cap, $new_cap ) {
+	if ( isset( $role_info['capabilities'][ $new_cap ] ) ) {
+		// Already has new cap…
+		if ( has_capability( $role_info['capabilities'], $existing_cap ) ) {
+			// But shouldn't have it!
+			$role->remove_cap( $new_cap );
+		}
+	} else {
+		// Doesn't have new cap…
+		if ( has_capability( $role_info['capabilities'], $existing_cap ) ) {
+			// But should have it!
+			$role->add_cap( $new_cap );
+		}
+	}
+}
+
+/**
+ * Check that role has the needed capabilities.
+ *
+ * @since 0.4.1
+ * @param array $role_capabilities Role capabilities.
+ * @param string|array $capability Capabilities to check for.
+ * @return bool True, if role has capability, else false.
+ */
+function has_capability( $role_capabilities, $capability ) {
+	if ( is_array( $capability ) ) {
+		foreach ( $capability as $cap ) {
+			if ( ! isset( $role_capabilities[ $cap ] ) ) {
+				return false;
+			}
+		}
+	} elseif ( ! isset( $role_capabilities[ $capability ] ) ) {
+		return false;
+	}
+	return true;
 }
 
 /**
@@ -188,14 +329,5 @@ add_action( 'plugins_loaded', 'H5PXAPIKATCHU\update' );
 // Custom style for admin area
 add_action( 'admin_enqueue_scripts', 'H5PXAPIKATCHU\h5pxapikatchu_add_admin_styles' );
 
-// Include options
-$h5pxapikatchu_options = new Options;
-
-if ( is_admin() ) {
-	// Data privacy hooks
-	add_action( 'admin_init', 'H5PXAPIKATCHU\PrivacyPolicy::add_privacy_policy', 20 );
-	add_filter( 'wp_privacy_personal_data_exporters', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_exporter', 10 );
-	add_filter( 'wp_privacy_personal_data_erasers', 'H5PXAPIKATCHU\PrivacyPolicy::register_h5pxapikatchu_eraser', 10 );
-
-	$h5pxapikatchu_table_view = new Table_View;
-}
+// Initialize plugin
+add_action( 'init', 'H5PXAPIKATCHU\init' );

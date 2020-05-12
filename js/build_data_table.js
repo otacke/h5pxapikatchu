@@ -51,7 +51,7 @@
 	};
 
 	jQuery( document ).ready( function() {
-		jQuery( '#' + classDataTable ).DataTable({
+		var datatableParams = {
 			'dom': 'B<"h5pxapikatchu-data-table-top-bar"lf>rt<"h5pxapikatchu-data-table-bottom-bar"ip>',
 			'columnDefs': [
 				{
@@ -65,17 +65,16 @@
 				{
 					'extend': 'colvis',
 					'text': buttonLabelColumnVisibility
-				},
-				{
-					'extend': 'csv',
-					'text': buttonLabelDownload,
-					'title': 'h5pxapikatchu-' + new Date().toISOString().substr( 0, 10 )
 				}
 			],
 			'language': languageData,
 			'initComplete': function() {
 				var buttonGroup = document.getElementsByClassName( 'dt-buttons btn-group' )[0];
-				buttonGroup.appendChild( createButton( buttonLabelDelete, dialogTextDelete ) );
+
+				// Add delete button if allowed to delete
+				if ( buttonGroup && '1' === userCanDeleteResults ) {
+					buttonGroup.appendChild( createButton( buttonLabelDelete, dialogTextDelete ) );
+				}
 
 				// Add drop-down menus for filtering
 				this.api().columns().every( function() {
@@ -95,7 +94,19 @@
 					});
 				});
 			}
-		});
+		};
+
+		// Add download button if allowed to download
+		if ( '1' === userCanDownloadResults ) {
+			datatableParams.buttons = datatableParams.buttons || [];
+			datatableParams.buttons.push({
+				'extend': 'csv',
+				'text': buttonLabelDownload,
+				'title': 'h5pxapikatchu-' + new Date().toISOString().substr( 0, 10 )
+			});
+		}
+
+		jQuery( '#' + classDataTable ).DataTable( datatableParams );
 
 	});
 } () );
