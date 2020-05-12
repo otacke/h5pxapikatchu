@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -56,6 +56,14 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.1 =
+- Add capabilities:
+  - manage_h5pxapikatchu_options: Capability to change the plugin's options
+  - view_h5pxapikatchu_results: Capability to view results of content types that have been created by current user and that were stored by H5PxAPIkachu
+  - view_others_h5pxapikatchu_results: Capability to view results of all content types that were stored by H5PxAPIkachu
+  - download_h5pxapikatchu_results: Capability to download the results stored by H5PxAPIkachu and accessible to current user
+  - delete_h5pxapikatchu_results: Capability to delete ALL data stored by H5PxAPIkachu
 
 = 0.4.0 =
 - Move xAPI listeners' initialization to H5P content.
@@ -139,6 +147,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.1 =
+Upgrade if you want to specify capabilities for user roles.
 
 = 0.4.0 =
 Upgrade if you continuously encounter trouble with recording xAPI statements.

@@ -15,10 +15,10 @@ a shot. It's [open](https://github.com/LearningLocker/learninglocker), free and 
 *PLEASE NOTE: H5P IS A REGISTERED TRADEMARK OF JOUBEL. THIS PLUGIN WAS NEITHER CREATED BY JOUBEL NOR IS IT ENDORSED BY THEM.*
 
 ## Features
-* Store important values of xAPI statements emitted from H5P content types in your database.
-* View and export the data for further analysis.
-* Optionally limit capturing to particular H5P content types only.
-* Optionally store the complete xAPI statements as a string - know what you're doing ...
+- Store important values of xAPI statements emitted from H5P content types in your database.
+- View and export the data for further analysis.
+- Optionally limit capturing to particular H5P content types only.
+- Optionally store the complete xAPI statements as a string - know what you're doing ...
 
 ## Install/Usage
 Install H5PxAPIkatchu from the [Wordpress Plugin directory](https://wordpress.org/plugins/h5pxapikatchu/) or via your Wordpress
@@ -27,6 +27,15 @@ instance and activate it. Done.
 The most important parts  of the xAPI statements that are emitted by H5P content
 types on your system should now be stored in your database. You can view and
 download them via the new WordPress menu item.
+
+Some capabilities can be set for WordPress user roles in order to specify who
+should be allowed to do what:
+
+- _manage_h5pxapikatchu_options_: Capability to change the plugin's options
+- _view_h5pxapikatchu_results_: Capability to view results of content types that have been created by current user and that were stored by H5PxAPIkachu
+- _view_others_h5pxapikatchu_results_: Capability to view results of all content types that were stored by H5PxAPIkachu
+- _download_h5pxapikatchu_results_: Capability to download the results stored by H5PxAPIkachu and accessible to current user
+- _delete_h5pxapikatchu_results_: Capability to delete ALL data stored by H5PxAPIkachu
 
 ## Screenshots
 You can change some options to your particular needs.
