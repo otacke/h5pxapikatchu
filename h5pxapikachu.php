@@ -70,32 +70,6 @@ function on_activation() {
  * Deactivate the plugin.
  */
 function on_deactivation() {
-	// Remove capabilities
-	global $wp_roles;
-	if ( ! isset( $wp_roles ) ) {
-		$wp_roles = new WP_Roles();
-	}
-
-	$all_roles = $wp_roles->roles;
-	foreach ( $all_roles as $role_name => $role_info ) {
-		$role = get_role( $role_name );
-
-		if ( isset( $role_info['capabilities']['manage_h5pxapikatchu_options'] ) ) {
-			$role->remove_cap( 'manage_h5pxapikatchu_options' );
-		}
-		if ( isset( $role_info['capabilities']['view_h5pxapikatchu_results'] ) ) {
-			$role->remove_cap( 'view_h5pxapikatchu_results' );
-		}
-		if ( isset( $role_info['capabilities']['view_others_h5pxapikatchu_results'] ) ) {
-			$role->remove_cap( 'view_others_h5pxapikatchu_results' );
-		}
-		if ( isset( $role_info['capabilities']['download_h5pxapikatchu_results'] ) ) {
-			$role->remove_cap( 'download_h5pxapikatchu_results' );
-		}
-		if ( isset( $role_info['capabilities']['delete_h5pxapikatchu_results'] ) ) {
-			$role->remove_cap( 'delete_h5pxapikatchu_results' );
-		}
-	}
 }
 
 /**
