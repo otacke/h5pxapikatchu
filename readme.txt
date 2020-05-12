@@ -13,7 +13,11 @@ This Wordpress plugin is a simple solution to catch 'em all, those xAPI statemen
 
 This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements that have been sent by H5P (https://h5p.org) content types. Users should be able to store and view/export the xAPI statements.
 
+Please cmp. https://www.olivertacke.de/labs/2017/12/27/gotta-catch-em-all/ and https://www.olivertacke.de/labs/2018/03/25/collecting-and-analyzing-data-with-h5p-and-opening-up-education-maybe/ for the ideas behind the plugin.
+
 This plugin is NOT intended to replace the H5P plugin's reporting or provide functionality for analysis, etc. There is no point in recreating what is already available in Learning Record Stores or what you can do yourself with a spreadsheet software, scikit-learn, etc.
+
+This plugin is NOT intended to work as a replacement for a decent Learning Record Store. It will work well for smaller platforms, but if you are expecting to track many xAPI statements, you will probably run into trouble with displaying all the data at some point.
 
 If you need more, you should give Learning Locker (https://learninglocker.net/) a shot. It's open, free and shiny.
 
