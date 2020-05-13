@@ -7,17 +7,19 @@ Stable tag: 0.4.1
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
-This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements that have been sent by H5P content types. Users should be able to filter, store and view/export the xAPI statements.
+This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements that have been sent by H5P content types. It allows you to store (the most relevant) xAPI properties in the database of WordPress. It also allows you to view, filter and export these data as a CSV file for further processing.
 
 == Description ==
 
-This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements that have been sent by H5P (https://h5p.org) content types. Users should be able to store and view/export the xAPI statements.
+This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements that have been sent by H5P (https://h5p.org) content types. It allows you to store (the most relevant) xAPI properties in the database of WordPress. It also allows you to view, filter and export these data as a CSV file for further processing.
 
 Please cmp. https://www.olivertacke.de/labs/2017/12/27/gotta-catch-em-all/ and https://www.olivertacke.de/labs/2018/03/25/collecting-and-analyzing-data-with-h5p-and-opening-up-education-maybe/ for the ideas behind the plugin.
 
-This plugin is NOT intended to replace the H5P plugin's reporting or provide functionality for analysis, etc. There is no point in recreating what is already available in Learning Record Stores or what you can do yourself with a spreadsheet software, scikit-learn, etc.
-
 This plugin is NOT intended to work as a replacement for a decent Learning Record Store. It will work well for smaller platforms, but if you are expecting to track many xAPI statements, you will probably run into trouble with displaying all the data at some point.
+
+This plugin is NOT intended to forward xAPI statements sent by H5P to a Learning Record Store. Please use https://github.com/tunapanda/wp-h5p-xapi if you need that functionality.
+
+This plugin is NOT intended to replace the H5P plugin's reporting or provide functionality for analysis, etc. There is no point in recreating what is already available in Learning Record Stores or what you can do yourself with a spreadsheet software, scikit-learn, etc.
 
 If you need more, you should give Learning Locker (https://learninglocker.net/) a shot. It's open, free and shiny.
 
