@@ -64,6 +64,8 @@ function init() {
 function on_activation() {
 	Database::build_tables();
 	Options::set_defaults();
+
+	add_capabilities();
 }
 
 /**
@@ -140,29 +142,41 @@ function update() {
 
 	// Update from 0.4.0 to 0.4.1
 	if ( '0' === $version[0] && '4' === $version[1] && '0' === $version[2] ) {
-		// Add capabilities
-
-		global $wp_roles;
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-
-		$all_roles = $wp_roles->roles;
-		foreach ( $all_roles as $role_name => $role_info ) {
-			$role = get_role( $role_name );
-
-			// Not good default options, but basically keeping behavior as in 0.4.0
-			map_capability( $role, $role_info, 'manage_options', 'manage_h5pxapikatchu_options' );
-			map_capability( $role, $role_info, 'edit_h5p_contents', 'view_h5pxapikatchu_results' );
-			map_capability( $role, $role_info, 'edit_h5p_contents', 'view_others_h5pxapikatchu_results' );
-			map_capability( $role, $role_info, 'edit_h5p_contents', 'download_h5pxapikatchu_results' );
-			map_capability( $role, $role_info, 'manage_options', 'delete_h5pxapikatchu_results' );
-		}
+		add_capabilities();
 
 		update_option( 'h5pxapikatchu_version', '0.4.1' );
 	}
 
 	update_option( 'h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
+}
+
+/**
+ * Add default capabilities.
+ *
+ * @since 0.4.2
+ * @param stdClass $role Role object.
+ * @param array $role_info Role information.
+ * @param string|array $existing_cap Existing capability.
+ * @param string $new_cap New capability.
+ */
+function add_capabilities() {
+	// Add capabilities
+	global $wp_roles;
+	if ( ! isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+
+	$all_roles = $wp_roles->roles;
+	foreach ( $all_roles as $role_name => $role_info ) {
+		$role = get_role( $role_name );
+
+		// Not good default options, but basically keeping behavior as in 0.4.0
+		map_capability( $role, $role_info, 'manage_options', 'manage_h5pxapikatchu_options' );
+		map_capability( $role, $role_info, 'edit_h5p_contents', 'view_h5pxapikatchu_results' );
+		map_capability( $role, $role_info, 'edit_h5p_contents', 'view_others_h5pxapikatchu_results' );
+		map_capability( $role, $role_info, 'edit_h5p_contents', 'download_h5pxapikatchu_results' );
+		map_capability( $role, $role_info, 'manage_options', 'delete_h5pxapikatchu_results' );
+	}
 }
 
 /**
@@ -178,7 +192,8 @@ function update() {
 function map_capability( $role, $role_info, $existing_cap, $new_cap ) {
 	if ( isset( $role_info['capabilities'][ $new_cap ] ) ) {
 		// Already has new cap…
-		if ( has_capability( $role_info['capabilities'], $existing_cap ) ) {
+
+		if ( ! has_capability( $role_info['capabilities'], $existing_cap ) ) {
 			// But shouldn't have it!
 			$role->remove_cap( $new_cap );
 		}
