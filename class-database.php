@@ -92,7 +92,7 @@ class Database {
 		$ok = dbDelta( $sql );
 
 		$filled = $wpdb->get_var(
-			'SELECT id FROM ' . self::$table_actor . ' WHERE id = 1'
+			'SELECT id FROM ' . self::$table_result . ' WHERE id = 1'
 		);
 
 		if ( ! isset( $filled ) ) {
