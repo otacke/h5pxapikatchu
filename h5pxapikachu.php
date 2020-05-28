@@ -236,6 +236,14 @@ function insert_data() {
 	global $wpdb;
 
 	$xapi     = $_REQUEST['xapi'];
+
+	// If fuction h5pxapikatchu_custom_insert_data exists, delegate
+	if (function_exists('h5pxapikatchu_custom_insert_data')) {
+		if ( h5pxapikatchu_custom_insert_data( $xapi ) ) {
+			wp_die();
+		}
+	}
+
 	$xapidata = new XAPIDATA( $xapi );
 
 	$actor             = $xapidata->get_actor();
