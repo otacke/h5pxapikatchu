@@ -236,15 +236,6 @@ function insert_data() {
 	global $wpdb;
 
 	$xapi     = $_REQUEST['xapi'];
-
-	// If fuction h5pxapikatchu_custom_insert_data exists, delegate
-	// Added in version 0.4.3
-	if (function_exists('h5pxapikatchu_custom_insert_data')) {
-		if ( h5pxapikatchu_custom_insert_data( $xapi ) ) {
-			wp_die();
-		}
-	}
-
 	$xapidata = new XAPIDATA( $xapi );
 
 	$actor             = $xapidata->get_actor();
@@ -268,6 +259,13 @@ function insert_data() {
 		$xapi = null;
 	}
 
+	// If fuction h5pxapikatchu_custom_insert_data exists, delegate
+	// Added in version 0.4.3
+	if (function_exists('h5pxapikatchu_custom_insert_data')) {
+		if ( h5pxapikatchu_custom_insert_data( $actor, $verb, $object, $result, $xapi ) ) {
+			wp_die();
+		}
+	}
 	$ok = Database::insert_data( $actor, $verb, $object, $result, $xapi );
 
 	// We could handle database errors here using $ok.
