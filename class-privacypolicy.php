@@ -15,12 +15,16 @@ class PrivacyPolicy {
 	 * Start up
 	 */
 	public function __construct() {
+		// Data privacy hooks
+		add_action( 'admin_init', 'add_privacy_policy', 20 );
+		add_filter( 'wp_privacy_personal_data_exporters', 'register_h5pxapikatchu_exporter', 10 );
+		add_filter( 'wp_privacy_personal_data_erasers', 'register_h5pxapikatchu_eraser', 10 );
 	}
 
 	/**
 	 * Add privacy policy text to WP.
 	 */
-	static function add_privacy_policy() {
+	function add_privacy_policy() {
 		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
 			return;
 		}
