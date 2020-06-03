@@ -223,6 +223,61 @@ function has_capability( $role_capabilities, $capability ) {
 }
 
 /**
+ * Filter for xAPI actor object.
+ *
+ * @since 0.4.3
+ * @param object actor XAPI actor object.
+ * @return object Filtered xAPI actor object.
+ */
+function filter_insert_data_actor( $actor ) {
+	return apply_filters( 'h5pxapikatchu_insert_data_actor', $actor );
+}
+
+/**
+ * Filter for xAPI verb object.
+ *
+ * @since 0.4.3
+ * @param object verb XAPI verb object.
+ * @return object Filtered xAPI verb object.
+ */
+function filter_insert_data_verb( $verb ) {
+	return apply_filters( 'h5pxapikatchu_insert_data_verb', $verb );
+}
+
+/**
+ * Filter for xAPI object object.
+ *
+ * @since 0.4.3
+ * @param object object XAPI object object.
+ * @return object Filtered xAPI object object.
+ */
+function filter_insert_data_object( $object ) {
+	return apply_filters( 'h5pxapikatchu_insert_data_object', $object );
+}
+
+/**
+ * Filter for xAPI result object.
+ *
+ * @since 0.4.3
+ * @param object result XAPI result object.
+ * @return object Filtered xAPI result object.
+ */
+function filter_insert_data_result( $result ) {
+	return apply_filters( 'h5pxapikatchu_insert_data_result', $result );
+}
+
+/**
+ * Filter for raw xAPI data.
+ *
+ * @since 0.4.3
+ * @param string xapi XAPI string.
+ * @return string Filtered xAPI string.
+ */
+function filter_insert_data_xapi( $xapi ) {
+	return apply_filters( 'h5pxapikatchu_insert_data_xapi', $xapi );
+}
+
+/**
  * Insert an entry into the database.
  *
  * @param string text Text to be added.
@@ -236,16 +291,20 @@ function insert_data() {
 	$actor             = $xapidata->get_actor();
 	$actor['wpUserId'] = get_current_user_id();
 	$actor['wpUserId'] = ( 0 === $actor['wpUserId'] ) ? null : $actor['wpUserId'];
+	$actor             = filter_insert_data_actor( $actor );
 
 	$verb = $xapidata->get_verb();
+	$verb = filter_insert_data_verb( $verb );
 
 	$object = $xapidata->get_object();
 	preg_match( '/[&|?]id=([0-9]+)/', $object['id'], $matches );
 	$object['h5pContentId'] = ( sizeof( $matches ) > 0 ) ? $matches[1] : null;
 	preg_match( '/[&|?]subContentId=([0-9a-f-]{36})/', $object['id'], $matches );
 	$object['h5pSubContentId'] = ( sizeof( $matches ) > 0 ) ? $matches[1] : null;
+	$object                    = filter_insert_data_object( $object );
 
 	$result = $xapidata->get_result();
+	$result = filter_insert_data_result( $result );
 
 	if ( Options::store_complete_xapi() ) {
 		$xapi = str_replace( '\"', '"', $xapi );
@@ -253,6 +312,10 @@ function insert_data() {
 	} else {
 		$xapi = null;
 	}
+	$xapi = filter_insert_data_xapi( $xapi );
+
+	// Add hook 'h5pxapikatchu_insert_data_pre_database'
+	do_action( 'h5pxapikatchu_insert_data_pre_database' );
 
 	$ok = Database::insert_data( $actor, $verb, $object, $result, $xapi );
 
