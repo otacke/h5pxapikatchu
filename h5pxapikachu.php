@@ -57,6 +57,9 @@ function init() {
  * Activate the plugin.
  */
 function on_activation() {
+	// Add hook 'h5pxapikatchu_on_activation'
+	do_action( 'h5pxapikatchu_on_activation' );
+
 	Database::build_tables();
 	Options::set_defaults();
 
@@ -67,12 +70,17 @@ function on_activation() {
  * Deactivate the plugin.
  */
 function on_deactivation() {
+	// Add hook 'h5pxapikatchu_on_deactivation'
+	do_action( 'h5pxapikatchu_on_deactivation' );
 }
 
 /**
  * Uninstall the plugin.
  */
 function on_uninstall() {
+	// Add hook 'h5pxapikatchu_on_uninstall'
+	do_action( 'h5pxapikatchu_on_uninstall' );
+
 	Database::delete_tables();
 	Options::delete_options();
 
