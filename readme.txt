@@ -48,6 +48,35 @@ Install H5PxAPIkatchu from the Wordpress Plugin directory or via your Wordpress 
 
 The most important parts of the xAPI statements that are emitted by H5P content types on your system should now be stored in your database. You can view and download them via the new WordPress menu item.
 
+== Customization ==
+=== Capabilities ===
+Some capabilities can be set for WordPress user roles in order to specify who
+should be allowed to do what:
+
+- manage_h5pxapikatchu_options: Capability to change the plugin's options
+- view_h5pxapikatchu_results: Capability to view results of content types that have been created by current user and that were stored by H5PxAPIkachu
+- view_others_h5pxapikatchu_results: Capability to view results of all content types that were stored by H5PxAPIkachu
+- download_h5pxapikatchu_results: Capability to download the results stored by H5PxAPIkachu and accessible to current user
+- delete_h5pxapikatchu_results: Capability to delete ALL data stored by H5PxAPIkachu
+
+=== Hooks and filters ===
+H5PxAPIkachu provides some hooks and filters that developers can use to customize the behavior or to use H5PxAPIkachu as the basis of their own plugin.
+
+==== Hooks ====
+- h5pxapikatchu_on_activation: Triggered on activation of H5PxAPIkachu
+- h5pxapikatchu_on_deactivation: Triggered on deactivation of H5PxAPIkachu
+- h5pxapikatchu_on_uninstall: Triggered on uninstall of H5PxAPIkachu
+- h5pxapikatchu_insert_data: Triggered when data are supposed to be inserted into the database
+- h5pxapikatchu_insert_data_pre_database: Triggered right before data will be inserted into the database
+- h5pxapikatchu_delete_data: Triggered when data are supposed to be deleted from the database
+
+==== Filters ====
+- h5pxapikatchu_insert_data_actor: Allows to filter/retrieve the xAPI actor object when it is supposed to be inserted into the database
+- h5pxapikatchu_insert_data_verb: Allows to filter/retrieve the xAPI verb object when it is supposed to be inserted into the database
+- h5pxapikatchu_insert_data_object: Allows to filter/retrieve the xAPI object object when it is supposed to be inserted into the database
+- h5pxapikatchu_insert_data_result: Allows to filter/retrieve the xAPI result object when it is supposed to be inserted into the database
+- h5pxapikatchu_insert_data_xapi: Allows to filter/retrieve the complete xAPI statement string when it is supposed to be inserted into the database
+
 == Frequently Asked Questions ==
 
 = The plugin does not record anything! Is it broken? =
@@ -62,6 +91,22 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.3 =
+- Fix deprecated use of Privacy Policy register hooks.
+- Add hooks:
+  - h5pxapikatchu_on_activation
+  - h5pxapikatchu_on_deactivation
+  - h5pxapikatchu_on_uninstall
+  - h5pxapikatchu_insert_data
+  - h5pxapikatchu_insert_data_pre_database
+  - h5pxapikatchu_delete_data
+- Add filters:
+  - h5pxapikatchu_insert_data_actor
+  - h5pxapikatchu_insert_data_verb
+  - h5pxapikatchu_insert_data_object
+  - h5pxapikatchu_insert_data_result
+  - h5pxapikatchu_insert_data_xapi
 
 = 0.4.2 =
 - Fix capabilities for new installs.

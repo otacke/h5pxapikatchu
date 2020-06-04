@@ -42,6 +42,18 @@ The most important parts  of the xAPI statements that are emitted by H5P content
 types on your system should now be stored in your database. You can view and
 download them via the new WordPress menu item.
 
+## Screenshots
+You can change some options to your particular needs.
+
+![options](https://www.olivertacke.de/labs/wp-content/uploads/2017/12/screenshot-1.png "Options")
+
+You cannot only view the stored data, but also download them as an CSV file.
+
+![table_view](https://www.olivertacke.de/labs/wp-content/uploads/2017/12/screenshot-2.png "Data in Table")
+
+## Customizing
+
+### Capabilities
 Some capabilities can be set for WordPress user roles in order to specify who
 should be allowed to do what:
 
@@ -51,14 +63,23 @@ should be allowed to do what:
 - _download_h5pxapikatchu_results_: Capability to download the results stored by H5PxAPIkachu and accessible to current user
 - _delete_h5pxapikatchu_results_: Capability to delete ALL data stored by H5PxAPIkachu
 
-## Screenshots
-You can change some options to your particular needs.
+### Hooks and filters
+H5PxAPIkachu provides some hooks and filters that developers can use to customize the behavior or to use H5PxAPIkachu as the basis of their own plugin.
 
-![options](https://www.olivertacke.de/labs/wp-content/uploads/2017/12/screenshot-1.png "Options")
+#### Hooks
+- _h5pxapikatchu_on_activation_: Triggered on activation of H5PxAPIkachu
+- _h5pxapikatchu_on_deactivation_: Triggered on deactivation of H5PxAPIkachu
+- _h5pxapikatchu_on_uninstall_: Triggered on uninstall of H5PxAPIkachu
+- _h5pxapikatchu_insert_data_: Triggered when data are supposed to be inserted into the database
+- _h5pxapikatchu_insert_data_pre_database_: Triggered right before data will be inserted into the database
+- _h5pxapikatchu_delete_data_: Triggered when data are supposed to be deleted from the database
 
-You cannot only view the stored data, but also download them as an CSV file.
-
-![table_view](https://www.olivertacke.de/labs/wp-content/uploads/2017/12/screenshot-2.png "Data in Table")
+#### Filters
+- _h5pxapikatchu_insert_data_actor_: Allows to filter/retrieve the xAPI actor object when it is supposed to be inserted into the database
+- _h5pxapikatchu_insert_data_verb_: Allows to filter/retrieve the xAPI verb object when it is supposed to be inserted into the database
+- _h5pxapikatchu_insert_data_object_: Allows to filter/retrieve the xAPI object object when it is supposed to be inserted into the database
+- _h5pxapikatchu_insert_data_result_: Allows to filter/retrieve the xAPI result object when it is supposed to be inserted into the database
+- _h5pxapikatchu_insert_data_xapi_: Allows to filter/retrieve the complete xAPI statement string when it is supposed to be inserted into the database
 
 ## License
 H5PxAPIkatchu is is licensed under the [MIT License](https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE).
