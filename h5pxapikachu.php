@@ -283,6 +283,9 @@ function filter_insert_data_xapi( $xapi ) {
  * @param string text Text to be added.
  */
 function insert_data() {
+	// Add hook 'h5pxapikatchu_insert_data'
+	do_action( 'h5pxapikatchu_insert_data' );
+
 	global $wpdb;
 
 	$xapi     = $_REQUEST['xapi'];
@@ -328,6 +331,9 @@ function insert_data() {
  * Delete all data.
  */
 function delete_data() {
+	// Add hook 'h5pxapikatchu_delete_data'
+	do_action( 'h5pxapikatchu_delete_data' );
+
 	$response = Database::delete_data();
 	exit( json_encode( $response ) );
 	wp_die();
