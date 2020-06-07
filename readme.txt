@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.4
-Stable tag: 0.4.3
+Stable tag: 0.4.4
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -91,6 +91,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.4 =
+- Fix readystatechange listener to avoid conflicts with other plugins
 
 = 0.4.3 =
 - Fix deprecated use of Privacy Policy register hooks.
@@ -202,6 +205,12 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.4 =
+Upgrade if you need to run H5P with other plugins, in particular the MathDisplay library for LaTeX support using MathJax.
+
+= 0.4.3 =
+Upgrade if you need other plugins to customize the behavior or need the Privacy Policy features.
 
 = 0.4.2 =
 Upgrade if you want two bugs less :-)
