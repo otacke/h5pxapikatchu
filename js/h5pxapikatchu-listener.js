@@ -76,7 +76,7 @@ var H5P = H5P || {};
 	/**
 	 * Add xAPI listeners to all H5P instances that can trigger xAPI.
 	 */
-	document.onreadystatechange = function() {
+	document.addEventListener( 'readystatechange', function() {
 
 		// Add xAPI EventListener if H5P content is present
 		if ( 'interactive' === document.readyState ) {
@@ -88,5 +88,5 @@ var H5P = H5P || {};
         console.warn( error );
       }
 		}
-	};
+	});;
 }  () );
