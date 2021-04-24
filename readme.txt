@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.7
-Stable tag: 0.4.4
+Stable tag: 0.4.5
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -91,6 +91,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.5 =
+- Use wp_localize_script with arrays
 
 = 0.4.4 =
 - Fix readystatechange listener to avoid conflicts with other plugins
@@ -205,6 +208,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.5 =
+Upgrade if you have WP debugging activated.
 
 = 0.4.4 =
 Upgrade if you need to run H5P with other plugins, in particular the MathDisplay library for LaTeX support using MathJax.
