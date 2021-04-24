@@ -161,7 +161,7 @@ class XAPIDATA {
 		foreach ( $members as $member ) {
 			array_push( $output, $this->flatten_agent( $member ) );
 		}
-		return implode( $output, ', ' );
+		return implode( ', ', $output );
 	}
 
 	/**
@@ -306,7 +306,7 @@ class XAPIDATA {
 
 			array_push( $output, '[' . $id . '] ' . $description );
 		}
-		return implode( $output, ', ' );
+		return implode( ', ', $output );
 	}
 
 	/**
@@ -324,7 +324,7 @@ class XAPIDATA {
 			array_push( $output, '[' . $key . ']: ' . $pattern );
 		}
 
-		return implode( $output, ', ' );
+		return implode( ', ', $output );
 	}
 
 	/**

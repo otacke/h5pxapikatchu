@@ -77,7 +77,7 @@ class Options {
 			self::$option_slug,
 			array(
 				'capture_all_h5p_content_types' => 1,
-				'columns_visible'               => implode( Database::get_column_titles(), ',' ),
+				'columns_visible'               => implode( ',', Database::get_column_titles() ),
 			)
 		);
 	}
@@ -242,7 +242,7 @@ class Options {
 				array_push( $captured_contents, $input[ 'h5p_content_types-' . $i ] );
 			}
 		}
-		$new_input['h5p_content_types'] = implode( $captured_contents, ',' );
+		$new_input['h5p_content_types'] = implode( ',', $captured_contents );
 
 		// Settings for column title
 		$columns_visible = array();
@@ -251,7 +251,7 @@ class Options {
 				array_push( $columns_visible, $input[ 'column_titles-' . $column_title ] );
 			}
 		}
-		$new_input['columns_visible'] = implode( $columns_visible, ',' );
+		$new_input['columns_visible'] = implode( ',', $columns_visible );
 
 		return $new_input;
 	}
