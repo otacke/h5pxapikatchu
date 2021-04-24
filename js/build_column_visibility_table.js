@@ -2,7 +2,7 @@
 	'use strict';
 
 	jQuery( document ).ready( function() {
-		jQuery( '#' + h5pxapikatchuClassColVisTable ).DataTable({
+		jQuery( '#' + h5pxapikatchuColVisTable.classColVisTable ).DataTable({
 			'dom': 't',
 			'paging': false,
 			'searching': false,

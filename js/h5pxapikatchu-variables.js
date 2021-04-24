@@ -1,8 +1,8 @@
 // Set environment variables
 window.H5PxAPIkatchu = {
-	captureAllH5pContentTypes: captureAllH5pContentTypes,
-	debugEnabled: debugEnabled,
-	h5pContentTypes: h5pContentTypes,
+	captureAllH5pContentTypes: h5pxapikatchu.captureAllH5pContentTypes,
+	debugEnabled: h5pxapikatchu.debugEnabled,
+	h5pContentTypes: h5pxapikatchu.h5pContentTypes,
 	jQuery: jQuery,
-	wpAJAXurl: wpAJAXurl
+	wpAJAXurl: h5pxapikatchu.wpAJAXurl
 };

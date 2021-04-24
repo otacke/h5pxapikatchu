@@ -36,14 +36,6 @@ class Table_View {
 		wp_enqueue_script( 'BuildDataTable' );
 		wp_enqueue_style( 'DataTablesStyle' );
 
-		// pass variables to JavaScript
-		wp_localize_script( 'BuildDataTable', 'classDataTable', $this->class_datatable );
-		wp_localize_script( 'BuildDataTable', 'h5pxapikatchuColumnsHidden', Options::get_columns_hidden() );
-		wp_localize_script( 'BuildDataTable', 'buttonLabelDownload', __( 'Download', 'H5PXAPIKATCHU' ) );
-		wp_localize_script( 'BuildDataTable', 'buttonLabelColumnVisibility', __( 'Show/hide columns', 'H5PXAPIKATCHU' ) );
-		wp_localize_script( 'BuildDataTable', 'userCanDownloadResults', current_user_can( 'download_h5pxapikatchu_results' ) ? '1' : '0' );
-		wp_localize_script( 'BuildDataTable', 'userCanDeleteResults', current_user_can( 'delete_h5pxapikatchu_results' ) ? '1' : '0' );
-
 		// Used to allow translations for Datatables from within WordPress translations
 		$language_datatables = array(
 			'info'           => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
@@ -61,11 +53,25 @@ class Table_View {
 				'previous' => __( 'Previous', 'H5PXAPIKATCHU' ),
 			),
 		);
-		wp_localize_script( 'BuildDataTable', 'languageData', $language_datatables );
-		wp_localize_script( 'BuildDataTable', 'buttonLabelDelete', __( 'Delete', 'H5PXAPIKATCHU' ) );
-		wp_localize_script( 'BuildDataTable', 'dialogTextDelete', __( 'Do you really want to delete all the data?', 'H5PXAPIKATCHU' ) );
-		wp_localize_script( 'BuildDataTable', 'errorMessage', __( 'Sorry, something went wrong with deleting the data.', 'H5PXAPIKATCHU' ) );
-		wp_localize_script( 'BuildDataTable', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
+
+		// pass variables to JavaScript
+		wp_localize_script(
+			'BuildDataTable',
+			'h5pxapikatchuDataTable',
+			array(
+				'classDataTable'              => $this->class_datatable,
+				'columnsHidden'               => Options::get_columns_hidden(),
+				'buttonLabelDownload'         => __( 'Download', 'H5PXAPIKATCHU' ),
+				'buttonLabelColumnVisibility' => __( 'Show/hide columns', 'H5PXAPIKATCHU' ),
+				'userCanDownloadResults'      => current_user_can( 'download_h5pxapikatchu_results' ) ? '1' : '0',
+				'userCanDeleteResults'        => current_user_can( 'delete_h5pxapikatchu_results' ) ? '1' : '0',
+				'languageData'                => $language_datatables,
+				'buttonLabelDelete'           => __( 'Delete', 'H5PXAPIKATCHU' ),
+				'dialogTextDelete'            => __( 'Do you really want to delete all the data?', 'H5PXAPIKATCHU' ),
+				'errorMessage'                => __( 'Sorry, something went wrong with deleting the data.', 'H5PXAPIKATCHU' ),
+				'wpAJAXurl'                   => admin_url( 'admin-ajax.php' ),
+			)
+		);
 	}
 
 	public function add_admin_page() {

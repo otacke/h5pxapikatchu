@@ -35,10 +35,16 @@ function setup() {
 	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu-variables.js', __FILE__ ), array( 'jquery' ), H5PXAPIKATCHU_VERSION );
 
 	// Pass variables to JavaScript, will store it in a global object for other scripts
-	wp_localize_script( 'H5PxAPIkatchu', 'wpAJAXurl', admin_url( 'admin-ajax.php' ) );
-	wp_localize_script( 'H5PxAPIkatchu', 'debugEnabled', Options::is_debug_enabled() ? '1' : '0' );
-	wp_localize_script( 'H5PxAPIkatchu', 'captureAllH5pContentTypes', Options::capture_all_h5p_content_types() ? '1' : '0' );
-	wp_localize_script( 'H5PxAPIkatchu', 'h5pContentTypes', Options::get_h5p_content_types() );
+	wp_localize_script(
+		'H5PxAPIkatchu',
+		'h5pxapikatchu',
+		array(
+			'wpAJAXurl'                 => admin_url( 'admin-ajax.php' ),
+			'debugEnabled'              => Options::is_debug_enabled() ? '1' : '0',
+			'captureAllH5pContentTypes' => Options::capture_all_h5p_content_types() ? '1' : '0',
+			'h5pContentTypes'           => Options::get_h5p_content_types(),
+		)
+	);
 }
 
 /**

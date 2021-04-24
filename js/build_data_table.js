@@ -16,11 +16,11 @@
 				if ( '"done"' === response ) {
 					location.reload();
 				} else {
-					alert( errorMessage );
+					alert( h5pxapikatchuDataTable.errorMessage );
 				}
 			},
 			error: function() {
-				alert( errorMessage );
+				alert( h5pxapikatchuDataTable.errorMessage );
 			}
 		});
 	};
@@ -42,7 +42,7 @@
 		anchor.addEventListener( 'click', function() {
 			var choice = confirm( question );
 			if ( true === choice ) {
-				sendAJAX( wpAJAXurl );
+				sendAJAX( h5pxapikatchuDataTable.wpAJAXurl );
 			}
 			this.blur();
 		});
@@ -56,7 +56,7 @@
 			'columnDefs': [
 				{
 					'visible': false,
-					'targets': h5pxapikatchuColumnsHidden.map( function( id ) {
+					'targets': h5pxapikatchuDataTable.columnsHidden.map( function( id ) {
 						return parseInt( id );
 					})
 				}
@@ -64,16 +64,16 @@
 			'buttons': [
 				{
 					'extend': 'colvis',
-					'text': buttonLabelColumnVisibility
+					'text': h5pxapikatchuDataTable.buttonLabelColumnVisibility
 				}
 			],
-			'language': languageData,
+			'language': h5pxapikatchuDataTable.languageData,
 			'initComplete': function() {
 				var buttonGroup = document.getElementsByClassName( 'dt-buttons btn-group' )[0];
 
 				// Add delete button if allowed to delete
-				if ( buttonGroup && '1' === userCanDeleteResults ) {
-					buttonGroup.appendChild( createButton( buttonLabelDelete, dialogTextDelete ) );
+				if ( buttonGroup && '1' === h5pxapikatchuDataTable.userCanDeleteResults ) {
+					buttonGroup.appendChild( createButton( h5pxapikatchuDataTable.buttonLabelDelete, h5pxapikatchuDataTable.dialogTextDelete ) );
 				}
 
 				// Add drop-down menus for filtering
@@ -97,16 +97,16 @@
 		};
 
 		// Add download button if allowed to download
-		if ( '1' === userCanDownloadResults ) {
+		if ( '1' === h5pxapikatchuDataTable.userCanDownloadResults ) {
 			datatableParams.buttons = datatableParams.buttons || [];
 			datatableParams.buttons.push({
 				'extend': 'csv',
-				'text': buttonLabelDownload,
+				'text': h5pxapikatchuDataTable.buttonLabelDownload,
 				'title': 'h5pxapikatchu-' + new Date().toISOString().substr( 0, 10 )
 			});
 		}
 
-		jQuery( '#' + classDataTable ).DataTable( datatableParams );
+		jQuery( '#' + h5pxapikatchuDataTable.classDataTable ).DataTable( datatableParams );
 
 	});
 } () );

@@ -43,8 +43,22 @@ class Options {
 		wp_enqueue_style( 'DataTablesStyle' );
 
 		// pass variables to JavaScript
-		wp_localize_script( 'BuildCtsTable', 'classCtsTable', self::$class_cts_table );
-		wp_localize_script( 'BuildColVisTable', 'h5pxapikatchuClassColVisTable', self::$class_colvis_table );
+		wp_localize_script(
+			'BuildCtsTable',
+			'h5pxapikatchuCtsTable',
+			array(
+				'classCtsTable' => self::$class_cts_table,
+			)
+		);
+
+		// pass variables to JavaScript
+		wp_localize_script(
+			'BuildColVisTable',
+			'h5pxapikatchuColVisTable',
+			array(
+				'classColVisTable' => self::$class_colvis_table,
+			)
+		);
 	}
 
 	public static function set_defaults() {
