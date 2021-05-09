@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.7
-Stable tag: 0.4.5
+Stable tag: 0.4.6
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -62,12 +62,13 @@ should be allowed to do what:
 === Hooks and filters ===
 H5PxAPIkachu provides some hooks and filters that developers can use to customize the behavior or to use H5PxAPIkachu as the basis of their own plugin.
 
-==== Hooks ====
+==== Actions ====
 - h5pxapikatchu_on_activation: Triggered on activation of H5PxAPIkachu
 - h5pxapikatchu_on_deactivation: Triggered on deactivation of H5PxAPIkachu
 - h5pxapikatchu_on_uninstall: Triggered on uninstall of H5PxAPIkachu
 - h5pxapikatchu_insert_data: Triggered when data are supposed to be inserted into the database
 - h5pxapikatchu_insert_data_pre_database: Triggered right before data will be inserted into the database
+- h5pxapikatchu_insert_data_post_database: Triggered right after data was inserted into the database, contains the new row's id that was inserted to the main table
 - h5pxapikatchu_delete_data: Triggered when data are supposed to be deleted from the database
 
 ==== Filters ====
@@ -91,6 +92,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.6 =
+- Add action h5pxapikatchu_insert_data_post_database (contributed by R. L. Joseph)
 
 = 0.4.5 =
 - Use wp_localize_script with arrays
@@ -208,6 +212,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.6 =
+Upgrade if you require an action triggered after adding an entry to the database including the entry's id
 
 = 0.4.5 =
 Upgrade if you have WP debugging activated.
