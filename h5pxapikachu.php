@@ -334,9 +334,12 @@ function insert_data() {
 	// Add hook 'h5pxapikatchu_insert_data_pre_database'
 	do_action( 'h5pxapikatchu_insert_data_pre_database' );
 
-	$ok = Database::insert_data( $actor, $verb, $object, $result, $xapi );
+	$main_id = Database::insert_data( $actor, $verb, $object, $result, $xapi );
 
-	// We could handle database errors here using $ok.
+	// Add hook 'h5pxapikatchu_insert_data_post_database'
+	do_action( 'h5pxapikatchu_insert_data_post_database', $main_id );
+
+	// We could handle database errors here using $main_id.
 
 	wp_die();
 }

@@ -422,14 +422,14 @@ class Database {
 			$error_count++;
 		}
 
-		$ok = self::insert_main(
+		$main_id = self::insert_main(
 			$actor_id,
 			$verb_id,
 			$object_id,
 			$result_id,
 			$xapi
 		);
-		if ( false === $ok ) {
+		if ( false === $main_id ) {
 			$error_count++;
 		}
 
@@ -439,7 +439,7 @@ class Database {
 		}
 
 		$ok = $wpdb->query( 'COMMIT' );
-		return true;
+		return $main_id;
 	}
 
 	/**
@@ -465,7 +465,7 @@ class Database {
 				'xapi'      => $xapi,
 			)
 		);
-		return ( false === $ok ) ? false : true; // {int|false}
+		return ( false === $ok ) ? false : $wpdb->insert_id; // {int|false}
 	}
 
 	/**
