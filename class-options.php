@@ -532,7 +532,6 @@ class Options {
 		$config_data .= 'window.H5PxAPIkatchu = {' . "\n";
 		$config_data .= '  captureAllH5pContentTypes: ' . '\'' . $capture_all_h5p_content_types . '\'' . ',' . "\n";
 		$config_data .= '  debugEnabled: ' . '\'' . $debug_enabled . '\'' . ',' . "\n";
-		$config_data .= '  embedSupported: ' . '\'' . $embed_supported . '\'' . ',' . "\n";
 		$config_data .= '  h5pContentTypes: ' . $h5p_content_types . ',' . "\n";
 		$config_data .= '  jQuery: H5P.jQuery,' . "\n";
 		$config_data .= '  wpAJAXurl: \'' . admin_url( 'admin-ajax.php' ) . '\'' . "\n";

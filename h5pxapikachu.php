@@ -353,13 +353,45 @@ function h5pxapikatchu_add_admin_styles() {
 }
 
 /**
- * Add xAPI listener to content
+ * Add xAPI listener to content if feasible.
+ *
  * @param object &$scripts List of JavaScripts that will be loaded.
  * @param array $libraries The libraries which the scripts belong to.
  * @param string $embed_type Possible values are: div, iframe, external, editor.
  */
 function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
-	// This file is generated dynamically when options change
+	// Is content embedded?
+	$is_embed = ( false !== strpos( $_SERVER['REQUEST_URI'], 'action=h5p_embed' ) );
+
+	// Is admin viewing H5P content in backend?
+	$is_admin_h5p_view = (
+		false !== strpos( $_SERVER['REQUEST_URI'], 'page=h5p' ) &&
+		false !== strpos( $_SERVER['REQUEST_URI'], 'task=show' )
+	);
+
+	// Is admin editing post/page with embedded content?
+	$is_admin_post_iframe = (
+		isset( $_SERVER['HTTP_REFERER'] ) &&
+		false !== strpos( $_SERVER['HTTP_REFERER'], 'action=edit' )
+	);
+
+	// Is iframe call from same origin?
+	$is_same_origin = ( 'same-origin' === $_SERVER['HTTP_SEC_FETCH_SITE'] );
+
+	if ( $is_admin_h5p_view || $is_admin_post_iframe ) {
+		return; // Viewing H5P content in backend or editing post with embedded content
+	}
+
+	if ( ! Options::is_embed_supported() && ! $is_same_origin && $is_embed ) {
+		return; // Embedding via link or iframe from external
+	}
+
+	/*
+	 * Add JavaScript listener to H5P content. Configuration is created
+	 * via dynamically created H5P file, because passing config via
+	 * wp_localize_script cannot run if WordPress is bypassed by using
+	 * embed code or direct link.
+	 */
 	$scripts[] = (object) array(
 		'path'    => plugins_url( 'js/h5pxapikatchu-config.js', __FILE__ ),
 		'version' => '?ver=' . H5PXAPIKATCHU_VERSION,

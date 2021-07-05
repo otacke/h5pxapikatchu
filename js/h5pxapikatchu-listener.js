@@ -76,7 +76,6 @@ var H5P = H5P || {};
 
 	// Get environment variables
 	var H5PxAPIkatchu;
-	var parts, isHostReferer;
 	var topWindow;
 
 	topWindow = ( window.H5PxAPIkatchu ) ? window : getTopWindow();
@@ -85,25 +84,6 @@ var H5P = H5P || {};
 		return;
 	}
 	H5PxAPIkatchu = topWindow.H5PxAPIkatchu;
-
-	// Don't listen if someone is running H5P content in backend
-	if ( window.location && window.location.href ) {
-		parts = window.location.href.split( '?' );
-		if ( 1 < parts.length ) {
-			parts = parts[1].split( '&' );
-
-			isHostReferer = ( '' !== getHostname( document.referrer ) && getHostname( document.referrer ) === getHostname( window.location.href ) );
-
-			if ( -1 !== parts.indexOf( 'action=h5p_embed' ) && '1' !== H5PxAPIkatchu.embedSupported && ! isHostReferer ) {
-				return; // Support for embeds not activated
-			}
-
-			if ( -1 !== parts.indexOf( 'page=h5p' ) && -1 !== parts.indexOf( 'task=show' ) ) {
-				console.warn( 'You seem to be looking at this content in the backend and xAPI statements are not stored in that case.' );
-				return; // Is admin viewing the content
-			}
-		}
-	}
 
 	/**
 	 * Add xAPI listeners to all H5P instances that can trigger xAPI.
