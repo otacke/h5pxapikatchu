@@ -558,6 +558,14 @@ class Options {
 	}
 
 	/**
+	 * Get flag for showinf embed supported.
+	 * @return boolean True, if flag set.
+	 */
+	public static function is_embed_supported() {
+		return isset( self::$options['embed_supported'] );
+	}
+
+	/**
 	 * Get flag for capturing from all H5P content types.
 	 * @return boolean True, if flag set.
 	 */
