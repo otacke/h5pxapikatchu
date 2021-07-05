@@ -64,9 +64,19 @@ var H5P = H5P || {};
 		}
 	};
 
+	/**
+	 * Get hostname.
+	 * @param {string} url URL.
+	 * @return {string|null} Hostname.
+	 */
+	var getHostname = function( url ) {
+		var matches = url.match( /^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i );
+		return matches && matches[1];
+	};
+
 	// Get environment variables
 	var H5PxAPIkatchu;
-	var parts;
+	var parts, isHostReferer;
 	var topWindow;
 
 	topWindow = ( window.H5PxAPIkatchu ) ? window : getTopWindow();
@@ -82,7 +92,9 @@ var H5P = H5P || {};
 		if ( 1 < parts.length ) {
 			parts = parts[1].split( '&' );
 
-			if ( -1 !== parts.indexOf( 'action=h5p_embed' ) && '1' !== H5PxAPIkatchu.embedSupported && ! document.referrer ) {
+			isHostReferer = ( '' !== getHostname( document.referrer ) && getHostname( document.referrer ) === getHostname( window.location.href ) );
+
+			if ( -1 !== parts.indexOf( 'action=h5p_embed' ) && '1' !== H5PxAPIkatchu.embedSupported && ! isHostReferer ) {
 				return; // Support for embeds not activated
 			}
 
