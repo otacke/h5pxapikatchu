@@ -6,7 +6,7 @@
  * Text Domain: H5PXAPIKATCHU
  * Domain Path: /languages
  * Description: Catch and store xAPI statements sent by H5P
- * Version: 0.4.6
+ * Version: 0.4.7
  * Author: Oliver Tacke
  * Author URI: https://www.olivertacke.de
  * License: MIT
@@ -18,7 +18,7 @@ namespace H5PXAPIKATCHU;
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 if ( ! defined( 'H5PXAPIKATCHU_VERSION' ) ) {
-	define( 'H5PXAPIKATCHU_VERSION', '0.4.6' );
+	define( 'H5PXAPIKATCHU_VERSION', '0.4.7' );
 }
 
 // settings.php contains all functions for the settings

@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.7
-Stable tag: 0.4.6
+Stable tag: 0.4.7
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -92,6 +92,10 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.7 =
+- Allow catching xAPI statements from embeds on other pages.
+- Add option for catching xAPI statements from embeds on other pages (default: not allowed)
 
 = 0.4.6 =
 - Add action h5pxapikatchu_insert_data_post_database (contributed by R. L. Joseph)
@@ -212,6 +216,10 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.7 =
+Upgrade if you want to register xAPI statements from your content that is embedded on other pages.
+Please note that you need to activate this option first. Activating this option may lead to unexpected xAPI statements (in high numbers) if others embed your content somewhere. Your server will have to cope with all these statements. This behavior may deplete your resources and is a potential gateway for a denial-of-service attack.
 
 = 0.4.6 =
 Upgrade if you require an action triggered after adding an entry to the database including the entry's id
