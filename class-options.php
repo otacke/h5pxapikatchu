@@ -183,6 +183,14 @@ class Options {
 		);
 
 		add_settings_field(
+			'embed_supported',
+			__( 'Embed support', 'H5PXAPIKATCHU' ),
+			array( $this, 'embed_supported_callback' ),
+			'h5pxapikatchu-admin',
+			'general_settings'
+		);
+
+		add_settings_field(
 			'capture_all_h5p_content_types',
 			__( 'Capture everything', 'H5PXAPIKATCHU' ),
 			array( $this, 'capture_all_h5p_content_types_callback' ),
@@ -234,6 +242,9 @@ class Options {
 		}
 		if ( isset( $input['debug_enabled'] ) ) {
 			$new_input['debug_enabled'] = absint( $input['debug_enabled'] );
+		}
+		if ( isset( $input['embed_supported'] ) ) {
+			$new_input['embed_supported'] = absint( $input['embed_supported'] );
 		}
 		if ( isset( $input['capture_all_h5p_content_types'] ) ) {
 			$new_input['capture_all_h5p_content_types'] = absint( $input['capture_all_h5p_content_types'] );
@@ -324,6 +335,28 @@ class Options {
 			?>
 		/>
 		<?php echo __( 'Display xAPI statements in the JavaScript debug console', 'H5PXAPIKATCHU' ); ?>
+		</label>
+		<?php
+	}
+
+	/**
+	 * Show the option for allowing xAPI statements from embeds
+	 */
+	public function embed_supported_callback() {
+		?>
+		<label for="embed_supported">
+		<input
+			type="checkbox"
+			name="h5pxapikatchu_option[embed_supported]"
+			id="embed_supported"
+			value="1"
+			<?php
+				echo isset( self::$options['embed_supported'] ) ?
+					checked( '1', self::$options['embed_supported'], false ) :
+					''
+			?>
+		/>
+		<?php echo __( 'Accept xAPI statements from content embedded on other pages', 'H5PXAPIKATCHU' ); ?>
 		</label>
 		<?php
 	}
@@ -467,6 +500,8 @@ class Options {
 
 		$debug_enabled = isset( $new_values['debug_enabled'] ) ? '1' : '0';
 
+		$embed_supported = isset( $new_values['embed_supported'] ) ? '1' : '0';
+
 		if ( isset( $new_values['h5p_content_types'] ) ) {
 			$h5p_content_types = explode( ',', $new_values['h5p_content_types'] );
 
@@ -486,6 +521,7 @@ class Options {
 		$config_data .= 'window.H5PxAPIkatchu = {' . "\n";
 		$config_data .= '  captureAllH5pContentTypes: ' . '\'' . $capture_all_h5p_content_types . '\'' . ',' . "\n";
 		$config_data .= '  debugEnabled: ' . '\'' . $debug_enabled . '\'' . ',' . "\n";
+		$config_data .= '  embedSupported: ' . '\'' . $embed_supported . '\'' . ',' . "\n";
 		$config_data .= '  h5pContentTypes: ' . $h5p_content_types . ',' . "\n";
 		$config_data .= '  jQuery: H5P.jQuery,' . "\n";
 		$config_data .= '  wpAJAXurl: \'' . admin_url( 'admin-ajax.php' ) . '\'' . "\n";
