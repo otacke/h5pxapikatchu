@@ -82,7 +82,7 @@ var H5P = H5P || {};
 		if ( 1 < parts.length ) {
 			parts = parts[1].split( '&' );
 
-			if ( -1 !== parts.indexOf( 'action=h5p_embed' ) && '1' !== H5PxAPIkatchu.embedSupported ) {
+			if ( -1 !== parts.indexOf( 'action=h5p_embed' ) && '1' !== H5PxAPIkatchu.embedSupported && ! document.referrer ) {
 				return; // Support for embeds not activated
 			}
 
