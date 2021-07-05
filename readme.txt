@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.7
-Stable tag: 0.4.7
+Stable tag: 0.4.8
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -92,6 +92,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.8 =
+- Fix initializing new dynamic config file on update.
 
 = 0.4.7 =
 - Allow catching xAPI statements from embeds on other pages.
@@ -216,6 +219,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.8 =
+Upgrade if you need the features from version 0.4.7 and don't want to save the configuration manually once.
 
 = 0.4.7 =
 Upgrade if you want to register xAPI statements from your content that is embedded on other pages.

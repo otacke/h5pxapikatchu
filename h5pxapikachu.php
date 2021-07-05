@@ -6,7 +6,7 @@
  * Text Domain: H5PXAPIKATCHU
  * Domain Path: /languages
  * Description: Catch and store xAPI statements sent by H5P
- * Version: 0.4.7
+ * Version: 0.4.8
  * Author: Oliver Tacke
  * Author URI: https://www.olivertacke.de
  * License: MIT
@@ -18,7 +18,7 @@ namespace H5PXAPIKATCHU;
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 if ( ! defined( 'H5PXAPIKATCHU_VERSION' ) ) {
-	define( 'H5PXAPIKATCHU_VERSION', '0.4.7' );
+	define( 'H5PXAPIKATCHU_VERSION', '0.4.8' );
 }
 
 // settings.php contains all functions for the settings
@@ -135,6 +135,24 @@ function update() {
 		add_capabilities();
 
 		update_option( 'h5pxapikatchu_version', '0.4.1' );
+	}
+
+	// Update from 0.4.1 through 0.4.7
+	if ( '0' === $version[0] && '4' === $version[1] && '1' <= $version[2] && 7 >= $version[2] ) {
+		$config_values = array();
+
+		if ( Options::is_debug_enabled() ) {
+			$config_values['debug_enabled'] = '1';
+		}
+
+		if ( Options::capture_all_h5p_content_types() ) {
+			$config_values['capture_all_h5p_content_types'] = '1';
+		}
+
+		$config_values['h5p_content_types'] = implode( ',', Options::get_h5p_content_types() );
+
+		Options::update_config_file( $config_values );
+		update_option( 'h5pxapikatchu_version', '0.4.8' );
 	}
 
 	update_option( 'h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
