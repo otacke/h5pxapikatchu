@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2019-06-05 20:06+0200\n"
-"PO-Revision-Date: 2019-06-05 20:07+0200\n"
+"POT-Creation-Date: 2021-07-05 18:57+0200\n"
+"PO-Revision-Date: 2021-07-05 18:57+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -21,115 +21,129 @@ msgstr ""
 "X-Poedit-SearchPath-4: class-xapidata.php\n"
 "X-Poedit-SearchPath-5: class-privacypolicy.php\n"
 
-#: class-database.php:748
+#: class-database.php:757
 msgid "Actor Id"
 msgstr "Akteur ID"
 
-#: class-database.php:749
+#: class-database.php:758
 msgid "Actor Name"
 msgstr "Akteur Name"
 
-#: class-database.php:750
+#: class-database.php:759
 msgid "Actor Group Members"
 msgstr "Akteur Gruppenmitglieder"
 
-#: class-database.php:751
+#: class-database.php:760
 msgid "Verb Id"
 msgstr "Verb ID"
 
-#: class-database.php:752
+#: class-database.php:761
 msgid "Verb Display"
 msgstr "Verb Anzeige"
 
-#: class-database.php:753
+#: class-database.php:762
 msgid "Object Id"
 msgstr "Objekt ID"
 
-#: class-database.php:754
+#: class-database.php:763
 msgid "Object Def. Name"
 msgstr "Objekt Def. Name"
 
-#: class-database.php:755
+#: class-database.php:764
 msgid "Object Def. Description"
 msgstr "Objekt Def. Beschreibung"
 
-#: class-database.php:756
+#: class-database.php:765
 msgid "Object Def. Choices"
 msgstr "Objekt Auswahlmöglichkeiten"
 
-#: class-database.php:757
+#: class-database.php:766
 msgid "Object Def. Correct Responses"
 msgstr "Objekt Def. Richtige Antworten"
 
-#: class-database.php:758
+#: class-database.php:767
 msgid "Result Response"
 msgstr "Ergebnis Antwort"
 
-#: class-database.php:759
+#: class-database.php:768
 msgid "Result Score Raw"
 msgstr "Ergebnis Punkte"
 
-#: class-database.php:760
+#: class-database.php:769
 msgid "Result Score Scaled"
 msgstr "Ergebnis Punkte, skaliert"
 
-#: class-database.php:761
+#: class-database.php:770
 msgid "Result Completion"
 msgstr "Ergebnis Abgeschlossen"
 
-#: class-database.php:762
+#: class-database.php:771
 msgid "Result Success"
 msgstr "Ergebnis Erfolg"
 
-#: class-database.php:763
+#: class-database.php:772
 msgid "Result Duration"
 msgstr "Ergebnis Dauer"
 
-#: class-database.php:764
+#: class-database.php:773
 msgid "Time"
 msgstr "Zeit"
 
-#: class-database.php:765 class-privacypolicy.php:30
+#: class-database.php:774 class-privacypolicy.php:34
 msgid "xAPI"
 msgstr "xAPI"
 
-#: class-database.php:766
+#: class-database.php:775
 msgid "WP User ID"
 msgstr "WP User ID"
 
-#: class-database.php:767
+#: class-database.php:776
 msgid "H5P Content ID"
 msgstr "H5P Content ID"
 
-#: class-database.php:768
+#: class-database.php:777
 msgid "H5P Subcontent ID"
 msgstr "H5P Subcontent ID"
 
-#: class-options.php:145
+#: class-options.php:52
+msgid ""
+"Please note: Activating this option may lead to unexpected xAPI statements "
+"(in high numbers) if others embed your content somewhere. Your server will "
+"have to cope with all these statements."
+msgstr ""
+"Bitte beachten: Das Einschalten dieser Option kann zu unerwarteten xAPI-"
+"Statements (in hoher Zahl) führen, wenn andere deinen Inhalt irgendwo "
+"einbetten. Dein Server wird all diese Statements verarbeiten müssen."
+
+#: class-options.php:175
 msgid "General"
 msgstr "Allgemein"
 
-#: class-options.php:152
+#: class-options.php:182
 msgid "Store complete statements"
 msgstr "Komplette Statements speichern"
 
-#: class-options.php:160
+#: class-options.php:190
 msgid "Debug"
 msgstr "Debug"
 
-#: class-options.php:168
+#: class-options.php:198
+msgid "Embed support"
+msgstr "Einbetten unterstützen"
+
+#: class-options.php:206
 msgid "Capture everything"
 msgstr "Alles aufzeichnen"
 
-#: class-options.php:176 class-options.php:183
+#: class-options.php:214 class-options.php:221
 msgid "H5P content types"
 msgstr "H5P-Inhaltstypen"
 
-#: class-options.php:191 class-options.php:198
+#: class-options.php:229 class-options.php:236
 msgid "Visible columns"
 msgstr "Sichtbare Spalten"
 
-#: class-options.php:255
+#: class-options.php:296
 msgid ""
 "By checking the column titles below you can select if the corresponding "
 "columns will be displayed by default."
@@ -137,7 +151,7 @@ msgstr ""
 "Durch das Anwählen einzelner Spaltentitel kannst du auswählen, welche "
 "Spalten standardmäßig angezeigt werden."
 
-#: class-options.php:262
+#: class-options.php:303
 msgid ""
 "By checking the H5P content types below you can select their xAPI statements "
 "for being captured."
@@ -145,7 +159,7 @@ msgstr ""
 "Durch das Anwählen einzelner H5P-Inhaltstypen kannst du auswählen, für "
 "welche die xAPI-Statements aufgezeichnet werden sollen."
 
-#: class-options.php:284
+#: class-options.php:325
 msgid ""
 "Store the complete xAPI statement as JSON data. Be sure to check your "
 "database storage limit!"
@@ -153,50 +167,57 @@ msgstr ""
 "Speichere die kompletten xAPI-Statements als JSON-Daten. Prüfe vorher den "
 "Speicherplatz deiner Datenbank!"
 
-#: class-options.php:307
+#: class-options.php:348
 msgid "Display xAPI statements in the JavaScript debug console"
 msgstr "Zeige die xAPI-Statements in der JavaScript-Debug-Konsole"
 
-#: class-options.php:330
+#: class-options.php:370
+msgid ""
+"Accept xAPI statements from your content that is embedded on other pages"
+msgstr ""
+"Akzeptiere xAPI-Statements von deinen Inhalten, die auf anderen Seiten "
+"eingebettet sind"
+
+#: class-options.php:393
 msgid "Capture the xAPI statements of all H5P content types"
 msgstr "Schneide die xAPI-Statements aller H5P-Inhaltstypen mit"
 
-#: class-options.php:343
+#: class-options.php:406
 msgid "It seems there are no column titles defined. Wicked!"
 msgstr "Es scheint as seien keine Spaltentitel festgelegt. Seltsam!"
 
-#: class-options.php:353
+#: class-options.php:416
 msgid "Column title"
 msgstr "Spaltentitel"
 
-#: class-options.php:388
+#: class-options.php:451
 msgid "It seems that H5P is not installed on this WordPress system."
 msgstr ""
 "Es scheint, als wäre H5P auf diesem WordPress-System nicht installiert."
 
-#: class-options.php:397
+#: class-options.php:460
 msgid "Title"
 msgstr "Titel"
 
-#: class-options.php:398
+#: class-options.php:461
 msgid "Type"
 msgstr "Typ"
 
-#: class-options.php:399
+#: class-options.php:462
 msgid "Id"
 msgstr "ID"
 
-#: class-privacypolicy.php:34
+#: class-privacypolicy.php:38
 msgid "What personal data we collect and why we collect it"
 msgstr "Welche personenbezogenen Daten wir sammeln und warum wir sie sammeln"
 
-#: class-privacypolicy.php:35 class-privacypolicy.php:55
-#: class-privacypolicy.php:97 class-privacypolicy.php:117
-#: class-privacypolicy.php:151 class-table-view.php:86
+#: class-privacypolicy.php:39 class-privacypolicy.php:59
+#: class-privacypolicy.php:101 class-privacypolicy.php:121
+#: class-privacypolicy.php:155 class-table-view.php:97
 msgid "H5PxAPIkatchu"
 msgstr "H5PxAPIkatchu"
 
-#: class-privacypolicy.php:40
+#: class-privacypolicy.php:44
 #, php-format
 msgid ""
 "When you use interactive content, we may collect data about your interaction "
@@ -205,7 +226,7 @@ msgstr ""
 "Wenn du interaktive Inhalte benutzt, können Daten über deine Interaktionen "
 "mittels %s gesammelt werden."
 
-#: class-privacypolicy.php:45
+#: class-privacypolicy.php:49
 msgid ""
 "The data may e.g. contain what answer was given, how long it took to answer, "
 "what score was achieved, etc."
@@ -213,7 +234,7 @@ msgstr ""
 "Die Daten können beispielsweise umfassen, welche Antworten gegeben wurden, "
 "wie lange zum Antworten benötigt wurde, welche Punktzahl erreicht wurde, usw."
 
-#: class-privacypolicy.php:46
+#: class-privacypolicy.php:50
 msgid ""
 "We use the data to learn about how well the interaction is designed and how "
 "it could be adapted to improve the usability and learning outcomes in "
@@ -223,7 +244,7 @@ msgstr ""
 "wurden und wie sie angepasst werden könnten, um die Bedienung und die "
 "Lernergebnisse zu verbessern."
 
-#: class-privacypolicy.php:49
+#: class-privacypolicy.php:53
 msgid ""
 "However, if and only if you are logged in, this data will be tied to your "
 "full name, your email address, and your WordPress user id."
@@ -232,110 +253,110 @@ msgstr ""
 "deinem vollen Namen, deiner E-Mail-Adresse und deiner WordPress-Benutzer-ID "
 "verknüpft."
 
-#: class-privacypolicy.php:50
+#: class-privacypolicy.php:54
 msgid "In consequence, your interactions could be linked to you."
 msgstr ""
 "Infolgedessen können deine Interaktionen mit dir in Verbindung gebracht "
 "werden."
 
-#: class-privacypolicy.php:51
+#: class-privacypolicy.php:55
 msgid "Therefore, all personal data can be stripped to anonymize the data."
 msgstr "Daher ist es möglich, alle persönlichen Daten anonymisieren zu lassen."
 
-#: class-table-view.php:42
-msgid "Download"
-msgstr "Herunterladen"
-
-#: class-table-view.php:43
-msgid "Show/hide columns"
-msgstr "Zeige/verstecke Spalten"
-
 # This item is for DataTables. It uses _START_ and _END_ and _TOTAL_ als placeholders. Don't translate these.
-#: class-table-view.php:47
+#: class-table-view.php:41
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Zeige _START_ bis _END_ von _TOTAL_ Einträgen"
 
-#: class-table-view.php:48
+#: class-table-view.php:42
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "Zeige 0 bis 0 von 0 Einträgen"
 
-#: class-table-view.php:49
+#: class-table-view.php:43
 msgid "filtered from _MAX_ total entries"
 msgstr "gefiltert aus _MAX_ Einträgen insgesamt"
 
-#: class-table-view.php:50
+#: class-table-view.php:44
 msgid "Show _MENU_ entries"
 msgstr "Zeige _MENU_ Einträge"
 
-#: class-table-view.php:51
+#: class-table-view.php:45
 msgid "Loading..."
 msgstr "Wird geladen..."
 
-#: class-table-view.php:52
+#: class-table-view.php:46
 msgid "Processing..."
 msgstr "Bitte warten..."
 
-#: class-table-view.php:53
+#: class-table-view.php:47
 msgid "Search"
 msgstr "Suchen"
 
-#: class-table-view.php:54
+#: class-table-view.php:48
 msgid "No matching records found"
 msgstr "Keine Einträge vorhanden."
 
-#: class-table-view.php:56
+#: class-table-view.php:50
 msgid "First"
 msgstr "Erste"
 
-#: class-table-view.php:57
+#: class-table-view.php:51
 msgid "Last"
 msgstr "Letzte"
 
-#: class-table-view.php:58
+#: class-table-view.php:52
 msgid "Next"
 msgstr "Nächste"
 
-#: class-table-view.php:59
+#: class-table-view.php:53
 msgid "Previous"
 msgstr "Vorherige"
 
-#: class-table-view.php:63
+#: class-table-view.php:64
+msgid "Download"
+msgstr "Herunterladen"
+
+#: class-table-view.php:65
+msgid "Show/hide columns"
+msgstr "Zeige/verstecke Spalten"
+
+#: class-table-view.php:69
 msgid "Delete"
 msgstr "Löschen"
 
-#: class-table-view.php:64
+#: class-table-view.php:70
 msgid "Do you really want to delete all the data?"
 msgstr "Willst du wirklich alle Daten löschen?"
 
-#: class-table-view.php:65
+#: class-table-view.php:71
 msgid "Sorry, something went wrong with deleting the data."
 msgstr "Entschuldigung. Beim Löschen der Daten ging etwas schief."
 
-#: class-table-view.php:77
+#: class-table-view.php:85
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Du hast nicht genügend Rechte, um diese Seite aufzurufen."
 
-#: class-table-view.php:88
+#: class-table-view.php:99
 msgid "There is no xAPI information stored."
 msgstr "Es sind keine xAPI-Informationen gespeichert."
 
-#: class-xapidata.php:57
+#: class-xapidata.php:58
 msgid "Group"
 msgstr "Gruppe"
 
-#: class-xapidata.php:198
+#: class-xapidata.php:199
 msgid "email"
 msgstr "E-Mail-Adresse"
 
-#: class-xapidata.php:201
+#: class-xapidata.php:202
 msgid "email hash"
 msgstr "E-Mail-Hashwert"
 
-#: class-xapidata.php:204
+#: class-xapidata.php:205
 msgid "openid"
 msgstr "OpenID"
 
-#: class-xapidata.php:207
+#: class-xapidata.php:208
 msgid "account"
 msgstr "Konto"
 

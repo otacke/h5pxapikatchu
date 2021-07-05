@@ -4,6 +4,7 @@
 	var CLASS_CHECKBOX_CAPTURE_ALL = 'h5pxapikatchu_capture_all_content_types';
 	var CLASS_CHECKBOX_SELECT_CONTENT_TYPE = 'h5pxapikatchu-content-type-selector';
 	var CLASS_CHECKBOX_SELECT_CONTENT_TYPE_HIDDEN = 'h5pxapikatchu-content-type-selector-hidden';
+	var CLASS_CHECKBOX_EMBED_ALLOWED = 'embed_supported';
 
 	/**
 	 * Add a hidden dummy element to pass form content of disabled fields
@@ -55,7 +56,7 @@
 	};
 
 	document.onreadystatechange = function() {
-		var captureAllFlag;
+		var captureAllFlag, debugAllowed;
 
 		if ( 'interactive' !== document.readyState ) {
 			return;
@@ -72,6 +73,16 @@
 			// Add ClickListener to the "Capture All" checkbox
 			captureAllFlag.addEventListener( 'click', function() {
 				toggleCTS();
+			});
+		}
+
+		// Warning for allow embed option
+		debugAllowed = document.getElementById( CLASS_CHECKBOX_EMBED_ALLOWED );
+		if ( null !== captureAllFlag ) {
+			debugAllowed.addEventListener( 'click', function() {
+				if ( debugAllowed.checked ) {
+					alert( h5pxapikatchuOptions.l10n.embedAllowedWarning );
+				}
 			});
 		}
 	};

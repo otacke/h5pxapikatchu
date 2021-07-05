@@ -45,6 +45,17 @@ class Options {
 
 		// pass variables to JavaScript
 		wp_localize_script(
+			'Options',
+			'h5pxapikatchuOptions',
+			array(
+				'l10n' => (object) array(
+					'embedAllowedWarning' => __( 'Please note: Activating this option may lead to unexpected xAPI statements (in high numbers) if others embed your content somewhere. Your server will have to cope with all these statements.', 'H5PXAPIKATCHU' ),
+				),
+			)
+		);
+
+		// pass variables to JavaScript
+		wp_localize_script(
 			'BuildCtsTable',
 			'h5pxapikatchuCtsTable',
 			array(
@@ -356,7 +367,7 @@ class Options {
 					''
 			?>
 		/>
-		<?php echo __( 'Accept xAPI statements from content embedded on other pages', 'H5PXAPIKATCHU' ); ?>
+		<?php echo __( 'Accept xAPI statements from your content that is embedded on other pages', 'H5PXAPIKATCHU' ); ?>
 		</label>
 		<?php
 	}
