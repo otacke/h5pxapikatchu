@@ -29,25 +29,6 @@ require_once( __DIR__ . '/class-xapidata.php' );
 require_once( __DIR__ . '/class-privacypolicy.php' );
 
 /**
- * Setup the plugin.
- */
-function setup() {
-	wp_enqueue_script( 'H5PxAPIkatchu', plugins_url( '/js/h5pxapikatchu-variables.js', __FILE__ ), array( 'jquery' ), H5PXAPIKATCHU_VERSION );
-
-	// Pass variables to JavaScript, will store it in a global object for other scripts
-	wp_localize_script(
-		'H5PxAPIkatchu',
-		'h5pxapikatchu',
-		array(
-			'wpAJAXurl'                 => admin_url( 'admin-ajax.php' ),
-			'debugEnabled'              => Options::is_debug_enabled() ? '1' : '0',
-			'captureAllH5pContentTypes' => Options::capture_all_h5p_content_types() ? '1' : '0',
-			'h5pContentTypes'           => Options::get_h5p_content_types(),
-		)
-	);
-}
-
-/**
  * Initialize
  */
 function init() {
@@ -378,6 +359,12 @@ function h5pxapikatchu_add_admin_styles() {
  * @param string $embed_type Possible values are: div, iframe, external, editor.
  */
 function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
+	// This file is generated dynamically when options change
+	$scripts[] = (object) array(
+		'path'    => plugins_url( 'js/h5pxapikatchu-config.js', __FILE__ ),
+		'version' => '?ver=' . H5PXAPIKATCHU_VERSION,
+	);
+
 	$scripts[] = (object) array(
 		'path'    => plugins_url( 'js/h5pxapikatchu-listener.js', __FILE__ ),
 		'version' => '?ver=' . H5PXAPIKATCHU_VERSION,
@@ -389,7 +376,6 @@ register_activation_hook( __FILE__, 'H5PXAPIKATCHU\on_activation' );
 register_deactivation_hook( __FILE__, 'H5PXAPIKATCHU\on_deactivation' );
 register_uninstall_hook( __FILE__, 'H5PXAPIKATCHU\on_uninstall' );
 
-add_action( 'the_post', 'H5PXAPIKATCHU\setup' );
 add_action( 'h5p_alter_library_scripts', 'H5PXAPIKATCHU\alter_h5p_scripts', 10, 3 );
 add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );

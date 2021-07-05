@@ -20,6 +20,7 @@ class Options {
 	 * Start up
 	 */
 	public function __construct() {
+		add_filter( 'update_option_h5pxapikatchu_option', array( $this, 'handle_options_update' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 		add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
 		add_action( 'admin_init', array( $this, 'page_init' ) );
@@ -72,14 +73,18 @@ class Options {
 		// Remember that defaults have been set
 		update_option( 'h5pxapikatchu_defaults_set', true );
 
+		$config_data = array(
+			'capture_all_h5p_content_types' => 1,
+			'columns_visible'               => implode( ',', Database::get_column_titles() ),
+		);
+
 		// Store all content types by default, show all columns by default
 		update_option(
 			self::$option_slug,
-			array(
-				'capture_all_h5p_content_types' => 1,
-				'columns_visible'               => implode( ',', Database::get_column_titles() ),
-			)
+			$config_data
 		);
+
+		self::update_config_file( $config_data );
 	}
 
 	/**
@@ -428,6 +433,65 @@ class Options {
 
 		echo '</tbody>';
 		echo '</table></div>';
+	}
+
+	/**
+	 * Update configuration callback for update_option_h5pxapikatchu_option.
+	 *
+	 * People might run H5P content via its embed link, so variables cannot be
+	 * passed via WordPress. Put them in a JavaScript file instead that can be
+	 * passed to H5P's alter_scripts hook.
+	 *
+	 * @param array $new_values Contains all old settings fields as array keys
+	 * @param array $new_values Contains all new settings fields as array keys
+	 */
+	function handle_options_update( $old_values, $new_values ) {
+		self::update_config_file( $new_values );
+	}
+
+	/**
+	 * Update dynamic config file
+	 *
+	 * @param array $new_values Contains all set settings fields as array keys
+	 */
+	public static function update_config_file( $new_values ) {
+		if ( ! isset( $new_values ) ) {
+			return; // Nothing to do
+		}
+
+		// Dynamically create file
+		$config_file = realpath( dirname( __FILE__ ) ) . '/js/' . 'h5pxapikatchu-config.js';
+
+		// Set values depending on changed settings
+		$capture_all_h5p_content_types = isset( $new_values['capture_all_h5p_content_types'] ) ? '1' : '0';
+
+		$debug_enabled = isset( $new_values['debug_enabled'] ) ? '1' : '0';
+
+		if ( isset( $new_values['h5p_content_types'] ) ) {
+			$h5p_content_types = explode( ',', $new_values['h5p_content_types'] );
+
+			$h5p_content_types = array_map(
+				function ( $value ) {
+					return '\'' . $value . '\'';
+				},
+				$h5p_content_types
+			);
+			$h5p_content_types = '[ ' . implode( ', ', $h5p_content_types ) . ' ]';
+		} else {
+			$h5p_content_types = '[]';
+		}
+
+		// Remember: PHP does print \n if using single quotes
+		$config_data  = '// Set environment variables' . "\n";
+		$config_data .= 'window.H5PxAPIkatchu = {' . "\n";
+		$config_data .= '  captureAllH5pContentTypes: ' . '\'' . $capture_all_h5p_content_types . '\'' . ',' . "\n";
+		$config_data .= '  debugEnabled: ' . '\'' . $debug_enabled . '\'' . ',' . "\n";
+		$config_data .= '  h5pContentTypes: ' . $h5p_content_types . ',' . "\n";
+		$config_data .= '  jQuery: H5P.jQuery,' . "\n";
+		$config_data .= '  wpAJAXurl: \'' . admin_url( 'admin-ajax.php' ) . '\'' . "\n";
+		$config_data .= '};' . "\n";
+
+		file_put_contents( $config_file, $config_data );
 	}
 
 	/**
