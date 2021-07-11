@@ -10,7 +10,7 @@
 			url: wpAJAXurl,
 			type: 'post',
 			data: {
-				action: 'delete_data'
+				action: 'h5pxapikatchu_delete_data'
 			},
 			success: function( response ) {
 				if ( '"done"' === response ) {
