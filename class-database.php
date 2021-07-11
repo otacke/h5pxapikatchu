@@ -409,9 +409,82 @@ class Database {
 			$options['order'][0]['dir'] = 'asc';
 		}
 
+		if ( ! isset( $options['search'] ) ) {
+			$options['search']          = [];
+			$options['search']['value'] = '';
+		}
+
+		if ( ! isset( $options['columns'] ) ) {
+			$options['columns'] = [];
+		}
+
 		if ( '%' === $wp_user_id ) {
 			$wp_user_id = '"%"';
 		}
+
+		$db_columns = [
+			'act.actor_id',
+			'act.actor_name',
+			'act.actor_members',
+			'ver.verb_id',
+			'ver.verb_display',
+			'obj.xobject_id',
+			'obj.object_name',
+			'obj.object_description',
+			'obj.object_choices',
+			'obj.object_correct_responses_pattern',
+			'res.result_response',
+			'res.result_score_raw',
+			'res.result_score_scaled',
+			'res.result_completion',
+			'res.result_success',
+			'res.result_duration',
+			'mst.time',
+			'mst.xapi',
+			'act.wp_user_id',
+			'obj.h5p_content_id',
+			'obj.h5p_subcontent_id',
+		];
+
+		// Search conditions
+		$search_conditions = '';
+		if ( '' !== $options['search']['value'] ) {
+			$value = $options['search']['value'];
+
+			$search_conditions = 'AND (';
+
+			$search_conditions .= implode(
+				' OR ',
+				array_map(
+					function ( $column ) use ( $value ) {
+						return $column . ' LIKE "%' . $value . '%"';
+					},
+					$db_columns
+				)
+			);
+
+			$search_conditions .= ')';
+		}
+
+		// Build filter conditions
+		$filter_conditions = array_map(
+			function ( $column ) {
+				if ( isset( $column['search']['value'] ) && ( '' !== $column['search']['value'] ) ) {
+					return $column['search']['value'];
+				}
+
+				return '^(.*?)$';
+			},
+			$options['columns']
+		);
+		$filter_conditions = array_map(
+			function ( $regxep, $index ) use ( $db_columns ) {
+				return '(' . $db_columns[ $index ] . ' IS NULL OR ' . $db_columns[ $index ] . ' REGEXP BINARY "' . $regxep . '")';
+			},
+			$filter_conditions,
+			array_keys( $filter_conditions )
+		);
+		$filter_conditions = ' AND (' . implode( ' AND ', $filter_conditions ) . ')';
 
 		$sql =
 			'
@@ -436,6 +509,8 @@ class Database {
 				mst.id_result = res.id and
 				obj.h5p_content_id = cnt.id AND
 				cnt.user_id LIKE ' . $wp_user_id . '
+				' . $search_conditions . '
+				' . $filter_conditions . '
 			ORDER BY
 				' . $options['order'][0]['column'] . ' ' . $options['order'][0]['dir'] . '
 			LIMIT
