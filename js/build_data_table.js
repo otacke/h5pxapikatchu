@@ -25,6 +25,63 @@
 		});
 	};
 
+	var get_data = function ( options, callback, settings ) {
+		jQuery.ajax({
+			url: h5pxapikatchuDataTable.wpAJAXurl,
+			type: 'post',
+			data: {
+				action: 'h5pxapikatchu_get_data',
+				options: JSON.stringify(options)
+			},
+			success: function( response ) {
+				response = JSON.parse( response );
+
+				const lengthUnfiltered = response.data.length;
+
+				// Filter
+				const filters = options.columns.map( function ( column ) {
+					return column.search.value
+				} );
+
+				// Filter by search field
+				const needToSearch = options.search.value !== '';
+				if (needToSearch) {
+					response.data = response.data.filter( function ( row ) {
+						return Object.values(row).some( function ( value ) {
+							return (value || '').indexOf( options.search.value ) !== -1;
+						} );
+					} );
+				}
+
+				// Filter by filter fields
+				const needToFilter = filters.some( function ( filter ) {
+					return filter !== '';
+				});
+
+				if (needToFilter) {
+					filters.forEach( function ( filter, indexFilter ) {
+						response.data = response.data.filter( function ( row, indexRow ) {
+							return new RegExp(filter).test(Object.values(row)[indexFilter]);
+						} );
+					} );
+				}
+
+				const data = response.data.map( function ( row ) {
+					return Object.values(row);
+				} );
+
+				callback( {
+					data: data,
+					recordsTotal: response.recordsTotal,
+					recordsFiltered: (needToFilter || needToSearch) ? response.data.length : response.recordsTotal
+				} );
+			},
+			error: function() {
+				alert( h5pxapikatchuDataTable.errorMessage );
+			}
+		});
+	}
+
 	/**
 	 * Create a button.
 	 * @param string $label The label for the button.
@@ -53,6 +110,8 @@
 	jQuery( document ).ready( function() {
 		var datatableParams = {
 			'dom': 'B<"h5pxapikatchu-data-table-top-bar"lf>rt<"h5pxapikatchu-data-table-bottom-bar"ip>',
+			'serverSide': true,
+			'ajax': get_data,
 			'columnDefs': [
 				{
 					'visible': false,

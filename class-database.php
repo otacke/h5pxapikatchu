@@ -302,6 +302,37 @@ class Database {
 	}
 
 	/**
+	 * Get number of entries.
+	 * Will only return entries of content types that the user with $wp_user_id
+	 * has created. Will return all entries if user is admin ($wp_user_id = '%')
+	 * @param int $wp_user_id ID of current user, -1 if admin
+	 * @return object Database results.
+	 */
+	public static function get_count( $wp_user_id = 0 ) {
+		global $wpdb;
+
+		$foo = $wpdb->get_results(
+			$wpdb->prepare(
+				'
+				SELECT
+					*
+				FROM
+					' . self::$table_main . ' as mst,
+					' . self::$table_object . ' as obj,
+					' . self::$table_h5p_content_types . ' as cnt
+				WHERE
+					mst.id_object = obj.id AND
+					obj.h5p_content_id = cnt.id AND
+					cnt.user_id LIKE %s
+				',
+				$wp_user_id
+			)
+		);
+
+		return count( $foo );
+	}
+
+	/**
 	 * Get complete overview of all stored data.
 	 * Will only return entries of content types that the user with $wp_user_id
 	 * has created. Will return all entries if user is admin ($wp_user_id = '%')
@@ -341,6 +372,78 @@ class Database {
 				$wp_user_id
 			)
 		);
+	}
+
+	/**
+	 * Get complete overview of all stored data.
+	 * Will only return entries of content types that the user with $wp_user_id
+	 * has created. Will return all entries if user is admin ($wp_user_id = '%')
+	 * @param int $wp_user_id ID of current user, -1 if admin
+	 * @return object Database results.
+	 */
+	public static function get_table( $wp_user_id = 0, $options = null ) {
+		global $wpdb;
+
+		if ( ! isset( $options['start'] ) ) {
+			$options['start'] = 0;
+		}
+		if ( ! isset( $options['length'] ) ) {
+			$options['length'] = 10;
+		}
+
+		if ( ! isset( $options['order'] ) ) {
+			$options['order'] = [];
+		}
+
+		if ( 0 === count( $options['order'] ) ) {
+			$options['order'][] = [];
+		}
+
+		if ( ! isset( $options['order'][0]['column'] ) ) {
+			$options['order'][0]['column'] = 17; // TIME
+		} else {
+			$options['order'][0]['column']++;
+		}
+
+		if ( ! isset( $options['order'][0]['dir'] ) ) {
+			$options['order'][0]['dir'] = 'asc';
+		}
+
+		if ( '%' === $wp_user_id ) {
+			$wp_user_id = '"%"';
+		}
+
+		$sql =
+			'
+			SELECT
+				act.actor_id, act.actor_name, act.actor_members,
+				ver.verb_id, ver.verb_display,
+				obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
+				res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
+				mst.time, mst.xapi,
+				act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
+			FROM
+				' . self::$table_main . ' as mst,
+				' . self::$table_actor . ' as act,
+				' . self::$table_verb . ' as ver,
+				' . self::$table_object . ' as obj,
+				' . self::$table_result . ' as res,
+				' . self::$table_h5p_content_types . ' as cnt
+			WHERE
+				mst.id_actor = act.id AND
+				mst.id_verb = ver.id AND
+				mst.id_object = obj.id AND
+				mst.id_result = res.id and
+				obj.h5p_content_id = cnt.id AND
+				cnt.user_id LIKE ' . $wp_user_id . '
+			ORDER BY
+				' . $options['order'][0]['column'] . ' ' . $options['order'][0]['dir'] . '
+			LIMIT
+				' . $options['start'] . ', ' . ( $options['start'] + $options['length'] ) .
+			'';
+
+		// wpdb->prepare doesn't work here. TODO: Sanitize $sql
+		return $wpdb->get_results( $sql );
 	}
 
 	/**

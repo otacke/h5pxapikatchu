@@ -20,6 +20,7 @@ class Table_View {
 		add_action( 'admin_menu', array( $this, 'add_admin_page' ), 999 );
 
 		add_action( 'wp_ajax_h5pxapikatchu_delete_data', array( $this, 'delete_data' ) );
+		add_action( 'wp_ajax_h5pxapikatchu_get_data', array( $this, 'get_data' ) );
 	}
 
 	public function add_scripts( $hook ) {
@@ -74,6 +75,19 @@ class Table_View {
 	}
 
 	/**
+	 * Transform a JSON string from JavaScript JSON.stringify for PHP.
+	 * @param {string} $data Stringified JSON data.
+	 * @return {string} String ready for JSON_decode.
+	 */
+	function transform_js_json_string( $data ) {
+		$data = str_replace( '\"', '"', $data );
+		$data = str_replace( "\'", "'", $data );
+		$data = str_replace( '\\\\"', '&#x22;', $data );
+
+		return $data;
+	}
+
+	/**
 	 * Delete all data.
 	 */
 	function delete_data() {
@@ -81,6 +95,30 @@ class Table_View {
 		do_action( 'h5pxapikatchu_delete_data' );
 
 		$response = Database::delete_data();
+		exit( json_encode( $response ) );
+		wp_die();
+	}
+
+	/**
+	 * Delete all data.
+	 */
+	function get_data() {
+		$options = $_REQUEST['options'];
+		$options = self::transform_js_json_string( $options );
+		$options = json_decode( $options, true );
+
+		// Users with appropriate capability are allowed to see all entries with wildcard %
+		$wp_user_id = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
+
+		$count = Database::get_count( $wp_user_id );
+		$rows  = Database::get_table( $wp_user_id, $options );
+
+		$response = (object) [
+			'draw'         => $options['draw'],
+			'data'         => $rows,
+			'recordsTotal' => $count,
+		];
+
 		exit( json_encode( $response ) );
 		wp_die();
 	}
@@ -101,12 +139,13 @@ class Table_View {
 		// Users with appropriate capability are allowed to see all entries with wildcard %
 		$wp_user_id = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
 
-		$complete_table = Database::get_complete_table( $wp_user_id );
-		$column_titles  = Database::get_column_titles();
+		$row_count = Database::get_count( $wp_user_id );
+
+		$column_titles = Database::get_column_titles();
 
 		echo '<div class="wrap">';
 		echo '<h2>' . __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h2>';
-		if ( ! $complete_table ) {
+		if ( 0 >= $row_count ) {
 			echo __( 'There is no xAPI information stored.', 'H5PXAPIKATCHU' );
 			wp_die();
 		}
@@ -116,7 +155,7 @@ class Table_View {
 
 		// Table Head and Footer
 		$heads = '';
-		for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
+		for ( $i = 0; $i < sizeof( $column_titles ); $i++ ) {
 			$heads .= '<th>';
 			$heads .= ( isset( Database::$column_title_names[ $column_titles[ $i ] ] ) ?
 					Database::$column_title_names[ $column_titles[ $i ] ] :
@@ -124,24 +163,6 @@ class Table_View {
 			$heads .= '</th>';
 		}
 		echo '<thead>' . $heads . '</thead><tfoot>' . $heads . '</tfoot>';
-
-		// Table Body
-		echo '<tbody>';
-		foreach ( $complete_table as $fields ) {
-			$values = array_map(
-				function( $field ) {
-					return '\'' . $field . '\'';
-				},
-				(array) $fields
-			);
-			echo '<tr>';
-			foreach ( $fields as $key => $value ) {
-				echo '<td>' . $value . '</td>';
-			}
-			echo '</tr>';
-		}
-		echo '</tbody>';
-
 		echo '</table></div>';
 		echo '</div>';
 	}
