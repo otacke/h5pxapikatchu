@@ -3,19 +3,69 @@
   font-size: inherit;
   margin-right: .5rem;
   margin-top: 1em;
+
+  line-height: 1.5;
+  border: 1px solid transparent;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  padding: .375rem .75rem;
 }
 
-#h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu {
+#h5pxapikatchu-data-table_wrapper .btn.dropdown-toggle::after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: .255em;
+  vertical-align: .255em;
+  content: "";
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
+}
+
+#h5pxapikatchu-data-table_wrapper .btn-group {
+  display: inline-flex;
+  position: relative;
+  vertical-align: middle;
+}
+
+#h5pxapikatchu-data-table_wrapper .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #fff;
+}
+
+#h5pxapikatchu-data-table_wrapper .btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+  color: #fff;
+}
+
+#h5pxapikatchu-data-table_wrapper .dt-button-collection .dropdown-menu {
   font-size: inherit;
   padding: .2rem;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: .25rem;
+  min-width: 15rem;
+  position: absolute;
+  top: 1em;
 }
 
-#h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu .dt-button-collection-title {
+#h5pxapikatchu-data-table_wrapper .dt-button-collection .dropdown-menu .dt-button-collection-title {
   display: none;
 }
 
-#h5pxapikatchu-data-table_wrapper .dt-button-collection.dropdown-menu .dropdown-item {
+#h5pxapikatchu-data-table_wrapper .dt-button-collection .dropdown-menu .dropdown-item {
   padding: .25rem .75rem;
+  display: block;
+}
+
+#h5pxapikatchu-data-table_wrapper .dt-button-collection .dropdown-menu .dropdown-item.active {
+  color: #fff;
+  text-decoration: none;
+  background-color: #007bff;
 }
 
 #h5pxapikatchu-data-table_wrapper .h5pxapikatchu-cts-table {
@@ -52,6 +102,18 @@
 #h5pxapikatchu-data-table thead .sorting_desc_disabled:after {
   bottom: unset;
   top: 0.9em;
+}
+
+#h5pxapikatchu-data-table.table-striped tbody tr:nth-of-type(odd),
+#h5pxapikatchu-cts-table.table-striped tbody tr:nth-of-type(odd),
+#h5pxapikatchu-colvis-table.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0,0,0,.05);
+}
+
+#h5pxapikatchu-data-table.table-bordered,
+#h5pxapikatchu-cts-table.table-bordered,
+#h5pxapikatchu-colvis-table.table-bordered {
+  border: 1px solid #dee2e6;
 }
 
 .h5pxapikatchu-data-table-top-bar {
