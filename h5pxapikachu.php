@@ -344,18 +344,6 @@ function insert_data() {
 }
 
 /**
- * Delete all data.
- */
-function delete_data() {
-	// Add hook 'h5pxapikatchu_delete_data'
-	do_action( 'h5pxapikatchu_delete_data' );
-
-	$response = Database::delete_data();
-	exit( json_encode( $response ) );
-	wp_die();
-}
-
-/**
  * Load the text domain for internationalization.
  */
 function h5pxapikatchu_load_plugin_textdomain() {

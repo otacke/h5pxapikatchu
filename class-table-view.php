@@ -19,8 +19,7 @@ class Table_View {
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 		add_action( 'admin_menu', array( $this, 'add_admin_page' ), 999 );
 
-		add_action( 'wp_ajax_nopriv_delete_data', 'H5PXAPIKATCHU\delete_data' );
-		add_action( 'wp_ajax_delete_data', 'H5PXAPIKATCHU\delete_data' );
+		add_action( 'wp_ajax_h5pxapikatchu_delete_data', array( $this, 'delete_data' ) );
 	}
 
 	public function add_scripts( $hook ) {
@@ -72,6 +71,18 @@ class Table_View {
 				'wpAJAXurl'                   => admin_url( 'admin-ajax.php' ),
 			)
 		);
+	}
+
+	/**
+	 * Delete all data.
+	 */
+	function delete_data() {
+		// Add hook 'h5pxapikatchu_delete_data'
+		do_action( 'h5pxapikatchu_delete_data' );
+
+		$response = Database::delete_data();
+		exit( json_encode( $response ) );
+		wp_die();
 	}
 
 	public function add_admin_page() {

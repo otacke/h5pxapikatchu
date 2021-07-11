@@ -82,11 +82,6 @@
   width: 100%;
 }
 
-#h5pxapikatchu-data-table {
-  /* Forced to use !important by Datatables */
-  margin-top: unset !important;
-}
-
 #h5pxapikatchu-data-table tr {
   height: 3em;
 }
