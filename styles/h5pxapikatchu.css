@@ -145,3 +145,11 @@
   margin-right: 1em;
   text-align: left;
 }
+
+.dataTables_paginate .pagination {
+  display: flex;
+}
+
+.dataTables_paginate .pagination .paginate_button:not(:last-child) {
+  margin-right: 1em;
+}
