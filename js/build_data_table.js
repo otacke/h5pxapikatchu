@@ -67,7 +67,9 @@
 				}
 
 				const data = response.data.map( function ( row ) {
-					return Object.values(row);
+					return Object.values(row).map( function ( value ) {
+						return value || '';
+					});
 				} );
 
 				callback( {

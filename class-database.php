@@ -442,7 +442,7 @@ class Database {
 				' . $options['start'] . ', ' . ( $options['start'] + $options['length'] ) .
 			'';
 
-		// wpdb->prepare doesn't work here. TODO: Sanitize $sql
+		// wpdb->prepare doesn't work here because of dynamic ordering. TODO: Sanitize $sql
 		return $wpdb->get_results( $sql );
 	}
 
