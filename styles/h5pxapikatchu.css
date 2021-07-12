@@ -148,3 +148,7 @@
 .dataTables_paginate .pagination .paginate_button:not(:last-child) {
   margin-right: 1em;
 }
+
+.h5pxapikatchu-no-display {
+  display: none;
+}

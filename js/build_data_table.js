@@ -120,7 +120,13 @@
 	};
 
 	jQuery( document ).ready( function() {
-		var datatableParams = {
+		var datatableParams;
+		var footer = document.querySelector( '#h5pxapikatchu-data-table tfoot' );
+		if ( footer ) {
+			footer.classList.add( 'h5pxapikatchu-no-display' );
+		}
+
+		datatableParams = {
 			'dom': 'B<"h5pxapikatchu-data-table-top-bar"lf>rt<"h5pxapikatchu-data-table-bottom-bar"ip>',
 			'serverSide': true,
 			'ajax': getData,
@@ -141,6 +147,10 @@
 			'language': h5pxapikatchuDataTable.languageData,
 			'initComplete': function() {
 				var buttonGroup = document.getElementsByClassName( 'dt-buttons btn-group' )[0];
+
+				if ( footer ) {
+					footer.classList.remove( 'h5pxapikatchu-no-display' );
+				}
 
 				// Add delete button if allowed to delete
 				if ( buttonGroup && '1' === h5pxapikatchuDataTable.userCanDeleteResults ) {
