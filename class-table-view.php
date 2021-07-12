@@ -100,24 +100,17 @@ class Table_View {
 	}
 
 	/**
-	 * Delete all data.
+	 * Get data.
 	 */
 	function get_data() {
-		$options = $_REQUEST['options'];
+		$options = $_REQUEST['payload'];
 		$options = self::transform_js_json_string( $options );
 		$options = json_decode( $options, true );
 
 		// Users with appropriate capability are allowed to see all entries with wildcard %
 		$wp_user_id = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
 
-		$count = Database::get_count( $wp_user_id );
-		$rows  = Database::get_table( $wp_user_id, $options );
-
-		$response = (object) [
-			'draw'         => $options['draw'],
-			'data'         => $rows,
-			'recordsTotal' => $count,
-		];
+		$response = Database::get_table( $wp_user_id, $options );
 
 		exit( json_encode( $response ) );
 		wp_die();

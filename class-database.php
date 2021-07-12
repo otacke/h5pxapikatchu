@@ -418,10 +418,13 @@ class Database {
 			$options['columns'] = [];
 		}
 
+		$records_total = Database::get_count( $wp_user_id );
+
 		if ( '%' === $wp_user_id ) {
 			$wp_user_id = '"%"';
 		}
 
+		// There's probably a better solution fot this ...
 		$db_columns = [
 			'act.actor_id',
 			'act.actor_name',
@@ -486,6 +489,43 @@ class Database {
 		);
 		$filter_conditions = ' AND (' . implode( ' AND ', $filter_conditions ) . ')';
 
+		// Determine all entries that match the filter/search conditions
+		$matching_ids_sql =
+			'
+			SELECT
+				mst.id
+			FROM
+				' . self::$table_main . ' as mst,
+				' . self::$table_actor . ' as act,
+				' . self::$table_verb . ' as ver,
+				' . self::$table_object . ' as obj,
+				' . self::$table_result . ' as res,
+				' . self::$table_h5p_content_types . ' as cnt
+			WHERE
+				mst.id_actor = act.id AND
+				mst.id_verb = ver.id AND
+				mst.id_object = obj.id AND
+				mst.id_result = res.id and
+				obj.h5p_content_id = cnt.id AND
+				cnt.user_id LIKE ' . $wp_user_id . '
+				' . $search_conditions . '
+				' . $filter_conditions . '
+			';
+
+		// Not using wpdb->prepare here because of all the dynamic conditions TODO: Sanitize $sql
+		$matching_ids     = $wpdb->get_results( $matching_ids_sql );
+		$records_filtered = count( $matching_ids );
+
+		$matching_ids = implode(
+			', ',
+			array_map(
+				function( $id ) {
+					return $id->id;
+				},
+				$matching_ids,
+			),
+		);
+
 		$sql =
 			'
 			SELECT
@@ -503,14 +543,13 @@ class Database {
 				' . self::$table_result . ' as res,
 				' . self::$table_h5p_content_types . ' as cnt
 			WHERE
+				mst.id IN (' . $matching_ids . ') AND
 				mst.id_actor = act.id AND
 				mst.id_verb = ver.id AND
 				mst.id_object = obj.id AND
-				mst.id_result = res.id and
-				obj.h5p_content_id = cnt.id AND
+				mst.id_result = res.id AND
+				obj.h5p_content_id = cnt.id and
 				cnt.user_id LIKE ' . $wp_user_id . '
-				' . $search_conditions . '
-				' . $filter_conditions . '
 			ORDER BY
 				' . $options['order'][0]['column'] . ' ' . $options['order'][0]['dir'] . '
 			LIMIT
@@ -518,7 +557,14 @@ class Database {
 			'';
 
 		// wpdb->prepare doesn't work here because of dynamic ordering. TODO: Sanitize $sql
-		return $wpdb->get_results( $sql );
+		$rows = $wpdb->get_results( $sql );
+
+		return (object) [
+			'draw'            => $options['draw'],
+			'data'            => $rows,
+			'recordsFiltered' => $records_filtered,
+			'recordsTotal'    => $records_total,
+		];
 	}
 
 	/**

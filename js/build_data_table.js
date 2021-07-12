@@ -2,67 +2,95 @@
 	'use strict';
 
 	/**
-	 * Send an AJAX request to insert xAPI data.
-	 * @param {string} wpAJAXurl - URL for AJAX call.
+	 * Handle deleteData could delete data from database.
 	 */
-	var sendAJAX = function( wpAJAXurl ) {
-		jQuery.ajax({
-			url: wpAJAXurl,
-			type: 'post',
-			data: {
-				action: 'h5pxapikatchu_delete_data'
-			},
-			success: function( response ) {
-				if ( '"done"' === response ) {
-					location.reload();
-				} else {
-					alert( h5pxapikatchuDataTable.errorMessage );
-				}
-			},
-			error: function() {
-				alert( h5pxapikatchuDataTable.errorMessage );
-			}
+	var handleAJAXDeleteSuccess = function( response ) {
+		if ( '"done"' === response ) {
+			location.reload();
+		} else {
+			alert( h5pxapikatchuDataTable.errorMessage );
+		}
+	};
+
+	/**
+	 * Handle getData got data from database.
+	 */
+	var handleAJAXGetDataSuccess = function( response, callback ) {
+		var data;
+
+		response = JSON.parse( response );
+
+		data = response.data.map( function( row ) {
+			return Object.values( row ).map( function( value ) {
+				return value || '';
+			});
+		});
+
+		callback({
+			data: data,
+			recordsTotal: response.recordsTotal,
+			recordsFiltered: response.recordsFiltered
 		});
 	};
 
-	var getData = function( options, callback, settings ) {
-		var data, wasFiltered;
+	/**
+	 * Handle AJAX error.
+	 */
+	var handleAJAXError = function() {
+		alert( h5pxapikatchuDataTable.errorMessage );
+	};
+
+	/**
+	 * Send an AJAX request to insert xAPI data.
+	 * @param {object} params Parameters.
+	 * @param {string} params.action Action to perform (WP AJAX endpoint id).
+	 * @param {object} [params.payload] Data to pass to AJAX handler.
+	 * @param {function} [params.success] Success callback.
+	 * @param {function} [params.error] Error callback.
+	 */
+	var sendAJAX = function( params ) {
+		if ( ! params.action ) {
+			handleAJAXError();
+			return;
+		}
 
 		jQuery.ajax({
 			url: h5pxapikatchuDataTable.wpAJAXurl,
 			type: 'post',
 			data: {
-				action: 'h5pxapikatchu_get_data',
-				options: JSON.stringify( options )
+				action: params.action,
+				payload: params.payload || null
 			},
+			success: params.success || function() {},
+			error: params.error || handleAJAXError
+		});
+	};
+
+	/**
+	 * Delete date from database.
+	 */
+	var deleteData = function() {
+		sendAJAX({
+			action: 'h5pxapikatchu_delete_data',
+			success: handleAJAXDeleteSuccess,
+			error: handleAJAXError
+		});
+	};
+
+	/**
+	 * Get data from database.
+	 * @param {object} options Options set by DataTables.
+	 * @param {function} callback Callback for DataTables.
+	 * @param {object} settings Settings from DataTables.
+	 */
+	var getData = function( options, callback, settings ) {
+		sendAJAX({
+			action: 'h5pxapikatchu_get_data',
+			payload: JSON.stringify( options ),
 			success: function( response ) {
-				response = JSON.parse( response );
-
-				data = response.data.map( function( row ) {
-					return Object.values( row ).map( function( value ) {
-						return value || '';
-					});
-				});
-
-				wasFiltered = (
-					'' !==  options.search.value ) ||
-					options.columns
-						.map( function( column ) {
-							return column.search.value;
-						})
-						.some( function( filter ) {
-							return  '' !== filter;
-						});
-
-				callback({
-					data: data,
-					recordsTotal: response.recordsTotal,
-					recordsFiltered: wasFiltered ? response.data.length : response.recordsTotal
-				});
+				handleAJAXGetDataSuccess( response, callback );
 			},
-			error: function() {
-				alert( h5pxapikatchuDataTable.errorMessage );
-			}
+			error: handleAJAXError
 		});
 	};
 
@@ -83,7 +111,7 @@
 		anchor.addEventListener( 'click', function() {
 			var choice = confirm( question );
 			if ( true === choice ) {
-				sendAJAX( h5pxapikatchuDataTable.wpAJAXurl );
+				deleteData();
 			}
 			this.blur();
 		});
