@@ -95,6 +95,14 @@
 	};
 
 	/**
+	 * Update filter values
+	 */
+	var updateFilters = function() {
+
+		// TODO: Update filter values from server
+	};
+
+	/**
 	 * Create a button.
 	 * @param string $label The label for the button.
 	 * @param string $question The question.
@@ -130,6 +138,9 @@
 			'dom': 'B<"h5pxapikatchu-data-table-top-bar"lf>rt<"h5pxapikatchu-data-table-bottom-bar"ip>',
 			'serverSide': true,
 			'ajax': getData,
+			'drawCallback': function( settings ) {
+				updateFilters( settings );
+			},
 			'columnDefs': [
 				{
 					'visible': false,
@@ -183,7 +194,10 @@
 			datatableParams.buttons.push({
 				'extend': 'csv',
 				'text': h5pxapikatchuDataTable.buttonLabelDownload,
-				'title': 'h5pxapikatchu-' + new Date().toISOString().substr( 0, 10 )
+				'title': 'h5pxapikatchu-' + new Date().toISOString().substr( 0, 10 ),
+				'action': function() {
+					// TODO: Re-implement providing the CSV export from server
+				}
 			});
 		}
 
