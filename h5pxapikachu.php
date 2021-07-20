@@ -404,6 +404,44 @@ function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
 		return; // Embedding via link or iframe from external
 	}
 
+	// Try to determine H5P content id
+	if (
+		isset( $_SERVER['HTTP_REFERER'] ) &&
+		false !== strpos( $_SERVER['HTTP_REFERER'], 'task=show' )
+	) {
+		$components = parse_url( $_SERVER['HTTP_REFERER'] );
+	} elseif (
+		isset( $_SERVER['REQUEST_URI'] ) &&
+		false !== strpos( $_SERVER['REQUEST_URI'], 'action=h5p_embed' )
+	) {
+		$components = parse_url( $_SERVER['REQUEST_URI'] );
+	}
+
+	// Check whether current user is author of current content
+	if ( isset( $components ) ) {
+		// ID of content being displayed
+		$content_id = array_reduce(
+			explode( '&', $components['query'] ),
+			function ( $id, $query ) {
+				if ( '' !== $id ) {
+					return $id;
+				}
+
+				$split = explode( '=', $query );
+				if ( 'id' === $split[0] ) {
+					return intval( $split[1] );
+				}
+
+				return '';
+			},
+			''
+		);
+
+		if ( Database::get_content_author_id( $content_id ) === get_current_user_id() ) {
+			return; // User is author of the content
+		}
+	}
+
 	/*
 	 * Add JavaScript listener to H5P content. Configuration is created
 	 * via dynamically created H5P file, because passing config via

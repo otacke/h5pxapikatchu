@@ -219,6 +219,35 @@ class Database {
 	}
 
 	/**
+	 * Get WordPress user id for
+	 * @param int $content_id H5P content id.
+	 * @return (int|false) Number of rows affected/selected or false on error
+	 */
+	public static function get_content_author_id( $content_id ) {
+		global $wpdb;
+
+		$ok = $wpdb->get_results(
+			$wpdb->prepare(
+				'
+				SELECT
+					con.user_id AS id
+				FROM
+					' . self::$table_h5p_content_types . ' AS con
+				WHERE
+				  con.id = %d
+				',
+				$content_id
+			)
+		);
+
+		if ( isset( $ok ) ) {
+			return intval( $ok[0]->id );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Anonymize all data for a user.
 	 * @param int $wpid WordPress user id.
 	 * @return (int|false) Number of rows affected/selected or false on error
