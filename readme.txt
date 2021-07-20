@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.7
-Stable tag: 0.4.8
+Stable tag: 0.4.9
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -83,8 +83,9 @@ H5PxAPIkachu provides some hooks and filters that developers can use to customiz
 = The plugin does not record anything! Is it broken? =
 Maybe, but hopefully not.
 
-1. The plugin does NOT record xAPI statement if you are using H5P content in the backend of WordPress. That would mess up your statistics, because all the authors' test runs would be recorded, too. So, are you running H5P within a blog post or within a page?
-2. The plugin doesn't record xAPI statements if you told it so in the options :-)
+1. The plugin does NOT record xAPI statements if you are using H5P content in the backend of WordPress. That would mess up your statistics, because all the authors' test runs would be recorded, too. So, are you running H5P within a blog post or within a page?
+2. The plugin does NOT record xAPI statements if you are the author of that content and logged in. That would mess up your statistics as well.
+3. The plugin doesn't record xAPI statements if you told it so in the options :-)
 
 == Screenshots ==
 
@@ -92,6 +93,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.9 =
+- Stop logging statements if the current user is the author of the currently used content.
 
 = 0.4.8 =
 - Fix initializing new dynamic config file on update.
@@ -219,6 +223,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.9 =
+Upgrade if you do not want xAPI statements to be logged if the author of a content himself/herself is running it.
 
 = 0.4.8 =
 Upgrade if you need the features from version 0.4.7 and don't want to save the configuration manually once.
