@@ -80,7 +80,7 @@ var H5P = H5P || {};
 
 	topWindow = ( window.H5PxAPIkatchu ) ? window : getTopWindow();
 	if ( ! topWindow || ! topWindow.H5PxAPIkatchu ) {
-		console.warn( 'Could not find H5PxAPIkatchu object, cannot store xAPI statements for some content.' );
+		console.warn( 'Could not find H5PxAPIkatchu object, cannot store xAPI statements for some content. Potentially, the plugin directory is not writable by the server.' );
 		return;
 	}
 	H5PxAPIkatchu = topWindow.H5PxAPIkatchu;

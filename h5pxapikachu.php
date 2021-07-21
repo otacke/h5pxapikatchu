@@ -35,6 +35,13 @@ function init() {
 	// Include options
 	$h5pxapikatchu_options = new Options;
 
+	// Try to make sure that the configuration is set
+	$path = plugin_dir_path( __FILE__ ) . 'js' . '/' . 'h5pxapikatchu-config.js';
+	if ( ! file_exists( $path ) ) {
+		$config_data = get_option( 'h5pxapikatchu_option' );
+		Options::update_config_file( $config_data );
+	}
+
 	if ( is_admin() ) {
 		$h5pxapikatchu_table_view = new Table_View;
 	}
@@ -448,10 +455,13 @@ function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
 	 * wp_localize_script cannot run if WordPress is bypassed by using
 	 * embed code or direct link.
 	 */
-	$scripts[] = (object) array(
-		'path'    => plugins_url( 'js/h5pxapikatchu-config.js', __FILE__ ),
-		'version' => '?ver=' . H5PXAPIKATCHU_VERSION,
-	);
+	$path = plugin_dir_path( __FILE__ ) . 'js' . '/' . 'h5pxapikatchu-config.js';
+	if ( file_exists( $path ) ) {
+		$scripts[] = (object) array(
+			'path'    => plugins_url( 'js/h5pxapikatchu-config.js', __FILE__ ),
+			'version' => '?ver=' . H5PXAPIKATCHU_VERSION,
+		);
+	}
 
 	$scripts[] = (object) array(
 		'path'    => plugins_url( 'js/h5pxapikatchu-listener.js', __FILE__ ),

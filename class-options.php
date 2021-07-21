@@ -537,7 +537,10 @@ class Options {
 		$config_data .= '  wpAJAXurl: \'' . admin_url( 'admin-ajax.php' ) . '\'' . "\n";
 		$config_data .= '};' . "\n";
 
-		file_put_contents( $config_file, $config_data );
+		$ok = file_put_contents( $config_file, $config_data );
+		if ( false === $ok ) {
+			error_log( 'H5PxAPIkatchu could not write configuration file. Please make sure that ' . plugin_dir_path( __FILE__ ) . 'js' . ' is writable by the server process.' );
+		}
 	}
 
 	/**
