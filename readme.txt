@@ -2,8 +2,8 @@
 Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
-Tested up to: 5.7
-Stable tag: 0.4.9
+Tested up to: 5.8
+Stable tag: 0.4.10
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -93,6 +93,10 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.10 =
+- Make configuration file use more robust.
+- Test with WordPress 5.8.
 
 = 0.4.9 =
 - Stop logging statements if the current user is the author of the currently used content.
@@ -223,6 +227,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.10 =
+Upgrade if you experience problems with the configuration file.
 
 = 0.4.9 =
 Upgrade if you do not want xAPI statements to be logged if the author of a content himself/herself is running it.
