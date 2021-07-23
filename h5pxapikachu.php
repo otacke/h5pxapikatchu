@@ -401,7 +401,7 @@ function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
 	);
 
 	// Is iframe call from same origin?
-	$is_same_origin = ( 'same-origin' === $_SERVER['HTTP_SEC_FETCH_SITE'] );
+	$is_same_origin = ( isset( $_SERVER['HTTP_SEC_FETCH_SITE'] ) && 'same-origin' === $_SERVER['HTTP_SEC_FETCH_SITE'] );
 
 	if ( $is_admin_h5p_view || $is_admin_post_iframe ) {
 		return; // Viewing H5P content in backend or editing post with embedded content
