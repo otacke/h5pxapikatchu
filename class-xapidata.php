@@ -207,7 +207,7 @@ class XAPIDATA {
 		if ( array_key_exists( 'account', $actor ) ) {
 			array_push( $inverse_functional_identifier, __( 'account', 'H5PXAPIKATCHU' ) . ': ' . $this->flatten_account( $actor['account'] ) );
 		}
-		return ( empty( $inverse_functional_identifier ) ) ? '' : implode( $inverse_functional_identifier, ', ' );
+		return ( empty( $inverse_functional_identifier ) ) ? '' : implode( ', ', $inverse_functional_identifier );
 	}
 
 	/**
