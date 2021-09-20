@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 0.4.10
+Stable tag: 0.4.11
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -93,6 +93,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.11 =
+- Fix bug on PHP 8.0 (implode argument order).
 
 = 0.4.10 =
 - Make configuration file use more robust.
@@ -227,6 +230,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.10 =
+Upgrade if you're running PHP 8.0 or above.
 
 = 0.4.10 =
 Upgrade if you experience problems with the configuration file.
