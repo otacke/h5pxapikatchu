@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 5.9
-Stable tag: 0.4.11
+Stable tag: 0.4.12
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -93,6 +93,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.12 =
+- Fix statements of subcontents not being stored when not capturing statements of all H5P contents.
 
 = 0.4.11 =
 - Fix bug on PHP 8.0 (implode argument order).
@@ -231,7 +234,10 @@ Initial release.
 
 == Upgrade Notice ==
 
-= 0.4.10 =
+= 0.4.12 =
+Upgrade if you do not want to store all statements from all contents but only from a few selected contents.
+
+= 0.4.11 =
 Upgrade if you're running PHP 8.0 or above.
 
 = 0.4.10 =
