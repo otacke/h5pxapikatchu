@@ -54,6 +54,7 @@ var H5P = H5P || {};
 		// Retrieve id number from object URL
 		var regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
 		var id = regex.exec( event.data.statement.object.id )[2];
+		id = id.split( '?' )[0];
 
 		if ( '1' === H5PxAPIkatchu.debugEnabled ) {
 			console.log( event.data.statement );
