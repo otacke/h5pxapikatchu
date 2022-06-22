@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 6.0
-Stable tag: 0.4.12
+Stable tag: 0.4.13
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -93,6 +93,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.13 =
+- Add Dutch translation contributed by René Breedveld.
 
 = 0.4.12 =
 - Fix statements of subcontents not being stored when not capturing statements of all H5P contents.
@@ -233,6 +236,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.13 =
+Upgrade if you need Dutch translations.
 
 = 0.4.12 =
 Upgrade if you do not want to store all statements from all contents but only from a few selected contents.
