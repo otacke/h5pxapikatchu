@@ -1,0 +1,366 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: H5PxAPIkatchu\n"
+"POT-Creation-Date: 2021-07-05 18:57+0200\n"
+"PO-Revision-Date: 2022-06-22 10:58+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: h5pxapikachu.php\n"
+"X-Poedit-SearchPath-1: class-database.php\n"
+"X-Poedit-SearchPath-2: class-options.php\n"
+"X-Poedit-SearchPath-3: class-table-view.php\n"
+"X-Poedit-SearchPath-4: class-xapidata.php\n"
+"X-Poedit-SearchPath-5: class-privacypolicy.php\n"
+
+#: class-database.php:757
+msgid "Actor Id"
+msgstr "Gebruiker Id"
+
+#: class-database.php:758
+msgid "Actor Name"
+msgstr "Naam gebruiker"
+
+#: class-database.php:759
+msgid "Actor Group Members"
+msgstr "Leden gebruikersgroep"
+
+#: class-database.php:760
+msgid "Verb Id"
+msgstr "Werkwoord Id"
+
+#: class-database.php:761
+msgid "Verb Display"
+msgstr "Werkwoord weergave"
+
+#: class-database.php:762
+msgid "Object Id"
+msgstr "Object Id"
+
+#: class-database.php:763
+msgid "Object Def. Name"
+msgstr "Naam objectdefinitie"
+
+#: class-database.php:764
+msgid "Object Def. Description"
+msgstr "Beschrijving objectdefinitie"
+
+#: class-database.php:765
+msgid "Object Def. Choices"
+msgstr "Keuzes objectdefinitie"
+
+#: class-database.php:766
+msgid "Object Def. Correct Responses"
+msgstr "Juiste antwoorden objectdefinitie"
+
+#: class-database.php:767
+msgid "Result Response"
+msgstr "Resultaat"
+
+#: class-database.php:768
+msgid "Result Score Raw"
+msgstr "Resultaat ruwe score"
+
+#: class-database.php:769
+msgid "Result Score Scaled"
+msgstr "Resultaat geschaalde score"
+
+#: class-database.php:770
+msgid "Result Completion"
+msgstr "Resultaat afronding"
+
+#: class-database.php:771
+msgid "Result Success"
+msgstr "Resultaat succes"
+
+#: class-database.php:772
+msgid "Result Duration"
+msgstr "Resultaat duur"
+
+#: class-database.php:773
+msgid "Time"
+msgstr "Tijd"
+
+#: class-database.php:774 class-privacypolicy.php:34
+msgid "xAPI"
+msgstr "xAPI"
+
+#: class-database.php:775
+msgid "WP User ID"
+msgstr "WP gebruiker Id"
+
+#: class-database.php:776
+msgid "H5P Content ID"
+msgstr "H5P inhoud Id"
+
+#: class-database.php:777
+msgid "H5P Subcontent ID"
+msgstr "H5P subinhoud Id"
+
+#: class-options.php:52
+msgid ""
+"Please note: Activating this option may lead to unexpected xAPI statements "
+"(in high numbers) if others embed your content somewhere. Your server will "
+"have to cope with all these statements."
+msgstr ""
+"Let op: Het activeren van deze optie kan leiden tot onverwachte xAPI "
+"statements (in grote aantallen) als anderen uw inhoud ergens insluiten. Uw "
+"server zal al deze verklaringen moeten verwerken."
+
+#: class-options.php:175
+msgid "General"
+msgstr "Algemeen"
+
+#: class-options.php:182
+msgid "Store complete statements"
+msgstr "Volledige verklaringen opslaan"
+
+#: class-options.php:190
+msgid "Debug"
+msgstr "Debug"
+
+#: class-options.php:198
+msgid "Embed support"
+msgstr "Insluiten ondersteunen"
+
+#: class-options.php:206
+msgid "Capture everything"
+msgstr "Alles vastleggen"
+
+#: class-options.php:214 class-options.php:221
+msgid "H5P content types"
+msgstr "H5P-inhoudstypen"
+
+#: class-options.php:229 class-options.php:236
+msgid "Visible columns"
+msgstr "Zichtbare kolommen"
+
+#: class-options.php:296
+msgid ""
+"By checking the column titles below you can select if the corresponding "
+"columns will be displayed by default."
+msgstr ""
+"Door de kolomtitels hieronder aan te vinken kun je kiezen of de "
+"corresponderende kolommen standaard zullen worden weergegeven."
+
+#: class-options.php:303
+msgid ""
+"By checking the H5P content types below you can select their xAPI statements "
+"for being captured."
+msgstr ""
+"Door de H5P inhoudstypen hieronder aan te vinken kun je de desbetreffende "
+"xAPI verklaringen selecteren om deze vast te leggen."
+
+#: class-options.php:325
+msgid ""
+"Store the complete xAPI statement as JSON data. Be sure to check your "
+"database storage limit!"
+msgstr ""
+"Sla de volledige xAPI verklaring op als JSON data. Zorg ervoor dat je de "
+"opslaglimiet van je database controleert!"
+
+#: class-options.php:348
+msgid "Display xAPI statements in the JavaScript debug console"
+msgstr "Geef de xAPI verklaringen weer in de JavaScript debug console"
+
+#: class-options.php:370
+msgid ""
+"Accept xAPI statements from your content that is embedded on other pages"
+msgstr ""
+"Accepteer xAPI verklaringen van je inhoud die is ingesloten op andere "
+"pagina's"
+
+#: class-options.php:393
+msgid "Capture the xAPI statements of all H5P content types"
+msgstr "Leg de xAPI-verklaringen van alle H5P-inhoudstypen vast"
+
+#: class-options.php:406
+msgid "It seems there are no column titles defined. Wicked!"
+msgstr "Het lijkt erop dat er geen kolom titels gedefinieerd zijn. Vreemd!"
+
+#: class-options.php:416
+msgid "Column title"
+msgstr "Kolomtitel"
+
+#: class-options.php:451
+msgid "It seems that H5P is not installed on this WordPress system."
+msgstr "Het lijkt erop dat H5P niet geïnstalleerd is in deze WordPress site."
+
+#: class-options.php:460
+msgid "Title"
+msgstr "Titel"
+
+#: class-options.php:461
+msgid "Type"
+msgstr "Type"
+
+#: class-options.php:462
+msgid "Id"
+msgstr "ID"
+
+#: class-privacypolicy.php:38
+msgid "What personal data we collect and why we collect it"
+msgstr "Waarom en welke persoonsgegevens wij verzamelen"
+
+#: class-privacypolicy.php:39 class-privacypolicy.php:59
+#: class-privacypolicy.php:101 class-privacypolicy.php:121
+#: class-privacypolicy.php:155 class-table-view.php:97
+msgid "H5PxAPIkatchu"
+msgstr "H5PxAPIkatchu"
+
+#: class-privacypolicy.php:44
+#, php-format
+msgid ""
+"When you use interactive content, we may collect data about your interaction "
+"using %s."
+msgstr ""
+"Wanneer je interactieve inhoud gebruikt, kunnen wij gegevens over je "
+"interactie verzamelen met behulp van %s."
+
+#: class-privacypolicy.php:49
+msgid ""
+"The data may e.g. contain what answer was given, how long it took to answer, "
+"what score was achieved, etc."
+msgstr ""
+"De gegevens kunnen bijvoorbeeld bevatten welk antwoord werd gegeven, hoe "
+"lang het duurde om te antwoorden, welke score werd behaald, enz."
+
+#: class-privacypolicy.php:50
+msgid ""
+"We use the data to learn about how well the interaction is designed and how "
+"it could be adapted to improve the usability and learning outcomes in "
+"general."
+msgstr ""
+"We gebruiken de gegevens om te weten te komen hoe goed de interactie is "
+"ontworpen en hoe ze kan worden aangepast om de bruikbaarheid en de "
+"leerresultaten in het algemeen te verbeteren."
+
+#: class-privacypolicy.php:53
+msgid ""
+"However, if and only if you are logged in, this data will be tied to your "
+"full name, your email address, and your WordPress user id."
+msgstr ""
+"Echter, als en alleen als je bent ingelogd, zullen deze gegevens worden "
+"gekoppeld aan je volledige naam, je e-mailadres en je WordPress gebruikers-"
+"id."
+
+#: class-privacypolicy.php:54
+msgid "In consequence, your interactions could be linked to you."
+msgstr "Bijgevolg kunnen je interacties met jou in verband worden gebracht."
+
+#: class-privacypolicy.php:55
+msgid "Therefore, all personal data can be stripped to anonymize the data."
+msgstr ""
+"Daarom kunnen alle persoonsgegevens worden gestript om de gegevens te "
+"anonimiseren."
+
+# This item is for DataTables. It uses _START_ and _END_ and _TOTAL_ als placeholders. Don't translate these.
+#: class-table-view.php:41
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Tonen van _START_ to _END_ of _TOTAL_ vermeldingen"
+
+#: class-table-view.php:42
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Tonen van 0 tot 0 van 0 inzendingen"
+
+#: class-table-view.php:43
+msgid "filtered from _MAX_ total entries"
+msgstr "gefilterd uit _MAX_ totale inzendingen"
+
+#: class-table-view.php:44
+msgid "Show _MENU_ entries"
+msgstr "Toon _MENU_ items"
+
+#: class-table-view.php:45
+msgid "Loading..."
+msgstr "Wordt geladen..."
+
+#: class-table-view.php:46
+msgid "Processing..."
+msgstr "Even wachten..."
+
+#: class-table-view.php:47
+msgid "Search"
+msgstr "Zoeken"
+
+#: class-table-view.php:48
+msgid "No matching records found"
+msgstr "Geen overeenkomende records gevonden"
+
+#: class-table-view.php:50
+msgid "First"
+msgstr "Eerste"
+
+#: class-table-view.php:51
+msgid "Last"
+msgstr "Laatste"
+
+#: class-table-view.php:52
+msgid "Next"
+msgstr "Volgende"
+
+#: class-table-view.php:53
+msgid "Previous"
+msgstr "Vorige"
+
+#: class-table-view.php:64
+msgid "Download"
+msgstr "Download"
+
+#: class-table-view.php:65
+msgid "Show/hide columns"
+msgstr "Toon/ verberg kolommen"
+
+#: class-table-view.php:69
+msgid "Delete"
+msgstr "Verwijder"
+
+#: class-table-view.php:70
+msgid "Do you really want to delete all the data?"
+msgstr "Wil je echt alle gegevens wissen?"
+
+#: class-table-view.php:71
+msgid "Sorry, something went wrong with deleting the data."
+msgstr "Sorry, er ging iets mis met het verwijderen van de gegevens."
+
+#: class-table-view.php:85
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Je hebt niet voldoende rechten om deze pagina te openen."
+
+#: class-table-view.php:99
+msgid "There is no xAPI information stored."
+msgstr "Er is geen xAPI-informatie opgeslagen."
+
+#: class-xapidata.php:58
+msgid "Group"
+msgstr "Groep"
+
+#: class-xapidata.php:199
+msgid "email"
+msgstr "e-mail"
+
+#: class-xapidata.php:202
+msgid "email hash"
+msgstr "e-mail encryptie"
+
+#: class-xapidata.php:205
+msgid "openid"
+msgstr "open-id"
+
+#: class-xapidata.php:208
+msgid "account"
+msgstr "gebruikersnaam"
+
+#~ msgid "search"
+#~ msgstr "Suchen"
+
+#~ msgid "Column Visibility"
+#~ msgstr "Zeige/verstecke Spalten"
