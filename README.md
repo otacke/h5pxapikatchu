@@ -81,6 +81,23 @@ H5PxAPIkachu provides some hooks and filters that developers can use to customiz
 - _h5pxapikatchu_insert_data_result_: Allows to filter/retrieve the xAPI result object when it is supposed to be inserted into the database
 - _h5pxapikatchu_insert_data_xapi_: Allows to filter/retrieve the complete xAPI statement string when it is supposed to be inserted into the database
 
+### Example filters
+
+#### Not saving certain verbs
+
+```php
+add_filter('h5pxapikatchu_insert_data_verb', 'filter_h5pxapikatchu_insert_data_verb', 10);
+function filter_h5pxapikatchu_insert_data_verb($verb)
+{
+  if ( is_array( $verb ) ) {
+    if ( in_array($verb['display'], array('interacted', 'attempted'))) {
+      wp_send_json_error( false );  // or make the caller die in some other way
+    }
+  }
+  return $verb;
+}
+```
+
 ## License
 H5PxAPIkatchu is is licensed under the [MIT License](https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE).
 
