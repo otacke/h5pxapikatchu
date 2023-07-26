@@ -84,7 +84,7 @@ H5PxAPIkachu provides some hooks and filters that developers can use to customiz
 ### Example filters
 
 #### Not saving certain verbs
-In certain situation, one may only be interested in xAPI statements with particular verbs. The plugin does not provide a list to define what should be listend to and what should not (as in LRS logic one would rather do this by filtering the data later on), but one can do this by adding a filter to one's WordPress environment.
+In certain situations, one may only be interested in xAPI statements with particular verbs. The plugin does not provide a list to define what should be listend to and what should not (as in LRS logic one would rather do this by filtering the data later on), but one can do this by adding a filter to one's WordPress environment.
 
 _Please note:_ Despite not trying to be a gradebook replacement, people seem to be using H5PxAPIkatchu as such. They are only interested in "scores and answers". However, the whole point of xAPI is to be able to gain deeper knowledge about what the user is experiencing. If one is only interested in storing scores and answers, one should rather amend the original H5P plugin (or create a separate plugin for this job), so only the relevant values are stored which then then can be displayed easily using https://github.com/h5p/h5p-php-report.
 
