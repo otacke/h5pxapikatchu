@@ -91,14 +91,12 @@ _Please note:_ Despite not trying to be a gradebook replacement, people seem to 
 Nevertheless, if you're interested in "scores and answers" only and want to do this using H5PxAPIkatchu, filtering for verbs may not be the proper approach - one would rather filter for statements that contains a `results` property, because there's no fixed list of verbs that could pop up with xAPI, and content types could as well use other verbs than `completed` or `answered` and yet the statements could contain "scores and answers".
 
 ```php
-add_filter('h5pxapikatchu_insert_data_verb', 'filter_h5pxapikatchu_insert_data_verb', 10);
-function filter_h5pxapikatchu_insert_data_verb($verb)
-{
-  if ( is_array( $verb ) ) {
-    if ( in_array($verb['display'], array('interacted', 'attempted'))) {
-      wp_send_json_error( false );  // or make the caller die in some other way
-    }
+add_filter( 'h5pxapikatchu_insert_data_verb', 'filter_h5pxapikatchu_insert_data_verb', 10 );
+function filter_h5pxapikatchu_insert_data_verb( $verb ) {
+  if ( is_array( $verb ) && in_array( $verb['display'], array( 'interacted', 'attempted' ) ) ) {
+    wp_die();
   }
+
   return $verb;
 }
 ```
