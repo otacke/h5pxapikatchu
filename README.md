@@ -84,21 +84,19 @@ H5PxAPIkachu provides some hooks and filters that developers can use to customiz
 ### Example filters
 
 #### Not saving certain verbs
-In certain situation, one may only be interested in xAPI statements with particular verbs. The plugin does not provide a list to define what should be listend to and what should not (as in LRS logic one would rather do this by filtering the data later on), but one can do this by adding a filter to one's WordPress environment.
+In certain situations, one may only be interested in xAPI statements with particular verbs. The plugin does not provide a list to define what should be listend to and what should not (as in LRS logic one would rather do this by filtering the data later on), but one can do this by adding a filter to one's WordPress environment.
 
 _Please note:_ Despite not trying to be a gradebook replacement, people seem to be using H5PxAPIkatchu as such. They are only interested in "scores and answers". However, the whole point of xAPI is to be able to gain deeper knowledge about what the user is experiencing. If one is only interested in storing scores and answers, one should rather amend the original H5P plugin (or create a separate plugin for this job), so only the relevant values are stored which then then can be displayed easily using https://github.com/h5p/h5p-php-report.
 
 Nevertheless, if you're interested in "scores and answers" only and want to do this using H5PxAPIkatchu, filtering for verbs may not be the proper approach - one would rather filter for statements that contains a `results` property, because there's no fixed list of verbs that could pop up with xAPI, and content types could as well use other verbs than `completed` or `answered` and yet the statements could contain "scores and answers".
 
 ```php
-add_filter('h5pxapikatchu_insert_data_verb', 'filter_h5pxapikatchu_insert_data_verb', 10);
-function filter_h5pxapikatchu_insert_data_verb($verb)
-{
-  if ( is_array( $verb ) ) {
-    if ( in_array($verb['display'], array('interacted', 'attempted'))) {
-      wp_send_json_error( false );  // or make the caller die in some other way
-    }
+add_filter( 'h5pxapikatchu_insert_data_verb', 'filter_h5pxapikatchu_insert_data_verb', 10 );
+function filter_h5pxapikatchu_insert_data_verb( $verb ) {
+  if ( is_array( $verb ) && in_array( $verb['display'], array( 'interacted', 'attempted' ) ) ) {
+    wp_die();
   }
+
   return $verb;
 }
 ```
