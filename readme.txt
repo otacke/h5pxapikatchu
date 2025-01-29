@@ -7,7 +7,7 @@ Stable tag: 0.4.14
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
-This Wordpress plugin is a simple solution to catch 'em all, those xAPI statements that have been sent by H5P content types. It allows you to store (the most relevant) xAPI properties in the database of WordPress. It also allows you to view, filter and export these data as a CSV file for further processing.
+Simple solution to catch 'em all, those xAPI statements that have been sent by H5P content types.
 
 == Description ==
 
