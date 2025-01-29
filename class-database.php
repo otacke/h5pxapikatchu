@@ -387,7 +387,7 @@ class Database {
 			)
 		);
 		if ( 0 === sizeof( $ok ) ) {
-			return;
+			return [];
 		}
 		$ok = $wpdb->get_results(
 			$wpdb->prepare(
@@ -396,7 +396,7 @@ class Database {
 			)
 		);
 		if ( 0 === sizeof( $ok ) ) {
-			return;
+			return [];
 		}
 
 		// Get ID, title and library name
