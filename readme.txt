@@ -94,6 +94,9 @@ Maybe, but hopefully not.
 
 == Changelog ==
 
+= 0.4.14 =
+- Fix potential type error by fixing return value in get_h5p_contents().
+
 = 0.4.13 =
 - Add Dutch translation contributed by René Breedveld.
 
