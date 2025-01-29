@@ -2,7 +2,7 @@
 Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 0.4.14
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
