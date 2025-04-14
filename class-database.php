@@ -14,6 +14,7 @@ class Database {
 	private static $table_verb;
 	private static $table_object;
 	private static $table_result;
+	private static $table_context;
 	private static $table_h5p_content_types;
 	private static $table_h5p_libraries;
 
@@ -37,6 +38,7 @@ class Database {
 			id_verb MEDIUMINT(9),
 			id_object MEDIUMINT(9),
 			id_result MEDIUMINT(9),
+			id_context MEDIUMINT(9),
 			time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			xapi TEXT,
 			PRIMARY KEY (id)
@@ -91,6 +93,15 @@ class Database {
 
 		$ok = dbDelta( $sql );
 
+		$sql = 'CREATE TABLE ' . self::$table_context . " (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			http_referer TEXT,
+			wp_post_id INT,
+			PRIMARY KEY (id)
+		) $charset_collate;";
+
+		$ok = dbDelta( $sql );
+
 		$filled = $wpdb->get_var(
 			'SELECT id FROM ' . self::$table_result . ' WHERE id = 1'
 		);
@@ -122,6 +133,7 @@ class Database {
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . self::$table_verb );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . self::$table_object );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . self::$table_result );
+		$wpdb->query( 'DROP TABLE IF EXISTS ' . self::$table_context );
 	}
 
 	/**
@@ -154,6 +166,11 @@ class Database {
 		}
 
 		$ok = $wpdb->query( 'TRUNCATE TABLE ' . self::$table_result );
+		if ( false === $ok ) {
+			$error_count++;
+		}
+
+		$ok = $wpdb->query( 'TRUNCATE TABLE ' . self::$table_context );
 		if ( false === $ok ) {
 			$error_count++;
 		}
@@ -214,6 +231,8 @@ class Database {
 			'result_completion',
 			'result_success',
 			'result_duration',
+			'http_referer',
+			'wp_post_id',
 			'time',
 			'xapi',
 			'wp_user_id',
@@ -311,6 +330,7 @@ class Database {
 					ver.verb_id, ver.verb_display,
 				  obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
 				  res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
+				  context.http_referer, context.wp_post_id,
 				  mst.time, mst.xapi,
 				  act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
 				FROM
@@ -319,11 +339,13 @@ class Database {
 				  ' . self::$table_verb . ' as ver,
 				  ' . self::$table_object . ' as obj,
 				  ' . self::$table_result . ' as res
+				  ' . self::$table_context . ' as context,
 				WHERE
 				  mst.id_actor = act.id AND
 				  mst.id_verb = ver.id AND
 				  mst.id_object = obj.id AND
 				  mst.id_result = res.id AND
+				  mst.id_context = context.id AND
 				  act.wp_user_id = %d
 				LIMIT %d, %d
 				',
@@ -352,6 +374,7 @@ class Database {
 					ver.verb_id, ver.verb_display,
 					obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
 					res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
+					context.http_referer, context.wp_post_id,
 					mst.time, mst.xapi,
 					act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
 				FROM
@@ -360,12 +383,14 @@ class Database {
 					' . self::$table_verb . ' as ver,
 					' . self::$table_object . ' as obj,
 					' . self::$table_result . ' as res,
+					' . self::$table_context . ' as context,
 					' . self::$table_h5p_content_types . ' as cnt
 				WHERE
 					mst.id_actor = act.id AND
 					mst.id_verb = ver.id AND
 					mst.id_object = obj.id AND
 					mst.id_result = res.id and
+					mst.id_context = context.id AND
 					obj.h5p_content_id = cnt.id AND
 					cnt.user_id LIKE %s
 				ORDER BY
@@ -425,10 +450,11 @@ class Database {
 	 * @param array $verb Verb data.
 	 * @param array $object Object data.
 	 * @param array $result Result data.
+	 * @param array $context Context data.
 	 * @param string $xapi Original xapi data.
 	 * @return true|false False on error within database transactions.
 	 */
-	public static function insert_data( $actor, $verb, $object, $result, $xapi ) {
+	public static function insert_data( $actor, $verb, $object, $result, $context, $xapi ) {
 		global $wpdb;
 
 		$error_count = 0;
@@ -455,11 +481,17 @@ class Database {
 			$error_count++;
 		}
 
+		$context_id = self::insert_context( $context );
+		if ( false === $context_id ) {
+			$error_count++;
+		}
+
 		$main_id = self::insert_main(
 			$actor_id,
 			$verb_id,
 			$object_id,
 			$result_id,
+			$context_id,
 			$xapi
 		);
 		if ( false === $main_id ) {
@@ -481,10 +513,11 @@ class Database {
 	 * @param int $verb_id Verb ID.
 	 * @param int $object_id Object ID.
 	 * @param int $result_id Result ID.
+	 * @param int $context_id Context ID.
 	 * @param string $xapi Original xAPI data.
 	 * @param true|null True if ok, null else
 	 */
-	private static function insert_main( $actor_id, $verb_id, $object_id, $result_id, $xapi ) {
+	private static function insert_main( $actor_id, $verb_id, $object_id, $result_id, $context_id, $xapi ) {
 		global $wpdb;
 
 		$ok = $wpdb->insert(
@@ -494,6 +527,7 @@ class Database {
 				'id_verb'   => $verb_id,
 				'id_object' => $object_id,
 				'id_result' => $result_id,
+				'id_context'=> $context_id,
 				'time'      => current_time( 'mysql' ),
 				'xapi'      => $xapi,
 			)
@@ -670,6 +704,36 @@ class Database {
 	}
 
 	/**
+	 * Insert context data into database.
+	 * @param array $context context data.
+	 * @return int Database table index.
+	 */
+	private static function insert_context( $context ) {
+		global $wpdb;
+
+		// Check if entry already exists and return index accordingly.
+		$context_id = $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT id FROM ' . self::$table_context . ' WHERE http_referer = %s',
+				$context['http_referer']
+			)
+		);
+
+		if ( is_null( $context_id ) ) {
+			$ok = $wpdb->insert(
+				self::$table_context,
+				array(
+					'http_referer'      => $context['http_referer'],
+					'wp_post_id'        => $context['wp_post_id'],
+				)
+			);
+
+			$context_id = ( 1 === $ok ) ? $wpdb->insert_id : false;
+		}
+		return $context_id;
+	}
+
+	/**
 	 * Complete missing WordPress User ID for old data.
 	 * Just needed for the update from 0.1.3 to 0.2.0
 	 */
@@ -803,6 +867,8 @@ class Database {
 			'result_completion'                => __( 'Result Completion', 'H5PXAPIKATCHU' ),
 			'result_success'                   => __( 'Result Success', 'H5PXAPIKATCHU' ),
 			'result_duration'                  => __( 'Result Duration', 'H5PXAPIKATCHU' ),
+			'http_referer'                     => __( 'HTTP Referer', 'H5PXAPIKATCHU' ),
+			'wp_post_id'                       => __( 'WP Post ID', 'H5PXAPIKATCHU' ),
 			'time'                             => __( 'Time', 'H5PXAPIKATCHU' ),
 			'xapi'                             => __( 'xAPI', 'H5PXAPIKATCHU' ),
 			'wp_user_id'                       => __( 'WP User ID', 'H5PXAPIKATCHU' ),
@@ -841,6 +907,7 @@ class Database {
 		self::$table_verb              = $wpdb->prefix . 'h5pxapikatchu_verb';
 		self::$table_object            = $wpdb->prefix . 'h5pxapikatchu_object';
 		self::$table_result            = $wpdb->prefix . 'h5pxapikatchu_result';
+		self::$table_context           = $wpdb->prefix . 'h5pxapikatchu_context';
 		self::$table_h5p_content_types = $wpdb->prefix . 'h5p_contents';
 		self::$table_h5p_libraries     = $wpdb->prefix . 'h5p_libraries';
 	}
