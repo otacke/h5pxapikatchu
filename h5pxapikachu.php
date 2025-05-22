@@ -56,6 +56,7 @@ function on_activation() {
 
 	Database::build_tables();
 	Options::set_defaults();
+	update_config_file();
 
 	add_capabilities();
 }
@@ -160,6 +161,13 @@ function update() {
 
 		Options::update_config_file( $config_values );
 		update_option( 'h5pxapikatchu_version', '0.4.8' );
+	}
+
+	// Update from 0.4.15 to 0.4.16
+	if ( '0' === $version[0] && '4' === $version[1] && '15' === $version[2] ) {
+		update_config_file();
+
+		update_option( 'h5pxapikatchu_version', '0.4.16' );
 	}
 
 	update_option( 'h5pxapikatchu_version', H5PXAPIKATCHU_VERSION );
@@ -469,6 +477,13 @@ function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
 	);
 }
 
+/**
+ * Update the configuration file.
+ */
+function update_config_file() {
+	Options::update_config_file();
+}
+
 // Start setup
 register_activation_hook( __FILE__, 'H5PXAPIKATCHU\on_activation' );
 register_deactivation_hook( __FILE__, 'H5PXAPIKATCHU\on_deactivation' );
@@ -479,6 +494,7 @@ add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\h5pxapikatchu_load_plugin_textdomain' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\update' );
+add_action( 'update_option_siteurl', 'H5PXAPIKATCHU\update_config_file', 10, 3 );
 
 // Custom style for admin area
 add_action( 'admin_enqueue_scripts', 'H5PXAPIKATCHU\h5pxapikatchu_add_admin_styles' );
