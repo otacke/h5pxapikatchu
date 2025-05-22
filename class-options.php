@@ -498,9 +498,9 @@ class Options {
 	 *
 	 * @param array $new_values Contains all set settings fields as array keys
 	 */
-	public static function update_config_file( $new_values ) {
+	public static function update_config_file( $new_values = null ) {
 		if ( ! isset( $new_values ) ) {
-			return; // Nothing to do
+			$new_values = self::$options;
 		}
 
 		// Dynamically create file
