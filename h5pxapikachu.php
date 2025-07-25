@@ -273,6 +273,23 @@ function filter_insert_data_verb( $verb ) {
 }
 
 /**
+ * Filter for context array with XAPI verb, object, result
+ * and the raw XAPI data string as additional parameters.
+ *
+ * @since 0.4.4
+ * @param array context array containing e.g. the referrer and the WordPress post_id (if found)
+ * @param object actor XAPI actor object.
+ * @param object verb XAPI verb object.
+ * @param object object XAPI object object.
+ * @param object result XAPI result object.
+ * @param string xapi raw XAPI string.
+ * @return object Filtered context object.
+ */
+function filter_insert_data_context( $context, $actor, $verb, $object, $result, $xapi ) {
+	return apply_filters( 'h5pxapikatchu_insert_data_context', $context, $actor, $verb, $object, $result, $xapi );
+}
+
+/**
  * Filter for xAPI object object.
  *
  * @since 0.4.3
@@ -345,10 +362,23 @@ function insert_data() {
 	}
 	$xapi = filter_insert_data_xapi( $xapi );
 
+	// Create context array with the referer URL and the WordPress post_id (if found)
+	$referer = wp_get_referer();
+	$context = array(
+		'id'           => crc32($referer),   # For switching to a CRC use CRC64 instead!
+		'http_referer' => $referer,
+		'wp_post_id'   => url_to_postid( $referer ),
+	);
+	// Call a filter for filtering the context with all other XAPI data as additional arguments
+	$context = filter_insert_data_context( $context, $actor, $verb, $object, $result, $xapi );
+	// This filter would likely be obsolete if this works fine:
+	// Call a hook to provide the complete data record for additional actions:
+	do_action( 'h5pxapikatchu_data_record_complete', $context, $actor, $verb, $object, $result, $xapi );
+
 	// Add hook 'h5pxapikatchu_insert_data_pre_database'
 	do_action( 'h5pxapikatchu_insert_data_pre_database' );
 
-	$main_id = Database::insert_data( $actor, $verb, $object, $result, $xapi );
+	$main_id = Database::insert_data( $actor, $verb, $object, $result, $context, $xapi );
 
 	// Add hook 'h5pxapikatchu_insert_data_post_database'
 	do_action( 'h5pxapikatchu_insert_data_post_database', $main_id );
