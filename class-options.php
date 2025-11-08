@@ -31,11 +31,44 @@ class Options {
 			return;
 		}
 
-		wp_register_script( 'Options', plugins_url( '/js/options.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
-		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ), H5PXAPIKATCHU_VERSION );
-		wp_register_script( 'BuildCtsTable', plugins_url( '/js/build_cts_table.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
-		wp_register_script( 'BuildColVisTable', plugins_url( '/js/build_column_visibility_table.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
-		wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
+		wp_register_script(
+			'Options',
+			plugins_url( '/js/options.js', __FILE__ ),
+			array(),
+			H5PXAPIKATCHU_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'DataTablesScript',
+			plugins_url( '/DataTables/datatables.min.js', __FILE__ ),
+			array( 'jquery' ),
+			H5PXAPIKATCHU_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'BuildCtsTable',
+			plugins_url( '/js/build_cts_table.js', __FILE__ ),
+			array(),
+			H5PXAPIKATCHU_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'BuildColVisTable',
+			plugins_url( '/js/build_column_visibility_table.js', __FILE__ ),
+			array(),
+			H5PXAPIKATCHU_VERSION,
+			true
+		);
+
+		wp_register_style(
+			'DataTablesStyle',
+			plugins_url( '/DataTables/datatables.min.css', __FILE__ ),
+			array(),
+			H5PXAPIKATCHU_VERSION
+		);
 
 		wp_enqueue_script( 'Options' );
 		wp_enqueue_script( 'DataTablesScript' );
@@ -49,7 +82,7 @@ class Options {
 			'h5pxapikatchuOptions',
 			array(
 				'l10n' => (object) array(
-					'embedAllowedWarning' => esc_html__( 'Please note: Activating this option may lead to unexpected xAPI statements (in high numbers) if others embed your content somewhere. Your server will have to cope with all these statements.', 'H5PXAPIKATCHU' ),
+					'embedAllowedWarning' => esc_html__( 'Please note: Activating this option may lead to unexpected xAPI statements (in high numbers) if others embed your content somewhere. Your server will have to cope with all these statements.', 'h5pxapikatchu' ),
 				),
 			)
 		);
@@ -85,7 +118,7 @@ class Options {
 		update_option( 'h5pxapikatchu_defaults_set', true );
 
 		$config_data = array(
-			'capture_all_h5p_content_types' => 1,
+			'capture_all_h5p_content_types' => '1',
 			'columns_visible'               => implode( ',', Database::get_column_titles() ),
 		);
 
@@ -172,14 +205,14 @@ class Options {
 
 		add_settings_section(
 			'general_settings',
-			__( 'General', 'H5PXAPIKATCHU' ),
+			__( 'General', 'h5pxapikatchu' ),
 			array( $this, 'print_general_section_info' ),
 			'h5pxapikatchu-admin'
 		);
 
 		add_settings_field(
 			'store_complete_xapi',
-			__( 'Store complete statements', 'H5PXAPIKATCHU' ),
+			__( 'Store complete statements', 'h5pxapikatchu' ),
 			array( $this, 'store_complete_xapi_callback' ),
 			'h5pxapikatchu-admin',
 			'general_settings'
@@ -187,7 +220,7 @@ class Options {
 
 		add_settings_field(
 			'debug_enabled',
-			__( 'Debug', 'H5PXAPIKATCHU' ),
+			__( 'Debug', 'h5pxapikatchu' ),
 			array( $this, 'debug_enabled_callback' ),
 			'h5pxapikatchu-admin',
 			'general_settings'
@@ -195,7 +228,7 @@ class Options {
 
 		add_settings_field(
 			'embed_supported',
-			__( 'Embed support', 'H5PXAPIKATCHU' ),
+			__( 'Embed support', 'h5pxapikatchu' ),
 			array( $this, 'embed_supported_callback' ),
 			'h5pxapikatchu-admin',
 			'general_settings'
@@ -203,7 +236,7 @@ class Options {
 
 		add_settings_field(
 			'capture_all_h5p_content_types',
-			__( 'Capture everything', 'H5PXAPIKATCHU' ),
+			__( 'Capture everything', 'h5pxapikatchu' ),
 			array( $this, 'capture_all_h5p_content_types_callback' ),
 			'h5pxapikatchu-admin',
 			'general_settings'
@@ -211,14 +244,14 @@ class Options {
 
 		add_settings_section(
 			'content_type_settings',
-			__( 'H5P content types', 'H5PXAPIKATCHU' ),
+			__( 'H5P content types', 'h5pxapikatchu' ),
 			array( $this, 'print_content_type_section_info' ),
 			'h5pxapikatchu-admin'
 		);
 
 		add_settings_field(
 			'h5p_content_types',
-			__( 'H5P content types', 'H5PXAPIKATCHU' ),
+			__( 'H5P content types', 'h5pxapikatchu' ),
 			array( $this, 'h5p_content_types_callback' ),
 			'h5pxapikatchu-admin',
 			'content_type_settings'
@@ -226,14 +259,14 @@ class Options {
 
 		add_settings_section(
 			'columns_visible_settings',
-			__( 'Visible columns', 'H5PXAPIKATCHU' ),
+			__( 'Visible columns', 'h5pxapikatchu' ),
 			array( $this, 'print_columns_visible_section_info' ),
 			'h5pxapikatchu-admin'
 		);
 
 		add_settings_field(
 			'columns_visible',
-			__( 'Visible columns', 'H5PXAPIKATCHU' ),
+			__( 'Visible columns', 'h5pxapikatchu' ),
 			array( $this, 'columns_visible_callback' ),
 			'h5pxapikatchu-admin',
 			'columns_visible_settings'
@@ -293,14 +326,14 @@ class Options {
 	 * Print section text for column labels settings
 	 */
 	public function print_columns_visible_section_info() {
-		echo esc_html__( 'By checking the column titles below you can select if the corresponding columns will be displayed by default.', 'H5PXAPIKATCHU' );
+		echo esc_html__( 'By checking the column titles below you can select if the corresponding columns will be displayed by default.', 'h5pxapikatchu' );
 	}
 
 	/**
 	 * Print section text for content type settings
 	 */
 	public function print_content_type_section_info() {
-		echo esc_html__( 'By checking the H5P content types below you can select their xAPI statements for being captured.', 'H5PXAPIKATCHU' );
+		echo esc_html__( 'By checking the H5P content types below you can select their xAPI statements for being captured.', 'h5pxapikatchu' );
 	}
 
 	/**
@@ -322,7 +355,7 @@ class Options {
 			?>
 		/>
 		<?php
-			echo esc_html__( 'Store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'Store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'h5pxapikatchu' );
 		?>
 		</label>
 		<?php
@@ -345,7 +378,7 @@ class Options {
 					''
 			?>
 		/>
-		<?php echo esc_html__( 'Display xAPI statements in the JavaScript debug console', 'H5PXAPIKATCHU' ); ?>
+		<?php echo esc_html__( 'Display xAPI statements in the JavaScript debug console', 'h5pxapikatchu' ); ?>
 		</label>
 		<?php
 	}
@@ -367,7 +400,7 @@ class Options {
 					''
 			?>
 		/>
-		<?php echo esc_html__( 'Accept xAPI statements from your content that is embedded on other pages', 'H5PXAPIKATCHU' ); ?>
+		<?php echo esc_html__( 'Accept xAPI statements from your content that is embedded on other pages', 'h5pxapikatchu' ); ?>
 		</label>
 		<?php
 	}
@@ -390,7 +423,7 @@ class Options {
 			?>
 		/>
 		<?php
-			echo esc_html__( 'Capture the xAPI statements of all H5P content types', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'Capture the xAPI statements of all H5P content types', 'h5pxapikatchu' );
 		?>
 		</label>
 		<?php
@@ -403,7 +436,7 @@ class Options {
 	public function columns_visible_callback() {
 		$column_titles = Database::get_column_titles();
 		if ( empty( $column_titles ) ) {
-			echo esc_html__( 'It seems there are no column titles defined. Wicked!', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'It seems there are no column titles defined. Wicked!', 'h5pxapikatchu' );
 			return;
 		}
 
@@ -413,7 +446,7 @@ class Options {
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';
-		echo '<th>' . esc_html__( 'Column title', 'H5PXAPIKATCHU' ) . '</th>';
+		echo '<th>' . esc_html__( 'Column title', 'h5pxapikatchu' ) . '</th>';
 		echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
@@ -448,7 +481,7 @@ class Options {
 	public function h5p_content_types_callback() {
 		$content_types = Database::get_h5p_content_types();
 		if ( empty( $content_types ) ) {
-			echo esc_html__( 'It seems that H5P is not installed on this WordPress system.', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'It seems that H5P is not installed on this WordPress system.', 'h5pxapikatchu' );
 			return;
 		}
 
@@ -457,9 +490,9 @@ class Options {
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';
-		echo '<th>' . esc_html__( 'Title', 'H5PXAPIKATCHU' ) . '</th>';
-		echo '<th>' . esc_html__( 'Type', 'H5PXAPIKATCHU' ) . '</th>';
-		echo '<th>' . esc_html__( 'Id', 'H5PXAPIKATCHU' ) . '</th>';
+		echo '<th>' . esc_html__( 'Title', 'h5pxapikatchu' ) . '</th>';
+		echo '<th>' . esc_html__( 'Type', 'h5pxapikatchu' ) . '</th>';
+		echo '<th>' . esc_html__( 'Id', 'h5pxapikatchu' ) . '</th>';
 		echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
@@ -538,7 +571,8 @@ class Options {
 		$config_data .= '};' . "\n";
 
 		$ok = file_put_contents( $config_file, $config_data );
-		if ( false === $ok ) {
+		if ( false === $ok && defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			error_log( 'H5PxAPIkatchu could not write configuration file. Please make sure that ' . plugin_dir_path( __FILE__ ) . 'js' . ' is writable by the server process.' );
 		}
 	}

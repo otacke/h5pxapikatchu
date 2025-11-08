@@ -28,9 +28,28 @@ class Table_View {
 			return;
 		}
 
-		wp_register_script( 'DataTablesScript', plugins_url( '/DataTables/datatables.min.js', __FILE__ ), array( 'jquery' ), H5PXAPIKATCHU_VERSION );
-		wp_register_script( 'BuildDataTable', plugins_url( '/js/build_data_table.js', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
-		wp_register_style( 'DataTablesStyle', plugins_url( '/DataTables/datatables.min.css', __FILE__ ), array(), H5PXAPIKATCHU_VERSION );
+		wp_register_script(
+			'DataTablesScript',
+			plugins_url( '/DataTables/datatables.min.js', __FILE__ ),
+			array( 'jquery' ),
+			H5PXAPIKATCHU_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'BuildDataTable',
+			plugins_url( '/js/build_data_table.js', __FILE__ ),
+			array(),
+			H5PXAPIKATCHU_VERSION,
+			true
+		);
+
+		wp_register_style(
+			'DataTablesStyle',
+			plugins_url( '/DataTables/datatables.min.css', __FILE__ ),
+			array(),
+			H5PXAPIKATCHU_VERSION
+		);
 
 		wp_enqueue_script( 'DataTablesScript' );
 		wp_enqueue_script( 'BuildDataTable' );
@@ -38,19 +57,19 @@ class Table_View {
 
 		// Used to allow translations for Datatables from within WordPress translations
 		$language_datatables = array(
-			'info'           => esc_html__( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
-			'infoEmpty'      => esc_html__( 'Showing 0 to 0 of 0 entries', 'H5PXAPIKATCHU' ),
-			'infoFiltered'   => esc_html__( 'filtered from _MAX_ total entries', 'H5PXAPIKATCHU' ),
-			'lengthMenu'     => esc_html__( 'Show _MENU_ entries', 'H5PXAPIKATCHU' ),
-			'loadingRecords' => esc_html__( 'Loading...', 'H5PAPIKATCHU' ),
-			'processing'     => esc_html__( 'Processing...', 'H5PXAPIKATCHU' ),
-			'search'         => esc_html__( 'Search', 'H5PXAPIKATCHU' ),
-			'zeroRecords'    => esc_html__( 'No matching records found', 'H5PXAPIKATCHU' ),
+			'info'           => esc_html__( 'Showing _START_ to _END_ of _TOTAL_ entries', 'h5pxapikatchu' ),
+			'infoEmpty'      => esc_html__( 'Showing 0 to 0 of 0 entries', 'h5pxapikatchu' ),
+			'infoFiltered'   => esc_html__( 'filtered from _MAX_ total entries', 'h5pxapikatchu' ),
+			'lengthMenu'     => esc_html__( 'Show _MENU_ entries', 'h5pxapikatchu' ),
+			'loadingRecords' => esc_html__( 'Loading...', 'h5pxapikatchu' ),
+			'processing'     => esc_html__( 'Processing...', 'h5pxapikatchu' ),
+			'search'         => esc_html__( 'Search', 'h5pxapikatchu' ),
+			'zeroRecords'    => esc_html__( 'No matching records found', 'h5pxapikatchu' ),
 			'paginate'       => array(
-				'first'    => esc_html__( 'First', 'H5PXAPIKATCHU' ),
-				'last'     => esc_html__( 'Last', 'H5PXAPIKATCHU' ),
-				'next'     => esc_html__( 'Next', 'H5PXAPIKATCHU' ),
-				'previous' => esc_html__( 'Previous', 'H5PXAPIKATCHU' ),
+				'first'    => esc_html__( 'First', 'h5pxapikatchu' ),
+				'last'     => esc_html__( 'Last', 'h5pxapikatchu' ),
+				'next'     => esc_html__( 'Next', 'h5pxapikatchu' ),
+				'previous' => esc_html__( 'Previous', 'h5pxapikatchu' ),
 			),
 		);
 
@@ -61,14 +80,14 @@ class Table_View {
 			array(
 				'classDataTable'              => $this->class_datatable,
 				'columnsHidden'               => Options::get_columns_hidden(),
-				'buttonLabelDownload'         => esc_html__( 'Download', 'H5PXAPIKATCHU' ),
-				'buttonLabelColumnVisibility' => esc_html__( 'Show/hide columns', 'H5PXAPIKATCHU' ),
+				'buttonLabelDownload'         => esc_html__( 'Download', 'h5pxapikatchu' ),
+				'buttonLabelColumnVisibility' => esc_html__( 'Show/hide columns', 'h5pxapikatchu' ),
 				'userCanDownloadResults'      => current_user_can( 'download_h5pxapikatchu_results' ) ? '1' : '0',
 				'userCanDeleteResults'        => current_user_can( 'delete_h5pxapikatchu_results' ) ? '1' : '0',
 				'languageData'                => $language_datatables,
-				'buttonLabelDelete'           => esc_html__( 'Delete', 'H5PXAPIKATCHU' ),
-				'dialogTextDelete'            => esc_html__( 'Do you really want to delete all the data?', 'H5PXAPIKATCHU' ),
-				'errorMessage'                => esc_html__( 'Sorry, something went wrong with deleting the data.', 'H5PXAPIKATCHU' ),
+				'buttonLabelDelete'           => esc_html__( 'Delete', 'h5pxapikatchu' ),
+				'dialogTextDelete'            => esc_html__( 'Do you really want to delete all the data?', 'h5pxapikatchu' ),
+				'errorMessage'                => esc_html__( 'Sorry, something went wrong with deleting the data.', 'h5pxapikatchu' ),
 				'wpAJAXurl'                   => admin_url( 'admin-ajax.php' ),
 				'nonce'                       => wp_create_nonce( 'h5pxapikatchu_nonce_delete_data' ),
 			)
@@ -83,7 +102,7 @@ class Table_View {
 
 	public function add_plugin_page() {
 		if ( ! current_user_can( 'view_h5pxapikatchu_results' ) ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'H5PXAPIKATCHU' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'h5pxapikatchu' ) );
 		}
 
 		global $wpdb;
@@ -95,9 +114,9 @@ class Table_View {
 		$column_titles  = Database::get_column_titles();
 
 		echo '<div class="wrap">';
-		echo '<h2>' . esc_html__( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'H5PxAPIkatchu', 'h5pxapikatchu' ) . '</h2>';
 		if ( ! $complete_table ) {
-			echo esc_html__( 'There is no xAPI information stored.', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'There is no xAPI information stored.', 'h5pxapikatchu' );
 			wp_die();
 		}
 

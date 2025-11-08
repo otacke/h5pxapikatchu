@@ -2,7 +2,7 @@
 Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
-Tested up to: 6.6
+Tested up to: 6.8
 Stable tag: 0.4.18
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
@@ -288,7 +288,6 @@ Upgrade if you need the features from version 0.4.7 and don't want to save the c
 
 = 0.4.7 =
 Upgrade if you want to register xAPI statements from your content that is embedded on other pages.
-Please note that you need to activate this option first. Activating this option may lead to unexpected xAPI statements (in high numbers) if others embed your content somewhere. Your server will have to cope with all these statements. This behavior may deplete your resources and is a potential gateway for a denial-of-service attack.
 
 = 0.4.6 =
 Upgrade if you require an action triggered after adding an entry to the database including the entry's id

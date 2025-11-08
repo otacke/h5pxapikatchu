@@ -31,32 +31,32 @@ class PrivacyPolicy {
 
 		$link_xapi = sprintf(
 			'<a href="https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md" target="_blank">%s</a>',
-			__( 'xAPI', 'H5PXAPIKATCHU' )
+			__( 'xAPI', 'h5pxapikatchu' )
 		);
 
 		// Intentionally using the WordPress translation here.
-		$content  = '<h2>' . __( 'What personal data we collect and why we collect it' ) . '</h2>';
-		$content .= '<h3>' . __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h3>';
+		$content  = '<h2>' . esc_html__( 'What personal data we collect and why we collect it', 'h5pxapikatchu' ) . '</h2>';
+		$content .= '<h3>' . esc_html__( 'H5PxAPIkatchu', 'h5pxapikatchu' ) . '</h3>';
 		$content .= '<p>';
 		$content .= sprintf(
 			// translators: %s will be replaced by the name of the service
 			__(
 				'When you use interactive content, we may collect data about your interaction using %s.',
-				'H5PXAPIKATCHU'
+				'h5pxapikatchu'
 			),
 			$link_xapi
 		) . ' ';
-		$content .= __( 'The data may e.g. contain what answer was given, how long it took to answer, what score was achieved, etc.', 'H5PXAPIKATCHU' ) . ' ';
-		$content .= __( 'We use the data to learn about how well the interaction is designed and how it could be adapted to improve the usability and learning outcomes in general.', 'H5PXAPIKATCHU' );
+		$content .= esc_html__( 'The data may e.g. contain what answer was given, how long it took to answer, what score was achieved, etc.', 'h5pxapikatchu' ) . ' ';
+		$content .= esc_html__( 'We use the data to learn about how well the interaction is designed and how it could be adapted to improve the usability and learning outcomes in general.', 'h5pxapikatchu' );
 		$content .= '</p>';
 		$content .= '<p>';
-		$content .= __( 'However, if and only if you are logged in, this data will be tied to your full name, your email address, and your WordPress user id.', 'H5PXAPIKATCHU' ) . ' ';
-		$content .= __( 'In consequence, your interactions could be linked to you.', 'H5PXAPIKATCHU' ) . ' ';
-		$content .= __( 'Therefore, all personal data can be stripped to anonymize the data.', 'H5PXAPIKATCHU' );
+		$content .= esc_html__( 'However, if and only if you are logged in, this data will be tied to your full name, your email address, and your WordPress user id.', 'h5pxapikatchu' ) . ' ';
+		$content .= esc_html__( 'In consequence, your interactions could be linked to you.', 'h5pxapikatchu' ) . ' ';
+		$content .= esc_html__( 'Therefore, all personal data can be stripped to anonymize the data.', 'h5pxapikatchu' );
 		$content .= '</p>';
 
 		wp_add_privacy_policy_content(
-			__( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+			__( 'H5PxAPIkatchu', 'h5pxapikatchu' ),
 			wp_kses_post( wpautop( $content, false ) )
 		);
 	}
@@ -98,7 +98,7 @@ class PrivacyPolicy {
 
 				$export_items[] = array(
 					'group_id'    => 'h5pxapikatchu',
-					'group_label' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+					'group_label' => esc_html__( 'H5PxAPIkatchu', 'h5pxapikatchu' ),
 					'item_id'     => "h5pxapikatchu-{$result->id}",
 					'data'        => $data,
 				);
@@ -118,7 +118,7 @@ class PrivacyPolicy {
 	 */
 	function register_h5pxapikatchu_exporter( $exporters ) {
 		$exporters['h5pxapikatchu'] = array(
-			'exporter_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+			'exporter_friendly_name' => esc_html__( 'H5PxAPIkatchu', 'h5pxapikatchu' ),
 			'callback'               => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_exporter',
 		);
 		return $exporters;
@@ -152,7 +152,7 @@ class PrivacyPolicy {
 	 */
 	function register_h5pxapikatchu_eraser( $erasers ) {
 		$erasers['h5pxapikatchu'] = array(
-			'eraser_friendly_name' => __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ),
+			'eraser_friendly_name' => esc_html__( 'H5PxAPIkatchu', 'h5pxapikatchu' ),
 			'callback'             => 'H5PXAPIKATCHU\PrivacyPolicy::h5pxapikatchu_eraser',
 		);
 		return $erasers;

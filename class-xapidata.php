@@ -55,7 +55,7 @@ class XAPIDATA {
 
 			// Identified Group or Anonymous Group (we don't need to distinguish here)
 			if ( 'Group' === $object_type ) {
-				$name = ( '' === $name ) ? $name : $name . ' (' . __( 'Group', 'H5PXAPIKATCHU' ) . ')';
+				$name = ( '' === $name ) ? $name : $name . ' (' . esc_html__( 'Group', 'h5pxapikatchu' ) . ')';
 			}
 
 			//Agent
@@ -196,16 +196,16 @@ class XAPIDATA {
 
 		$inverse_functional_identifier = array();
 		if ( array_key_exists( 'mbox', $actor ) ) {
-			array_push( $inverse_functional_identifier, __( 'email', 'H5PXAPIKATCHU' ) . ': ' . $actor['mbox'] );
+			array_push( $inverse_functional_identifier, esc_html__( 'email', 'h5pxapikatchu' ) . ': ' . $actor['mbox'] );
 		}
 		if ( array_key_exists( 'mbox_sha1sum', $actor ) ) {
-			array_push( $inverse_functional_identifier, __( 'email hash', 'H5PXAPIKATCHU' ) . ': ' . $actor['mbox_sha1sum'] );
+			array_push( $inverse_functional_identifier, esc_html__( 'email hash', 'h5pxapikatchu' ) . ': ' . $actor['mbox_sha1sum'] );
 		}
 		if ( array_key_exists( 'openid', $actor ) ) {
-			array_push( $inverse_functional_identifier, __( 'openid', 'H5PXAPIKATCHU' ) . ': ' . $actor['openid'] );
+			array_push( $inverse_functional_identifier, esc_html__( 'openid', 'h5pxapikatchu' ) . ': ' . $actor['openid'] );
 		}
 		if ( array_key_exists( 'account', $actor ) ) {
-			array_push( $inverse_functional_identifier, __( 'account', 'H5PXAPIKATCHU' ) . ': ' . $this->flatten_account( $actor['account'] ) );
+			array_push( $inverse_functional_identifier, esc_html__( 'account', 'h5pxapikatchu' ) . ': ' . $this->flatten_account( $actor['account'] ) );
 		}
 		return ( empty( $inverse_functional_identifier ) ) ? '' : implode( ', ', $inverse_functional_identifier );
 	}

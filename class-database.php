@@ -783,27 +783,27 @@ class Database {
 		// Those might become handy if we make make the SELECTs flexible.
 		self::$column_title_names = array(
 			'id'                               => 'ID',
-			'actor_id'                         => __( 'Actor Id', 'H5PXAPIKATCHU' ),
-			'actor_name'                       => __( 'Actor Name', 'H5PXAPIKATCHU' ),
-			'actor_members'                    => __( 'Actor Group Members', 'H5PXAPIKATCHU' ),
-			'verb_id'                          => __( 'Verb Id', 'H5PXAPIKATCHU' ),
-			'verb_display'                     => __( 'Verb Display', 'H5PXAPIKATCHU' ),
-			'xobject_id'                       => __( 'Object Id', 'H5PXAPIKATCHU' ),
-			'object_name'                      => __( 'Object Def. Name', 'H5PXAPIKATCHU' ),
-			'object_description'               => __( 'Object Def. Description', 'H5PXAPIKATCHU' ),
-			'object_choices'                   => __( 'Object Def. Choices', 'H5PXAPIKATCHU' ),
-			'object_correct_responses_pattern' => __( 'Object Def. Correct Responses', 'H5PXAPIKATCHU' ),
-			'result_response'                  => __( 'Result Response', 'H5PXAPIKATCHU' ),
-			'result_score_raw'                 => __( 'Result Score Raw', 'H5PXAPIKATCHU' ),
-			'result_score_scaled'              => __( 'Result Score Scaled', 'H5PXAPIKATCHU' ),
-			'result_completion'                => __( 'Result Completion', 'H5PXAPIKATCHU' ),
-			'result_success'                   => __( 'Result Success', 'H5PXAPIKATCHU' ),
-			'result_duration'                  => __( 'Result Duration', 'H5PXAPIKATCHU' ),
-			'time'                             => __( 'Time', 'H5PXAPIKATCHU' ),
-			'xapi'                             => __( 'xAPI', 'H5PXAPIKATCHU' ),
-			'wp_user_id'                       => __( 'WP User ID', 'H5PXAPIKATCHU' ),
-			'h5p_content_id'                   => __( 'H5P Content ID', 'H5PXAPIKATCHU' ),
-			'h5p_subcontent_id'                => __( 'H5P Subcontent ID', 'H5PXAPIKATCHU' ),
+			'actor_id'                         => esc_html__( 'Actor Id', 'h5pxapikatchu' ),
+			'actor_name'                       => esc_html__( 'Actor Name', 'h5pxapikatchu' ),
+			'actor_members'                    => esc_html__( 'Actor Group Members', 'h5pxapikatchu' ),
+			'verb_id'                          => esc_html__( 'Verb Id', 'h5pxapikatchu' ),
+			'verb_display'                     => esc_html__( 'Verb Display', 'h5pxapikatchu' ),
+			'xobject_id'                       => esc_html__( 'Object Id', 'h5pxapikatchu' ),
+			'object_name'                      => esc_html__( 'Object Def. Name', 'h5pxapikatchu' ),
+			'object_description'               => esc_html__( 'Object Def. Description', 'h5pxapikatchu' ),
+			'object_choices'                   => esc_html__( 'Object Def. Choices', 'h5pxapikatchu' ),
+			'object_correct_responses_pattern' => esc_html__( 'Object Def. Correct Responses', 'h5pxapikatchu' ),
+			'result_response'                  => esc_html__( 'Result Response', 'h5pxapikatchu' ),
+			'result_score_raw'                 => esc_html__( 'Result Score Raw', 'h5pxapikatchu' ),
+			'result_score_scaled'              => esc_html__( 'Result Score Scaled', 'h5pxapikatchu' ),
+			'result_completion'                => esc_html__( 'Result Completion', 'h5pxapikatchu' ),
+			'result_success'                   => esc_html__( 'Result Success', 'h5pxapikatchu' ),
+			'result_duration'                  => esc_html__( 'Result Duration', 'h5pxapikatchu' ),
+			'time'                             => esc_html__( 'Time', 'h5pxapikatchu' ),
+			'xapi'                             => esc_html__( 'xAPI', 'h5pxapikatchu' ),
+			'wp_user_id'                       => esc_html__( 'WP User ID', 'h5pxapikatchu' ),
+			'h5p_content_id'                   => esc_html__( 'H5P Content ID', 'h5pxapikatchu' ),
+			'h5p_subcontent_id'                => esc_html__( 'H5P Subcontent ID', 'h5pxapikatchu' ),
 		);
 	}
 
@@ -812,18 +812,16 @@ class Database {
 	 * @return string UUID.
 	 */
 	static function create_uuid() {
-		// Initialize mt_rand with seed
-		mt_srand( crc32( serialize( [ microtime( true ), 'USER_IP', 'ETC' ] ) ) );
 		return sprintf(
 			'%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-			mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0x0fff ) | 0x4000,
-			mt_rand( 0, 0x3fff ) | 0x8000,
-			mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0xffff ),
-			mt_rand( 0, 0xffff )
+			wp_rand( 0, 0xffff ),
+			wp_rand( 0, 0xffff ),
+			wp_rand( 0, 0xffff ),
+			wp_rand( 0, 0x0fff ) | 0x4000,
+			wp_rand( 0, 0x3fff ) | 0x8000,
+			wp_rand( 0, 0xffff ),
+			wp_rand( 0, 0xffff ),
+			wp_rand( 0, 0xffff )
 		);
 	}
 

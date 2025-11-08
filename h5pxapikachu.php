@@ -3,7 +3,7 @@
 /**
  * Plugin Name: SNORDIAN's H5PxAPIkatchu
  * Plugin URI: https://snordian.de
- * Text Domain: H5PXAPIKATCHU
+ * Text Domain: h5pxapikatchu
  * Domain Path: /languages
  * Description: Catch and store xAPI statements sent by H5P
  * Version: 0.4.18
@@ -313,16 +313,31 @@ function filter_insert_data_xapi( $xapi ) {
  * @param string text Text to be added.
  */
 function insert_data() {
-	if ( ! wp_verify_nonce( $_POST['nonce'], 'h5pxapikatchu_nonce_insert_data' ) ) {
-		exit( json_encode( 'error' ) );
-	}
+	global $wpdb;
+
+  if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_insert_data', 'nonce', false ) ) {
+      exit( json_encode( 'error' ) );
+  }
 
 	// Add hook 'h5pxapikatchu_insert_data'
 	do_action( 'h5pxapikatchu_insert_data' );
 
-	global $wpdb;
+	/*
+	 * xAPI statement may contain quotes, punctuation and nested JSON.
+	 * We only validate – not sanitize – to avoid corrupting the payload.
+	 */
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	$xapi = isset( $_POST['xapi'] ) ? $_POST['xapi'] : '';
+	if ( '' === $xapi ) {
+		exit( json_encode( 'error' ) );
+	}
 
-	$xapi     = $_POST['xapi'];
+	// Ensure it is valid JSON
+	$decoded = json_decode( $xapi, true );
+	if ( null === $decoded && JSON_ERROR_NONE !== json_last_error() ) {
+			exit( json_encode( 'error' ) );
+	}
+
 	$xapidata = new XAPIDATA( $xapi );
 
 	$actor             = $xapidata->get_actor();
@@ -368,9 +383,9 @@ function insert_data() {
  * Delete all data.
  */
 function delete_data() {
-	if ( ! wp_verify_nonce( $_POST['nonce'], 'h5pxapikatchu_nonce_delete_data' ) ) {
-		exit( json_encode( 'error' ) );
-	}
+  if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_delete_data', 'nonce', false ) ) {
+      exit( json_encode( 'error' ) );
+  }
 
 	if ( ! current_user_can( 'delete_h5pxapikatchu_results' ) ) {
 		exit( json_encode( 'error' ) );
@@ -387,7 +402,7 @@ function delete_data() {
  * Load the text domain for internationalization.
  */
 function h5pxapikatchu_load_plugin_textdomain() {
-	load_plugin_textdomain( 'H5PXAPIKATCHU', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'h5pxapikatchu', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 
 /**
@@ -406,23 +421,27 @@ function h5pxapikatchu_add_admin_styles() {
  * @param string $embed_type Possible values are: div, iframe, external, editor.
  */
 function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
+	$server_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$server_http_referrer = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
+	$server_http_sec_fetch_site = isset( $_SERVER['HTTP_SEC_FETCH_SITE'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_SEC_FETCH_SITE'] ) ) : '';
+
 	// Is content embedded?
-	$is_embed = ( false !== strpos( $_SERVER['REQUEST_URI'], 'action=h5p_embed' ) );
+	$is_embed = ( false !== strpos( $server_request_uri, 'action=h5p_embed' ) );
 
 	// Is admin viewing H5P content in backend?
 	$is_admin_h5p_view = (
-		false !== strpos( $_SERVER['REQUEST_URI'], 'page=h5p' ) &&
-		false !== strpos( $_SERVER['REQUEST_URI'], 'task=show' )
+		false !== strpos( $server_request_uri, 'page=h5p' ) &&
+		false !== strpos( $server_request_uri, 'task=show' )
 	);
 
 	// Is admin editing post/page with embedded content?
 	$is_admin_post_iframe = (
-		isset( $_SERVER['HTTP_REFERER'] ) &&
-		false !== strpos( $_SERVER['HTTP_REFERER'], 'action=edit' )
+		isset( $server_http_referrer ) &&
+		false !== strpos( $server_http_referrer, 'action=edit' )
 	);
 
 	// Is iframe call from same origin?
-	$is_same_origin = ( isset( $_SERVER['HTTP_SEC_FETCH_SITE'] ) && 'same-origin' === $_SERVER['HTTP_SEC_FETCH_SITE'] );
+	$is_same_origin = ( isset( $server_http_sec_fetch_site ) && 'same-origin' === $server_http_sec_fetch_site );
 
 	if ( $is_admin_h5p_view || $is_admin_post_iframe ) {
 		return; // Viewing H5P content in backend or editing post with embedded content
@@ -434,15 +453,15 @@ function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
 
 	// Try to determine H5P content id
 	if (
-		isset( $_SERVER['HTTP_REFERER'] ) &&
-		false !== strpos( $_SERVER['HTTP_REFERER'], 'task=show' )
+		isset( $server_http_referrer ) &&
+		false !== strpos( $server_http_referrer, 'task=show' )
 	) {
-		$components = parse_url( $_SERVER['HTTP_REFERER'] );
+		$components = parse_url( $server_http_referrer );
 	} elseif (
-		isset( $_SERVER['REQUEST_URI'] ) &&
-		false !== strpos( $_SERVER['REQUEST_URI'], 'action=h5p_embed' )
+		isset( $server_request_uri ) &&
+		false !== strpos( $server_request_uri, 'action=h5p_embed' )
 	) {
-		$components = parse_url( $_SERVER['REQUEST_URI'] );
+		$components = parse_url( $server_request_uri );
 	}
 
 	// Check whether current user is author of current content
