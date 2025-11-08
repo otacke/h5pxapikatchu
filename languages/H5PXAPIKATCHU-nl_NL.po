@@ -1,19 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: H5PxAPIkatchu\n"
-"POT-Creation-Date: 2021-07-05 18:57+0200\n"
-"PO-Revision-Date: 2022-06-22 10:58+0200\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2025-11-08 17:28+0100\n"
+"PO-Revision-Date: 2025-11-08 17:28+0100\n"
+"Last-Translator: Sustainum-H5P-Content-Type-Hub-Manager\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__\n"
 "X-Poedit-SearchPath-0: h5pxapikachu.php\n"
 "X-Poedit-SearchPath-1: class-database.php\n"
 "X-Poedit-SearchPath-2: class-options.php\n"
@@ -21,91 +21,91 @@ msgstr ""
 "X-Poedit-SearchPath-4: class-xapidata.php\n"
 "X-Poedit-SearchPath-5: class-privacypolicy.php\n"
 
-#: class-database.php:757
+#: class-database.php:786
 msgid "Actor Id"
 msgstr "Gebruiker Id"
 
-#: class-database.php:758
+#: class-database.php:787
 msgid "Actor Name"
 msgstr "Naam gebruiker"
 
-#: class-database.php:759
+#: class-database.php:788
 msgid "Actor Group Members"
 msgstr "Leden gebruikersgroep"
 
-#: class-database.php:760
+#: class-database.php:789
 msgid "Verb Id"
 msgstr "Werkwoord Id"
 
-#: class-database.php:761
+#: class-database.php:790
 msgid "Verb Display"
 msgstr "Werkwoord weergave"
 
-#: class-database.php:762
+#: class-database.php:791
 msgid "Object Id"
 msgstr "Object Id"
 
-#: class-database.php:763
+#: class-database.php:792
 msgid "Object Def. Name"
 msgstr "Naam objectdefinitie"
 
-#: class-database.php:764
+#: class-database.php:793
 msgid "Object Def. Description"
 msgstr "Beschrijving objectdefinitie"
 
-#: class-database.php:765
+#: class-database.php:794
 msgid "Object Def. Choices"
 msgstr "Keuzes objectdefinitie"
 
-#: class-database.php:766
+#: class-database.php:795
 msgid "Object Def. Correct Responses"
 msgstr "Juiste antwoorden objectdefinitie"
 
-#: class-database.php:767
+#: class-database.php:796
 msgid "Result Response"
 msgstr "Resultaat"
 
-#: class-database.php:768
+#: class-database.php:797
 msgid "Result Score Raw"
 msgstr "Resultaat ruwe score"
 
-#: class-database.php:769
+#: class-database.php:798
 msgid "Result Score Scaled"
 msgstr "Resultaat geschaalde score"
 
-#: class-database.php:770
+#: class-database.php:799
 msgid "Result Completion"
 msgstr "Resultaat afronding"
 
-#: class-database.php:771
+#: class-database.php:800
 msgid "Result Success"
 msgstr "Resultaat succes"
 
-#: class-database.php:772
+#: class-database.php:801
 msgid "Result Duration"
 msgstr "Resultaat duur"
 
-#: class-database.php:773
+#: class-database.php:802
 msgid "Time"
 msgstr "Tijd"
 
-#: class-database.php:774 class-privacypolicy.php:34
+#: class-database.php:803 class-privacypolicy.php:34
 msgid "xAPI"
 msgstr "xAPI"
 
-#: class-database.php:775
+#: class-database.php:804
 msgid "WP User ID"
 msgstr "WP gebruiker Id"
 
-#: class-database.php:776
+#: class-database.php:805
 msgid "H5P Content ID"
 msgstr "H5P inhoud Id"
 
-#: class-database.php:777
+#: class-database.php:806
 msgid "H5P Subcontent ID"
 msgstr "H5P subinhoud Id"
 
-#: class-options.php:52
+#: class-options.php:85
 msgid ""
 "Please note: Activating this option may lead to unexpected xAPI statements "
 "(in high numbers) if others embed your content somewhere. Your server will "
@@ -115,35 +115,35 @@ msgstr ""
 "statements (in grote aantallen) als anderen uw inhoud ergens insluiten. Uw "
 "server zal al deze verklaringen moeten verwerken."
 
-#: class-options.php:175
+#: class-options.php:208
 msgid "General"
 msgstr "Algemeen"
 
-#: class-options.php:182
+#: class-options.php:215
 msgid "Store complete statements"
 msgstr "Volledige verklaringen opslaan"
 
-#: class-options.php:190
+#: class-options.php:223
 msgid "Debug"
 msgstr "Debug"
 
-#: class-options.php:198
+#: class-options.php:231
 msgid "Embed support"
 msgstr "Insluiten ondersteunen"
 
-#: class-options.php:206
+#: class-options.php:239
 msgid "Capture everything"
 msgstr "Alles vastleggen"
 
-#: class-options.php:214 class-options.php:221
+#: class-options.php:247 class-options.php:254
 msgid "H5P content types"
 msgstr "H5P-inhoudstypen"
 
-#: class-options.php:229 class-options.php:236
+#: class-options.php:262 class-options.php:269
 msgid "Visible columns"
 msgstr "Zichtbare kolommen"
 
-#: class-options.php:296
+#: class-options.php:329
 msgid ""
 "By checking the column titles below you can select if the corresponding "
 "columns will be displayed by default."
@@ -151,7 +151,7 @@ msgstr ""
 "Door de kolomtitels hieronder aan te vinken kun je kiezen of de "
 "corresponderende kolommen standaard zullen worden weergegeven."
 
-#: class-options.php:303
+#: class-options.php:336
 msgid ""
 "By checking the H5P content types below you can select their xAPI statements "
 "for being captured."
@@ -159,7 +159,7 @@ msgstr ""
 "Door de H5P inhoudstypen hieronder aan te vinken kun je de desbetreffende "
 "xAPI verklaringen selecteren om deze vast te leggen."
 
-#: class-options.php:325
+#: class-options.php:358
 msgid ""
 "Store the complete xAPI statement as JSON data. Be sure to check your "
 "database storage limit!"
@@ -167,42 +167,42 @@ msgstr ""
 "Sla de volledige xAPI verklaring op als JSON data. Zorg ervoor dat je de "
 "opslaglimiet van je database controleert!"
 
-#: class-options.php:348
+#: class-options.php:381
 msgid "Display xAPI statements in the JavaScript debug console"
 msgstr "Geef de xAPI verklaringen weer in de JavaScript debug console"
 
-#: class-options.php:370
+#: class-options.php:403
 msgid ""
 "Accept xAPI statements from your content that is embedded on other pages"
 msgstr ""
 "Accepteer xAPI verklaringen van je inhoud die is ingesloten op andere "
 "pagina's"
 
-#: class-options.php:393
+#: class-options.php:426
 msgid "Capture the xAPI statements of all H5P content types"
 msgstr "Leg de xAPI-verklaringen van alle H5P-inhoudstypen vast"
 
-#: class-options.php:406
+#: class-options.php:439
 msgid "It seems there are no column titles defined. Wicked!"
 msgstr "Het lijkt erop dat er geen kolom titels gedefinieerd zijn. Vreemd!"
 
-#: class-options.php:416
+#: class-options.php:449
 msgid "Column title"
 msgstr "Kolomtitel"
 
-#: class-options.php:451
+#: class-options.php:484
 msgid "It seems that H5P is not installed on this WordPress system."
 msgstr "Het lijkt erop dat H5P niet geïnstalleerd is in deze WordPress site."
 
-#: class-options.php:460
+#: class-options.php:493
 msgid "Title"
 msgstr "Titel"
 
-#: class-options.php:461
+#: class-options.php:494
 msgid "Type"
 msgstr "Type"
 
-#: class-options.php:462
+#: class-options.php:495
 msgid "Id"
 msgstr "ID"
 
@@ -212,7 +212,7 @@ msgstr "Waarom en welke persoonsgegevens wij verzamelen"
 
 #: class-privacypolicy.php:39 class-privacypolicy.php:59
 #: class-privacypolicy.php:101 class-privacypolicy.php:121
-#: class-privacypolicy.php:155 class-table-view.php:97
+#: class-privacypolicy.php:155 class-table-view.php:117
 msgid "H5PxAPIkatchu"
 msgstr "H5PxAPIkatchu"
 
@@ -263,79 +263,79 @@ msgstr ""
 "anonimiseren."
 
 # This item is for DataTables. It uses _START_ and _END_ and _TOTAL_ als placeholders. Don't translate these.
-#: class-table-view.php:41
+#: class-table-view.php:60
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Tonen van _START_ to _END_ of _TOTAL_ vermeldingen"
 
-#: class-table-view.php:42
+#: class-table-view.php:61
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "Tonen van 0 tot 0 van 0 inzendingen"
 
-#: class-table-view.php:43
+#: class-table-view.php:62
 msgid "filtered from _MAX_ total entries"
 msgstr "gefilterd uit _MAX_ totale inzendingen"
 
-#: class-table-view.php:44
+#: class-table-view.php:63
 msgid "Show _MENU_ entries"
 msgstr "Toon _MENU_ items"
 
-#: class-table-view.php:45
+#: class-table-view.php:64
 msgid "Loading..."
 msgstr "Wordt geladen..."
 
-#: class-table-view.php:46
+#: class-table-view.php:65
 msgid "Processing..."
 msgstr "Even wachten..."
 
-#: class-table-view.php:47
+#: class-table-view.php:66
 msgid "Search"
 msgstr "Zoeken"
 
-#: class-table-view.php:48
+#: class-table-view.php:67
 msgid "No matching records found"
 msgstr "Geen overeenkomende records gevonden"
 
-#: class-table-view.php:50
+#: class-table-view.php:69
 msgid "First"
 msgstr "Eerste"
 
-#: class-table-view.php:51
+#: class-table-view.php:70
 msgid "Last"
 msgstr "Laatste"
 
-#: class-table-view.php:52
+#: class-table-view.php:71
 msgid "Next"
 msgstr "Volgende"
 
-#: class-table-view.php:53
+#: class-table-view.php:72
 msgid "Previous"
 msgstr "Vorige"
 
-#: class-table-view.php:64
+#: class-table-view.php:83
 msgid "Download"
 msgstr "Download"
 
-#: class-table-view.php:65
+#: class-table-view.php:84
 msgid "Show/hide columns"
 msgstr "Toon/ verberg kolommen"
 
-#: class-table-view.php:69
+#: class-table-view.php:88
 msgid "Delete"
 msgstr "Verwijder"
 
-#: class-table-view.php:70
+#: class-table-view.php:89
 msgid "Do you really want to delete all the data?"
 msgstr "Wil je echt alle gegevens wissen?"
 
-#: class-table-view.php:71
+#: class-table-view.php:90
 msgid "Sorry, something went wrong with deleting the data."
 msgstr "Sorry, er ging iets mis met het verwijderen van de gegevens."
 
-#: class-table-view.php:85
+#: class-table-view.php:105
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Je hebt niet voldoende rechten om deze pagina te openen."
 
-#: class-table-view.php:99
+#: class-table-view.php:119
 msgid "There is no xAPI information stored."
 msgstr "Er is geen xAPI-informatie opgeslagen."
 
