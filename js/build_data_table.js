@@ -10,7 +10,8 @@
 			url: wpAJAXurl,
 			type: 'post',
 			data: {
-				action: 'delete_data'
+				action: 'delete_data',
+				nonce: h5pxapikatchuDataTable.nonce
 			},
 			success: function( response ) {
 				if ( '"done"' === response ) {

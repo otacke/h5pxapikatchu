@@ -128,10 +128,6 @@ class Database {
 	 * Delete all irrelevant data, but leave the tables.
 	 */
 	public static function delete_data() {
-		if (!current_user_can('delete_h5pxapikatchu_results')) {
-			return 'error';
-		}
-
 		global $wpdb;
 
 		$error_count = 0;

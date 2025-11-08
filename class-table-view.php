@@ -70,6 +70,7 @@ class Table_View {
 				'dialogTextDelete'            => esc_html__( 'Do you really want to delete all the data?', 'H5PXAPIKATCHU' ),
 				'errorMessage'                => esc_html__( 'Sorry, something went wrong with deleting the data.', 'H5PXAPIKATCHU' ),
 				'wpAJAXurl'                   => admin_url( 'admin-ajax.php' ),
+				'nonce'                       => wp_create_nonce( 'h5pxapikatchu_nonce_delete_data' ),
 			)
 		);
 	}

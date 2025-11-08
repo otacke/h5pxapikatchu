@@ -40,7 +40,8 @@ var H5P = H5P || {};
 			type: 'post',
 			data: {
 				action: 'insert_data',
-				xapi: JSON.stringify( xapi )
+				xapi: JSON.stringify( xapi ),
+				nonce: getNonceFromScriptSource()
 			}
 		});
 	};
@@ -75,6 +76,18 @@ var H5P = H5P || {};
 		return matches && matches[1];
 	};
 
+	var getNonceFromScriptSource = function() {
+		const scripts = document.getElementsByTagName('script');
+		for ( let i = 0; i < scripts.length; i++ ) {
+			const src = scripts[i].src;
+			if ( src.includes( 'h5pxapikatchu-listener.js' ) ) {
+				const urlParams = new URLSearchParams( src.split( '?' )[1] );
+				return urlParams.get( 'nonce' );
+			}
+		}
+		return null;
+	}
+
 	// Get environment variables
 	var H5PxAPIkatchu;
 	var topWindow;
@@ -90,7 +103,6 @@ var H5P = H5P || {};
 	 * Add xAPI listeners to all H5P instances that can trigger xAPI.
 	 */
 	document.addEventListener( 'readystatechange', function() {
-
 		// Add xAPI EventListener if H5P content is present
 		if ( 'interactive' === document.readyState ) {
       try {
@@ -101,5 +113,5 @@ var H5P = H5P || {};
         console.warn( error );
       }
 		}
-	});;
+	});
 }  () );

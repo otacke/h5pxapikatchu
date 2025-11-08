@@ -307,10 +307,16 @@ function filter_insert_data_xapi( $xapi ) {
 
 /**
  * Insert an entry into the database.
+ * /!\ There is no access control here, because the xAPI statements of visitors that are not logged in should also be
+ * stored.
  *
  * @param string text Text to be added.
  */
 function insert_data() {
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'h5pxapikatchu_nonce_insert_data' ) ) {
+		exit( json_encode( 'error' ) );
+	}
+
 	// Add hook 'h5pxapikatchu_insert_data'
 	do_action( 'h5pxapikatchu_insert_data' );
 
@@ -362,12 +368,19 @@ function insert_data() {
  * Delete all data.
  */
 function delete_data() {
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'h5pxapikatchu_nonce_delete_data' ) ) {
+		exit( json_encode( 'error' ) );
+	}
+
+	if (!current_user_can('delete_h5pxapikatchu_results')) {
+		exit( json_encode( 'error' ) );
+	}
+
 	// Add hook 'h5pxapikatchu_delete_data'
 	do_action( 'h5pxapikatchu_delete_data' );
 
 	$response = Database::delete_data();
 	exit( json_encode( $response ) );
-	wp_die();
 }
 
 /**
@@ -471,9 +484,10 @@ function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
 		);
 	}
 
+	// /!\ Adding the nonce here is a workaround, because wp_localize_script cannot be used here.
 	$scripts[] = (object) array(
 		'path'    => plugins_url( 'js/h5pxapikatchu-listener.js', __FILE__ ),
-		'version' => '?ver=' . H5PXAPIKATCHU_VERSION,
+		'version' => '?ver=' . H5PXAPIKATCHU_VERSION . '&nonce=' . wp_create_nonce( 'h5pxapikatchu_nonce_insert_data' ),
 	);
 }
 
