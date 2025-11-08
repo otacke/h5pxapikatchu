@@ -38,19 +38,19 @@ class Table_View {
 
 		// Used to allow translations for Datatables from within WordPress translations
 		$language_datatables = array(
-			'info'           => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
-			'infoEmpty'      => __( 'Showing 0 to 0 of 0 entries', 'H5PXAPIKATCHU' ),
-			'infoFiltered'   => __( 'filtered from _MAX_ total entries', 'H5PXAPIKATCHU' ),
-			'lengthMenu'     => __( 'Show _MENU_ entries', 'H5PXAPIKATCHU' ),
-			'loadingRecords' => __( 'Loading...', 'H5PAPIKATCHU' ),
-			'processing'     => __( 'Processing...', 'H5PXAPIKATCHU' ),
-			'search'         => __( 'Search', 'H5PXAPIKATCHU' ),
-			'zeroRecords'    => __( 'No matching records found', 'H5PXAPIKATCHU' ),
+			'info'           => esc_html__( 'Showing _START_ to _END_ of _TOTAL_ entries', 'H5PXAPIKATCHU' ),
+			'infoEmpty'      => esc_html__( 'Showing 0 to 0 of 0 entries', 'H5PXAPIKATCHU' ),
+			'infoFiltered'   => esc_html__( 'filtered from _MAX_ total entries', 'H5PXAPIKATCHU' ),
+			'lengthMenu'     => esc_html__( 'Show _MENU_ entries', 'H5PXAPIKATCHU' ),
+			'loadingRecords' => esc_html__( 'Loading...', 'H5PAPIKATCHU' ),
+			'processing'     => esc_html__( 'Processing...', 'H5PXAPIKATCHU' ),
+			'search'         => esc_html__( 'Search', 'H5PXAPIKATCHU' ),
+			'zeroRecords'    => esc_html__( 'No matching records found', 'H5PXAPIKATCHU' ),
 			'paginate'       => array(
-				'first'    => __( 'First', 'H5PXAPIKATCHU' ),
-				'last'     => __( 'Last', 'H5PXAPIKATCHU' ),
-				'next'     => __( 'Next', 'H5PXAPIKATCHU' ),
-				'previous' => __( 'Previous', 'H5PXAPIKATCHU' ),
+				'first'    => esc_html__( 'First', 'H5PXAPIKATCHU' ),
+				'last'     => esc_html__( 'Last', 'H5PXAPIKATCHU' ),
+				'next'     => esc_html__( 'Next', 'H5PXAPIKATCHU' ),
+				'previous' => esc_html__( 'Previous', 'H5PXAPIKATCHU' ),
 			),
 		);
 
@@ -61,14 +61,14 @@ class Table_View {
 			array(
 				'classDataTable'              => $this->class_datatable,
 				'columnsHidden'               => Options::get_columns_hidden(),
-				'buttonLabelDownload'         => __( 'Download', 'H5PXAPIKATCHU' ),
-				'buttonLabelColumnVisibility' => __( 'Show/hide columns', 'H5PXAPIKATCHU' ),
+				'buttonLabelDownload'         => esc_html__( 'Download', 'H5PXAPIKATCHU' ),
+				'buttonLabelColumnVisibility' => esc_html__( 'Show/hide columns', 'H5PXAPIKATCHU' ),
 				'userCanDownloadResults'      => current_user_can( 'download_h5pxapikatchu_results' ) ? '1' : '0',
 				'userCanDeleteResults'        => current_user_can( 'delete_h5pxapikatchu_results' ) ? '1' : '0',
 				'languageData'                => $language_datatables,
-				'buttonLabelDelete'           => __( 'Delete', 'H5PXAPIKATCHU' ),
-				'dialogTextDelete'            => __( 'Do you really want to delete all the data?', 'H5PXAPIKATCHU' ),
-				'errorMessage'                => __( 'Sorry, something went wrong with deleting the data.', 'H5PXAPIKATCHU' ),
+				'buttonLabelDelete'           => esc_html__( 'Delete', 'H5PXAPIKATCHU' ),
+				'dialogTextDelete'            => esc_html__( 'Do you really want to delete all the data?', 'H5PXAPIKATCHU' ),
+				'errorMessage'                => esc_html__( 'Sorry, something went wrong with deleting the data.', 'H5PXAPIKATCHU' ),
 				'wpAJAXurl'                   => admin_url( 'admin-ajax.php' ),
 			)
 		);
@@ -82,7 +82,7 @@ class Table_View {
 
 	public function add_plugin_page() {
 		if ( ! current_user_can( 'view_h5pxapikatchu_results' ) ) {
-			wp_die( __( 'You do not have sufficient permissions to access this page.', 'H5PXAPIKATCHU' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'H5PXAPIKATCHU' ) );
 		}
 
 		global $wpdb;
@@ -94,25 +94,35 @@ class Table_View {
 		$column_titles  = Database::get_column_titles();
 
 		echo '<div class="wrap">';
-		echo '<h2>' . __( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'H5PxAPIkatchu', 'H5PXAPIKATCHU' ) . '</h2>';
 		if ( ! $complete_table ) {
-			echo __( 'There is no xAPI information stored.', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'There is no xAPI information stored.', 'H5PXAPIKATCHU' );
 			wp_die();
 		}
 
 		// Use Datatable to make the table pretty.
-		echo '<div><table id="' . $this->class_datatable . '" class="table-striped table-bordered">';
+		echo '<div><table id="' . esc_attr( $this->class_datatable ) . '" class="table-striped table-bordered">';
 
 		// Table Head and Footer
-		$heads = '';
+		echo '<thead><tr>';
 		for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
-			$heads .= '<th>';
-			$heads .= ( isset( Database::$column_title_names[ $column_titles[ $i ] ] ) ?
-					Database::$column_title_names[ $column_titles[ $i ] ] :
-					'' );
-			$heads .= '</th>';
+				echo '<th>' . esc_html(
+						isset( Database::$column_title_names[ $column_titles[ $i ] ] )
+								? Database::$column_title_names[ $column_titles[ $i ] ]
+								: ''
+				) . '</th>';
 		}
-		echo '<thead>' . $heads . '</thead><tfoot>' . $heads . '</tfoot>';
+		echo '</tr></thead>';
+
+		echo '<tfoot><tr>';
+		for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
+				echo '<th>' . esc_html(
+						isset( Database::$column_title_names[ $column_titles[ $i ] ] )
+								? Database::$column_title_names[ $column_titles[ $i ] ]
+								: ''
+				) . '</th>';
+		}
+		echo '</tr></tfoot>';
 
 		// Table Body
 		echo '<tbody>';
@@ -125,7 +135,7 @@ class Table_View {
 			);
 			echo '<tr>';
 			foreach ( $fields as $key => $value ) {
-				echo '<td>' . $value . '</td>';
+				echo '<td>' . esc_html( $value ) . '</td>';
 			}
 			echo '</tr>';
 		}

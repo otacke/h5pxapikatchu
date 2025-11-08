@@ -49,7 +49,7 @@ class Options {
 			'h5pxapikatchuOptions',
 			array(
 				'l10n' => (object) array(
-					'embedAllowedWarning' => __( 'Please note: Activating this option may lead to unexpected xAPI statements (in high numbers) if others embed your content somewhere. Your server will have to cope with all these statements.', 'H5PXAPIKATCHU' ),
+					'embedAllowedWarning' => esc_html__( 'Please note: Activating this option may lead to unexpected xAPI statements (in high numbers) if others embed your content somewhere. Your server will have to cope with all these statements.', 'H5PXAPIKATCHU' ),
 				),
 			)
 		);
@@ -293,14 +293,14 @@ class Options {
 	 * Print section text for column labels settings
 	 */
 	public function print_columns_visible_section_info() {
-		echo __( 'By checking the column titles below you can select if the corresponding columns will be displayed by default.', 'H5PXAPIKATCHU' );
+		echo esc_html__( 'By checking the column titles below you can select if the corresponding columns will be displayed by default.', 'H5PXAPIKATCHU' );
 	}
 
 	/**
 	 * Print section text for content type settings
 	 */
 	public function print_content_type_section_info() {
-		echo __( 'By checking the H5P content types below you can select their xAPI statements for being captured.', 'H5PXAPIKATCHU' );
+		echo esc_html__( 'By checking the H5P content types below you can select their xAPI statements for being captured.', 'H5PXAPIKATCHU' );
 	}
 
 	/**
@@ -322,7 +322,7 @@ class Options {
 			?>
 		/>
 		<?php
-			echo __( 'Store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'Store the complete xAPI statement as JSON data. Be sure to check your database storage limit!', 'H5PXAPIKATCHU' );
 		?>
 		</label>
 		<?php
@@ -345,7 +345,7 @@ class Options {
 					''
 			?>
 		/>
-		<?php echo __( 'Display xAPI statements in the JavaScript debug console', 'H5PXAPIKATCHU' ); ?>
+		<?php echo esc_html__( 'Display xAPI statements in the JavaScript debug console', 'H5PXAPIKATCHU' ); ?>
 		</label>
 		<?php
 	}
@@ -367,7 +367,7 @@ class Options {
 					''
 			?>
 		/>
-		<?php echo __( 'Accept xAPI statements from your content that is embedded on other pages', 'H5PXAPIKATCHU' ); ?>
+		<?php echo esc_html__( 'Accept xAPI statements from your content that is embedded on other pages', 'H5PXAPIKATCHU' ); ?>
 		</label>
 		<?php
 	}
@@ -390,7 +390,7 @@ class Options {
 			?>
 		/>
 		<?php
-			echo __( 'Capture the xAPI statements of all H5P content types', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'Capture the xAPI statements of all H5P content types', 'H5PXAPIKATCHU' );
 		?>
 		</label>
 		<?php
@@ -403,17 +403,17 @@ class Options {
 	public function columns_visible_callback() {
 		$column_titles = Database::get_column_titles();
 		if ( empty( $column_titles ) ) {
-			echo __( 'It seems there are no column titles defined. Wicked!', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'It seems there are no column titles defined. Wicked!', 'H5PXAPIKATCHU' );
 			return;
 		}
 
 		$columns_visible = self::get_columns_visible();
 
-		echo '<div><table id="' . self::$class_colvis_table . '" class="table-striped table-bordered">';
+		echo '<div><table id="' . esc_attr(self::$class_colvis_table) . '" class="table-striped table-bordered">';
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';
-		echo '<th>' . __( 'Column title', 'H5PXAPIKATCHU' ) . '</th>';
+		echo '<th>' . esc_html__( 'Column title', 'H5PXAPIKATCHU' ) . '</th>';
 		echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
@@ -423,16 +423,16 @@ class Options {
 			echo '<td>';
 			echo '<input ' .
 				'type="checkbox" ' .
-				'name="h5pxapikatchu_option[column_titles-' . $column_title . ']" ' .
-				'id="h5pxapikatchu-column-title-' . $column_title . '" ' .
+				'name="h5pxapikatchu_option[column_titles-' . esc_attr( $column_title ) . ']" ' .
+				'id="h5pxapikatchu-column-title-' . esc_attr( $column_title ) . '" ' .
 				'class="h5pxapikatchu-column-labels-selector" ' .
-				'value="' . $column_title . '" ' . checked( in_array( $column_title, $columns_visible ), true, false ) .
+				'value="' . esc_attr( $column_title ) . '" ' . checked( in_array( $column_title, $columns_visible ), true, false ) .
 				' />';
 			echo '</td>';
 			echo '<td>' .
 				( isset( Database::$column_title_names[ $column_title ] ) ?
-					Database::$column_title_names[ $column_title ] :
-					$column_title ) .
+					esc_html( Database::$column_title_names[ $column_title ] ) :
+					esc_html( $column_title ) ) .
 				'</td>';
 			echo '</tr>';
 		}
@@ -448,18 +448,18 @@ class Options {
 	public function h5p_content_types_callback() {
 		$content_types = Database::get_h5p_content_types();
 		if ( empty( $content_types ) ) {
-			echo __( 'It seems that H5P is not installed on this WordPress system.', 'H5PXAPIKATCHU' );
+			echo esc_html__( 'It seems that H5P is not installed on this WordPress system.', 'H5PXAPIKATCHU' );
 			return;
 		}
 
 		$content_types_options = self::get_h5p_content_types();
-		echo '<div><table id="' . self::$class_cts_table . '" class="table-striped table-bordered">';
+		echo '<div><table id="' . esc_attr( self::$class_cts_table ) . '" class="table-striped table-bordered">';
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';
-		echo '<th>' . __( 'Title', 'H5PXAPIKATCHU' ) . '</th>';
-		echo '<th>' . __( 'Type', 'H5PXAPIKATCHU' ) . '</th>';
-		echo '<th>' . __( 'Id', 'H5PXAPIKATCHU' ) . '</th>';
+		echo '<th>' . esc_html__( 'Title', 'H5PXAPIKATCHU' ) . '</th>';
+		echo '<th>' . esc_html__( 'Type', 'H5PXAPIKATCHU' ) . '</th>';
+		echo '<th>' . esc_html__( 'Id', 'H5PXAPIKATCHU' ) . '</th>';
 		echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
@@ -467,11 +467,11 @@ class Options {
 		foreach ( $content_types as $i => $content_type ) {
 			echo '<tr>';
 			echo '<td>';
-			echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . $i . ']" id="h5p_content_type-' . $i . '" class="h5pxapikatchu-content-type-selector" value="' . $content_type['ct_id'] . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />';
+			echo '<input type="checkbox" name="h5pxapikatchu_option[h5p_content_types-' . esc_attr( $i ) . ']" id="h5p_content_type-' . esc_attr( $i ) . '" class="h5pxapikatchu-content-type-selector" value="' . esc_attr( $content_type['ct_id'] ) . '" ' . checked( in_array( $content_type['ct_id'], $content_types_options ), true, false ) . ' />';
 			echo '</td>';
-			echo '<td>' . $content_type['ct_title'] . '</td>';
-			echo '<td>' . $content_type['lib_title'] . '</td>';
-			echo '<td>' . $content_type['ct_id'] . '</td>';
+			echo '<td>' . esc_html( $content_type['ct_title'] ) . '</td>';
+			echo '<td>' . esc_html( $content_type['lib_title'] ) . '</td>';
+			echo '<td>' . esc_html( $content_type['ct_id'] ) . '</td>';
 			echo '</tr>';
 		}
 
