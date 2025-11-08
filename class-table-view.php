@@ -108,7 +108,7 @@ class Table_View {
 		echo '<thead><tr>';
 		for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
 				echo '<th>' . esc_html(
-						isset( Database::$column_title_names[ $column_titles[ $i ] ] )
+					isset( Database::$column_title_names[ $column_titles[ $i ] ] )
 								? Database::$column_title_names[ $column_titles[ $i ] ]
 								: ''
 				) . '</th>';
@@ -118,7 +118,7 @@ class Table_View {
 		echo '<tfoot><tr>';
 		for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
 				echo '<th>' . esc_html(
-						isset( Database::$column_title_names[ $column_titles[ $i ] ] )
+					isset( Database::$column_title_names[ $column_titles[ $i ] ] )
 								? Database::$column_title_names[ $column_titles[ $i ] ]
 								: ''
 				) . '</th>';

@@ -409,7 +409,7 @@ class Options {
 
 		$columns_visible = self::get_columns_visible();
 
-		echo '<div><table id="' . esc_attr(self::$class_colvis_table) . '" class="table-striped table-bordered">';
+		echo '<div><table id="' . esc_attr( self::$class_colvis_table ) . '" class="table-striped table-bordered">';
 		echo '<thead>';
 		echo '<tr>';
 		echo '<th></th>';

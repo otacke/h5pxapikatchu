@@ -372,7 +372,7 @@ function delete_data() {
 		exit( json_encode( 'error' ) );
 	}
 
-	if (!current_user_can('delete_h5pxapikatchu_results')) {
+	if ( ! current_user_can( 'delete_h5pxapikatchu_results' ) ) {
 		exit( json_encode( 'error' ) );
 	}
 
