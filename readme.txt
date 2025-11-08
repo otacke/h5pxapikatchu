@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 0.4.18
+Stable tag: 0.4.19
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -93,6 +93,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.19 =
+- Clean up code.
 
 = 0.4.18 =
 - Fix broken escaping, thanks a lot to Moose Love for reporting.
@@ -252,6 +255,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.19 =
+Upgrade if you like cleaner code.
 
 = 0.4.18 =
 Upgrade to prevent injection of JavaScript.
