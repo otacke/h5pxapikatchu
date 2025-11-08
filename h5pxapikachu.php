@@ -322,7 +322,7 @@ function insert_data() {
 
 	global $wpdb;
 
-	$xapi     = $_REQUEST['xapi'];
+	$xapi     = $_POST['xapi'];
 	$xapidata = new XAPIDATA( $xapi );
 
 	$actor             = $xapidata->get_actor();
