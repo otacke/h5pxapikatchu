@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: SNORDIAN's H5PxAPIkatchu
- * Plugin URI: https://github.com/otacke/h5pxapikatchu
+ * Plugin URI: https://snordian.de
  * Text Domain: H5PXAPIKATCHU
  * Domain Path: /languages
  * Description: Catch and store xAPI statements sent by H5P
