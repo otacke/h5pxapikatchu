@@ -316,7 +316,7 @@ function insert_data() {
 	global $wpdb;
 
   if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_insert_data', 'nonce', false ) ) {
-      exit( json_encode( 'error' ) );
+		exit( json_encode( 'error' ) );
   }
 
 	// Add hook 'h5pxapikatchu_insert_data'
@@ -332,10 +332,15 @@ function insert_data() {
 		exit( json_encode( 'error' ) );
 	}
 
-	// Ensure it is valid JSON
+	// WordPress may have added slashes via magic_quotes - try to decode with and without unslashing
 	$decoded = json_decode( $xapi, true );
 	if ( null === $decoded && JSON_ERROR_NONE !== json_last_error() ) {
-			exit( json_encode( 'error' ) );
+		$xapi = stripslashes( $xapi );
+		$decoded = json_decode( $xapi, true );
+	}
+
+	if ( null === $decoded || JSON_ERROR_NONE !== json_last_error() ) {
+		exit( json_encode( 'error' ) );
 	}
 
 	$xapidata = new XAPIDATA( $xapi );
