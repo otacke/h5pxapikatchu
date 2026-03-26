@@ -504,7 +504,7 @@ function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
 	if ( file_exists( $path ) ) {
 		$scripts[] = (object) array(
 			'path'    => plugins_url( 'js/h5pxapikatchu-config.js', __FILE__ ),
-			'version' => '?ver=' . H5PXAPIKATCHU_VERSION,
+			'version' => '?buster=' . uniqid(),
 		);
 	}
 
