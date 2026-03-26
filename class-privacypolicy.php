@@ -2,6 +2,9 @@
 
 namespace H5PXAPIKATCHU;
 
+// as suggested by the WordPress community
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+
 /**
  * Handle privacy policy
  *

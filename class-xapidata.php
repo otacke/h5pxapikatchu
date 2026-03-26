@@ -2,6 +2,9 @@
 
 namespace H5PXAPIKATCHU;
 
+// as suggested by the WordPress community
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+
 /**
  * Pseudo xAPI
  * The goal of this class is not to comply to the xAPI specification, but to
