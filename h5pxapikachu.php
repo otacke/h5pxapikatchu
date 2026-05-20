@@ -326,19 +326,13 @@ function insert_data() {
 	 * xAPI statement may contain quotes, punctuation and nested JSON.
 	 * We only validate – not sanitize – to avoid corrupting the payload.
 	 */
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	$xapi = isset( $_POST['xapi'] ) ? $_POST['xapi'] : '';
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$xapi = isset( $_POST['xapi'] ) ? wp_unslash( $_POST['xapi'] ) : '';
 	if ( '' === $xapi ) {
 		exit( json_encode( 'error' ) );
 	}
 
-	// WordPress may have added slashes via magic_quotes - try to decode with and without unslashing
 	$decoded = json_decode( $xapi, true );
-	if ( null === $decoded && JSON_ERROR_NONE !== json_last_error() ) {
-		$xapi = stripslashes( $xapi );
-		$decoded = json_decode( $xapi, true );
-	}
-
 	if ( null === $decoded || JSON_ERROR_NONE !== json_last_error() ) {
 		exit( json_encode( 'error' ) );
 	}
@@ -363,10 +357,7 @@ function insert_data() {
 	$result = $xapidata->get_result();
 	$result = filter_insert_data_result( $result );
 
-	if ( Options::store_complete_xapi() ) {
-		$xapi = str_replace( '\"', '"', $xapi );
-		$xapi = str_replace( "\'", "'", $xapi );
-	} else {
+	if ( ! Options::store_complete_xapi() ) {
 		$xapi = null;
 	}
 	$xapi = filter_insert_data_xapi( $xapi );

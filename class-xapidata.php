@@ -25,14 +25,7 @@ class XAPIDATA {
 	 * @param string $xapi Data to work with.
 	 */
 	public function __construct( $xapi ) {
-
-		// Change from JavaScript
-		$xapi = str_replace( '\"', '"', $xapi );
-		$xapi = str_replace( "\'", "'", $xapi );
-		$xapi = str_replace( '\\\\"', '&#x22;', $xapi );
-
-		$this->raw = $xapi;
-
+		$this->raw  = $xapi;
 		$this->data = json_decode( $xapi, true );
 	}
 
@@ -40,7 +33,7 @@ class XAPIDATA {
 	 * Get raw xAPI data.
 	 */
 	public function get_raw_xapi() {
-		return $this->$raw;
+		return $this->raw;
 	}
 
 	/**
