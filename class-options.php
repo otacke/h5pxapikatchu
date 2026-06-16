@@ -131,6 +131,8 @@ class Options {
 			$config_data
 		);
 
+		self::$options = $config_data;
+
 		self::update_config_file( $config_data );
 	}
 
