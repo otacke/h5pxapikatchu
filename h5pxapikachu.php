@@ -18,7 +18,7 @@ namespace H5PXAPIKATCHU;
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 if ( ! defined( 'H5PXAPIKATCHU_VERSION' ) ) {
-	define( 'H5PXAPIKATCHU_VERSION', '0.4.22' );
+	define( 'H5PXAPIKATCHU_VERSION', '0.4.23' );
 }
 
 const HTTP_FORBIDDEN = 403;
