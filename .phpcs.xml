@@ -3,6 +3,12 @@
 
 	<description>Non-controversial generally-agreed upon WordPress Coding Standards</description>
 
+	<!-- Only check the js folder and PHP files in the main directory. -->
+	<file>.</file>
+	<exclude-pattern>/DataTables/</exclude-pattern>
+	<exclude-pattern>/languages/</exclude-pattern>
+	<exclude-pattern>/styles/</exclude-pattern>
+
 	<!-- Default tab width for indentation fixes and such. -->
 	<arg name="tab-width" value="4"/>
 

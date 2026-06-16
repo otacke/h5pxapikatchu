@@ -21,6 +21,13 @@ if ( ! defined( 'H5PXAPIKATCHU_VERSION' ) ) {
 	define( 'H5PXAPIKATCHU_VERSION', '0.4.22' );
 }
 
+const HTTP_FORBIDDEN = 403;
+
+const DATATABLES_DEFAULT_PAGE_LENGTH  = 10;
+const DATATABLES_MIN_PAGE_LENGTH      = 1;
+const DATATABLES_MAX_PAGE_LENGTH      = 500;
+const DATATABLES_DEFAULT_ORDER_COLUMN = 16; // column 16 = mst.time
+
 // settings.php contains all functions for the settings
 require_once( __DIR__ . '/class-database.php' );
 require_once( __DIR__ . '/class-options.php' );
@@ -315,9 +322,9 @@ function filter_insert_data_xapi( $xapi ) {
 function insert_data() {
 	global $wpdb;
 
-  if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_insert_data', 'nonce', false ) ) {
+	if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_insert_data', 'nonce', false ) ) {
 		exit( json_encode( 'error' ) );
-  }
+	}
 
 	// Add hook 'h5pxapikatchu_insert_data'
 	do_action( 'h5pxapikatchu_insert_data' );
@@ -379,9 +386,9 @@ function insert_data() {
  * Delete all data.
  */
 function delete_data() {
-  if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_delete_data', 'nonce', false ) ) {
-      exit( json_encode( 'error' ) );
-  }
+	if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_delete_data', 'nonce', false ) ) {
+		exit( json_encode( 'error' ) );
+	}
 
 	if ( ! current_user_can( 'delete_h5pxapikatchu_results' ) ) {
 		exit( json_encode( 'error' ) );
@@ -392,6 +399,118 @@ function delete_data() {
 
 	$response = Database::delete_data();
 	exit( json_encode( $response ) );
+}
+
+/**
+ * Return one page of rows to DataTables server-side processing.
+ */
+function get_table_data() {
+	if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_get_table_data', 'nonce', false ) ) {
+		wp_send_json( array( 'error' => 'bad_nonce' ), HTTP_FORBIDDEN );
+	}
+
+	if ( ! current_user_can( 'view_h5pxapikatchu_results' ) ) {
+		wp_send_json( array( 'error' => 'forbidden' ), HTTP_FORBIDDEN );
+	}
+
+	$draw      = isset( $_POST['draw'] ) ? (int) $_POST['draw'] : 1;
+	$start     = isset( $_POST['start'] ) ? (int) $_POST['start'] : 0;
+	$length    = isset( $_POST['length'] ) ? (int) $_POST['length'] : DATATABLES_DEFAULT_PAGE_LENGTH;
+	$length    = max( DATATABLES_MIN_PAGE_LENGTH, min( $length, DATATABLES_MAX_PAGE_LENGTH ) );
+	$order_col = isset( $_POST['order'][0]['column'] ) ? (int) $_POST['order'][0]['column'] : DATATABLES_DEFAULT_ORDER_COLUMN;
+	$order_dir = isset( $_POST['order'][0]['dir'] ) ? sanitize_text_field( wp_unslash( $_POST['order'][0]['dir'] ) ) : 'desc';
+
+	$search = isset( $_POST['search']['value'] ) ? sanitize_text_field( wp_unslash( $_POST['search']['value'] ) ) : '';
+
+	$col_searches = array();
+	if ( isset( $_POST['columns'] ) && is_array( $_POST['columns'] ) ) {
+		foreach ( $_POST['columns'] as $idx => $col ) {
+			$val = isset( $col['search']['value'] ) ? sanitize_text_field( wp_unslash( $col['search']['value'] ) ) : '';
+			if ( '' !== $val ) {
+				$col_searches[ (int) $idx ] = $val;
+			}
+		}
+	}
+
+	$wp_user_id = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
+
+	$total    = Database::get_table_count( $wp_user_id );
+	$filtered = Database::get_filtered_count( $wp_user_id, $search, $col_searches );
+	$rows     = Database::get_table_page( $wp_user_id, $start, $length, $order_col, $order_dir, $search, $col_searches );
+
+	$data = array();
+	if ( $rows ) {
+		foreach ( $rows as $row ) {
+			$data[] = array_values( (array) $row );
+		}
+	}
+
+	wp_send_json(
+		array(
+			'draw'            => $draw,
+			'recordsTotal'    => $total,
+			'recordsFiltered' => $filtered,
+			'data'            => $data,
+		)
+	);
+}
+
+/**
+ * Return distinct column values for the filter dropdowns.
+ */
+function get_column_options_data() {
+	if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_get_column_options', 'nonce', false ) ) {
+		wp_send_json_error( 'bad_nonce', HTTP_FORBIDDEN );
+	}
+
+	if ( ! current_user_can( 'view_h5pxapikatchu_results' ) ) {
+		wp_send_json_error( 'forbidden', HTTP_FORBIDDEN );
+	}
+
+	$wp_user_id = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
+
+	wp_send_json_success( Database::get_column_options( $wp_user_id ) );
+}
+
+/**
+ * Stream the full dataset as a CSV download.
+ */
+function download_table_data() {
+	if ( ! check_ajax_referer( 'h5pxapikatchu_nonce_download_table_data', 'nonce', false ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'h5pxapikatchu' ) );
+	}
+
+	if ( ! current_user_can( 'download_h5pxapikatchu_results' ) ) {
+		wp_die( esc_html__( 'You do not have permission to download data.', 'h5pxapikatchu' ) );
+	}
+
+	$wp_user_id = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
+	$rows       = Database::get_complete_table( $wp_user_id );
+
+	$filename = 'h5pxapikatchu-' . gmdate( 'Y-m-d' ) . '.csv';
+	header( 'Content-Type: text/csv; charset=utf-8' );
+	header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+	header( 'Cache-Control: no-cache, must-revalidate' );
+	header( 'Pragma: public' );
+
+	$output        = fopen( 'php://output', 'w' );
+	$column_titles = Database::get_column_titles();
+	$header_row    = array();
+	foreach ( $column_titles as $title ) {
+		$header_row[] = isset( Database::$column_title_names[ $title ] )
+			? Database::$column_title_names[ $title ]
+			: $title;
+	}
+	fputcsv( $output, $header_row );
+
+	if ( $rows ) {
+		foreach ( $rows as $row ) {
+			fputcsv( $output, array_values( (array) $row ) );
+		}
+	}
+
+	fclose( $output );
+	exit;
 }
 
 /**
@@ -417,8 +536,8 @@ function h5pxapikatchu_add_admin_styles() {
  * @param string $embed_type Possible values are: div, iframe, external, editor.
  */
 function alter_h5p_scripts( &$scripts, $libraries, $embed_type ) {
-	$server_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-	$server_http_referrer = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
+	$server_request_uri         = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$server_http_referrer       = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
 	$server_http_sec_fetch_site = isset( $_SERVER['HTTP_SEC_FETCH_SITE'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_SEC_FETCH_SITE'] ) ) : '';
 
 	// Is content embedded?
@@ -519,8 +638,11 @@ register_deactivation_hook( __FILE__, 'H5PXAPIKATCHU\on_deactivation' );
 register_uninstall_hook( __FILE__, 'H5PXAPIKATCHU\on_uninstall' );
 
 add_action( 'h5p_alter_library_scripts', 'H5PXAPIKATCHU\alter_h5p_scripts', 10, 3 );
-add_action( 'wp_ajax_nopriv_insert_data', 'H5PXAPIKATCHU\insert_data' );
-add_action( 'wp_ajax_insert_data', 'H5PXAPIKATCHU\insert_data' );
+add_action( 'wp_ajax_nopriv_h5pxapikatchu_insert_data', 'H5PXAPIKATCHU\insert_data' );
+add_action( 'wp_ajax_h5pxapikatchu_insert_data', 'H5PXAPIKATCHU\insert_data' );
+add_action( 'wp_ajax_h5pxapikatchu_get_table_data', 'H5PXAPIKATCHU\get_table_data' );
+add_action( 'wp_ajax_h5pxapikatchu_get_column_options', 'H5PXAPIKATCHU\get_column_options_data' );
+add_action( 'wp_ajax_h5pxapikatchu_download_table_data', 'H5PXAPIKATCHU\download_table_data' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\h5pxapikatchu_load_plugin_textdomain' );
 add_action( 'plugins_loaded', 'H5PXAPIKATCHU\update' );
 add_action( 'update_option_siteurl', 'H5PXAPIKATCHU\update_config_file', 10, 3 );

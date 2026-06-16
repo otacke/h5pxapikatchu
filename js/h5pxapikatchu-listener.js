@@ -35,15 +35,17 @@ var H5P = H5P || {};
 	 * @param {Object} xapi - JSON object with xAPI data.
 	 */
 	var sendAJAX = function( wpAJAXurl, xapi ) {
-		H5PxAPIkatchu.jQuery.ajax({
-			url: wpAJAXurl,
-			type: 'post',
-			data: {
-				action: 'insert_data',
-				xapi: JSON.stringify( xapi ),
-				nonce: getNonceFromScriptSource()
+		H5PxAPIkatchu.jQuery.ajax(
+			{
+				url: wpAJAXurl,
+				type: 'post',
+				data: {
+					action: 'h5pxapikatchu_insert_data',
+					xapi: JSON.stringify( xapi ),
+					nonce: getNonceFromScriptSource()
+				}
 			}
-		});
+		);
 	};
 
 	/**
@@ -54,8 +56,8 @@ var H5P = H5P || {};
 
 		// Retrieve id number from object URL
 		var regex = new RegExp( '[?&]id(=([^&#]*)|&|#|$)' );
-		var id = regex.exec( event.data.statement.object.id )[2];
-		id = id.split( '?' )[0];
+		var id    = regex.exec( event.data.statement.object.id )[2];
+		id        = id.split( '?' )[0];
 
 		if ( '1' === H5PxAPIkatchu.debugEnabled ) {
 			console.log( event.data.statement );
@@ -77,7 +79,7 @@ var H5P = H5P || {};
 	};
 
 	var getNonceFromScriptSource = function() {
-		const scripts = document.getElementsByTagName('script');
+		const scripts = document.getElementsByTagName( 'script' );
 		for ( let i = 0; i < scripts.length; i++ ) {
 			const src = scripts[i].src;
 			if ( src.includes( 'h5pxapikatchu-listener.js' ) ) {
@@ -102,16 +104,19 @@ var H5P = H5P || {};
 	/**
 	 * Add xAPI listeners to all H5P instances that can trigger xAPI.
 	 */
-	document.addEventListener( 'readystatechange', function() {
-		// Add xAPI EventListener if H5P content is present
-		if ( 'interactive' === document.readyState ) {
-      try {
-        if ( H5P.externalDispatcher ) {
-          H5P.externalDispatcher.on( 'xAPI', handleXAPI );
-        }
-      } catch ( error ) {
-        console.warn( error );
-      }
+	document.addEventListener(
+		'readystatechange',
+		function() {
+			// Add xAPI EventListener if H5P content is present
+			if ( 'interactive' === document.readyState ) {
+				try {
+					if ( H5P.externalDispatcher ) {
+						H5P.externalDispatcher.on( 'xAPI', handleXAPI );
+					}
+				} catch ( error ) {
+					console.warn( error );
+				}
+			}
 		}
-	});
+	);
 }  () );

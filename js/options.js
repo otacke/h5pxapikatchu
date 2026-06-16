@@ -1,10 +1,10 @@
 ( function() {
 	'use strict';
 
-	var CLASS_CHECKBOX_CAPTURE_ALL = 'h5pxapikatchu_capture_all_content_types';
-	var CLASS_CHECKBOX_SELECT_CONTENT_TYPE = 'h5pxapikatchu-content-type-selector';
+	var CLASS_CHECKBOX_CAPTURE_ALL                = 'h5pxapikatchu_capture_all_content_types';
+	var CLASS_CHECKBOX_SELECT_CONTENT_TYPE        = 'h5pxapikatchu-content-type-selector';
 	var CLASS_CHECKBOX_SELECT_CONTENT_TYPE_HIDDEN = 'h5pxapikatchu-content-type-selector-hidden';
-	var CLASS_CHECKBOX_EMBED_ALLOWED = 'embed_supported';
+	var CLASS_CHECKBOX_EMBED_ALLOWED              = 'embed_supported';
 
 	/**
 	 * Add a hidden dummy element to pass form content of disabled fields
@@ -13,8 +13,11 @@
 	var addHiddenCTS = function( cts ) {
 		var hiddenCTS = cts.cloneNode( true );
 		hiddenCTS.setAttribute( 'type', 'hidden' );
-		hiddenCTS.setAttribute( 'id', hiddenCTS.getAttribute( 'id' )
-			.replace( CLASS_CHECKBOX_SELECT_CONTENT_TYPE, CLASS_CHECKBOX_SELECT_CONTENT_TYPE_HIDDEN ) );
+		hiddenCTS.setAttribute(
+			'id',
+			hiddenCTS.getAttribute( 'id' )
+			.replace( CLASS_CHECKBOX_SELECT_CONTENT_TYPE, CLASS_CHECKBOX_SELECT_CONTENT_TYPE_HIDDEN )
+		);
 		hiddenCTS.removeAttribute( 'class' );
 		hiddenCTS.removeAttribute( 'disabled' );
 		cts.parentNode.insertBefore( hiddenCTS, cts.nextSibling );
@@ -47,9 +50,9 @@
 				 * even if they are checked. Readonly doesn't work. Circumvent this here.
 				 */
 				if ( true === contentTypeSelectors[i].disabled && true === contentTypeSelectors[i].checked ) {
-					addHiddenCTS( contentTypeSelectors[i]);
+					addHiddenCTS( contentTypeSelectors[i] );
 				} else {
-					removeHiddenCTS( contentTypeSelectors[i]);
+					removeHiddenCTS( contentTypeSelectors[i] );
 				}
 			}
 		}
@@ -71,19 +74,25 @@
 			}
 
 			// Add ClickListener to the "Capture All" checkbox
-			captureAllFlag.addEventListener( 'click', function() {
-				toggleCTS();
-			});
+			captureAllFlag.addEventListener(
+				'click',
+				function() {
+					toggleCTS();
+				}
+			);
 		}
 
 		// Warning for allow embed option
 		debugAllowed = document.getElementById( CLASS_CHECKBOX_EMBED_ALLOWED );
 		if ( null !== captureAllFlag ) {
-			debugAllowed.addEventListener( 'click', function() {
-				if ( debugAllowed.checked ) {
-					alert( h5pxapikatchuOptions.l10n.embedAllowedWarning );
+			debugAllowed.addEventListener(
+				'click',
+				function() {
+					if ( debugAllowed.checked ) {
+						alert( h5pxapikatchuOptions.l10n.embedAllowedWarning );
+					}
 				}
-			});
+			);
 		}
 	};
 }  () );

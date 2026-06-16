@@ -376,6 +376,245 @@ class Database {
 	}
 
 	/**
+	 * Whitelist mapping column index (0-based) to the SQL alias used in the
+	 * five-table JOIN. Only strings from this array can reach ORDER BY / WHERE.
+	 */
+	private static function get_column_sql_map() {
+		return array(
+			0  => 'act.actor_id',
+			1  => 'act.actor_name',
+			2  => 'act.actor_members',
+			3  => 'ver.verb_id',
+			4  => 'ver.verb_display',
+			5  => 'obj.xobject_id',
+			6  => 'obj.object_name',
+			7  => 'obj.object_description',
+			8  => 'obj.object_choices',
+			9  => 'obj.object_correct_responses_pattern',
+			10 => 'res.result_response',
+			11 => 'res.result_score_raw',
+			12 => 'res.result_score_scaled',
+			13 => 'res.result_completion',
+			14 => 'res.result_success',
+			15 => 'res.result_duration',
+			16 => 'mst.time',
+			17 => 'mst.xapi',
+			18 => 'act.wp_user_id',
+			19 => 'obj.h5p_content_id',
+			20 => 'obj.h5p_subcontent_id',
+		);
+	}
+
+	/**
+	 * Build extra WHERE clauses and the matching param array for a global
+	 * search term and optional per-column exact-match filters.
+	 *
+	 * @param string $search        Global search string (empty = skip).
+	 * @param array  $col_searches  Map of column_index => search_value.
+	 * @return array { where: string, params: array }
+	 */
+	private static function build_search_where( $search, $col_searches ) {
+		global $wpdb;
+
+		$column_map = self::get_column_sql_map();
+		$where      = '';
+		$params     = array();
+
+		if ( '' !== (string) $search ) {
+			$like    = '%' . $wpdb->esc_like( $search ) . '%';
+			$clauses = array();
+			foreach ( $column_map as $col ) {
+				$clauses[] = $col . ' LIKE %s';
+				$params[]  = $like;
+			}
+			$where .= ' AND (' . implode( ' OR ', $clauses ) . ')';
+		}
+
+		foreach ( $col_searches as $col_index => $col_search ) {
+			if ( '' !== (string) $col_search && isset( $column_map[ (int) $col_index ] ) ) {
+				$where   .= ' AND ' . $column_map[ (int) $col_index ] . ' = %s';
+				$params[] = $col_search;
+			}
+		}
+
+		return array(
+			'where'  => $where,
+			'params' => $params,
+		);
+	}
+
+	/**
+	 * Total row count (no search filters, only the user-permission filter).
+	 * Used as DataTables recordsTotal.
+	 *
+	 * @param mixed $wp_user_id  Integer user id or '%' for all.
+	 * @return int
+	 */
+	public static function get_table_count( $wp_user_id ) {
+		global $wpdb;
+
+		return (int) $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT COUNT(*)
+				 FROM
+				   ' . self::$table_main . ' AS mst,
+				   ' . self::$table_actor . ' AS act,
+				   ' . self::$table_verb . ' AS ver,
+				   ' . self::$table_object . ' AS obj,
+				   ' . self::$table_result . ' AS res,
+				   ' . self::$table_h5p_content_types . ' AS cnt
+				 WHERE
+				   mst.id_actor = act.id AND
+				   mst.id_verb  = ver.id AND
+				   mst.id_object = obj.id AND
+				   mst.id_result = res.id AND
+				   obj.h5p_content_id = cnt.id AND
+				   cnt.user_id LIKE %s',
+				$wp_user_id
+			)
+		);
+	}
+
+	/**
+	 * Row count after applying search filters.
+	 * Used as DataTables recordsFiltered.
+	 *
+	 * @param mixed  $wp_user_id   Integer user id or '%' for all.
+	 * @param string $search       Global search string.
+	 * @param array  $col_searches Map of column_index => search_value.
+	 * @return int
+	 */
+	public static function get_filtered_count( $wp_user_id, $search, $col_searches ) {
+		global $wpdb;
+
+		$extra = self::build_search_where( $search, $col_searches );
+
+		$sql    = 'SELECT COUNT(*)
+				   FROM
+				     ' . self::$table_main . ' AS mst,
+				     ' . self::$table_actor . ' AS act,
+				     ' . self::$table_verb . ' AS ver,
+				     ' . self::$table_object . ' AS obj,
+				     ' . self::$table_result . ' AS res,
+				     ' . self::$table_h5p_content_types . ' AS cnt
+				   WHERE
+				     mst.id_actor = act.id AND
+				     mst.id_verb  = ver.id AND
+				     mst.id_object = obj.id AND
+				     mst.id_result = res.id AND
+				     obj.h5p_content_id = cnt.id AND
+				     cnt.user_id LIKE %s'
+				. $extra['where'];
+		$params = array_merge( array( $wp_user_id ), $extra['params'] );
+
+		return (int) $wpdb->get_var( $wpdb->prepare( $sql, ...$params ) );
+	}
+
+	/**
+	 * Fetch one page of rows for DataTables server-side processing.
+	 *
+	 * @param mixed  $wp_user_id    Integer user id or '%' for all.
+	 * @param int    $start         Row offset.
+	 * @param int    $length        Page size.
+	 * @param int    $order_col_idx Column index (0-based).
+	 * @param string $order_dir     'asc' or 'desc'.
+	 * @param string $search        Global search string.
+	 * @param array  $col_searches  Map of column_index => search_value.
+	 * @return array
+	 */
+	public static function get_table_page( $wp_user_id, $start, $length, $order_col_idx, $order_dir, $search, $col_searches ) {
+		global $wpdb;
+
+		$column_map = self::get_column_sql_map();
+		$order_col  = isset( $column_map[ (int) $order_col_idx ] )
+			? $column_map[ (int) $order_col_idx ]
+			: 'mst.time';
+		$order_dir  = ( 'asc' === strtolower( $order_dir ) ) ? 'ASC' : 'DESC';
+
+		$extra  = self::build_search_where( $search, $col_searches );
+		$sql    = 'SELECT
+				     act.actor_id, act.actor_name, act.actor_members,
+				     ver.verb_id, ver.verb_display,
+				     obj.xobject_id, obj.object_name, obj.object_description, obj.object_choices, obj.object_correct_responses_pattern,
+				     res.result_response, res.result_score_raw, res.result_score_scaled, res.result_completion, res.result_success, res.result_duration,
+				     mst.time, mst.xapi,
+				     act.wp_user_id, obj.h5p_content_id, obj.h5p_subcontent_id
+				   FROM
+				     ' . self::$table_main . ' AS mst,
+				     ' . self::$table_actor . ' AS act,
+				     ' . self::$table_verb . ' AS ver,
+				     ' . self::$table_object . ' AS obj,
+				     ' . self::$table_result . ' AS res,
+				     ' . self::$table_h5p_content_types . ' AS cnt
+				   WHERE
+				     mst.id_actor = act.id AND
+				     mst.id_verb  = ver.id AND
+				     mst.id_object = obj.id AND
+				     mst.id_result = res.id AND
+				     obj.h5p_content_id = cnt.id AND
+				     cnt.user_id LIKE %s'
+				. $extra['where'] .
+				' ORDER BY ' . $order_col . ' ' . $order_dir .
+				' LIMIT %d, %d';
+		$params = array_merge(
+			array( $wp_user_id ),
+			$extra['params'],
+			array( (int) $start, (int) $length )
+		);
+
+		return $wpdb->get_results( $wpdb->prepare( $sql, ...$params ) );
+	}
+
+	/**
+	 * Distinct values for every column (used to populate filter dropdowns).
+	 * Might need to be capped per column to keep the response size manageable.
+	 *
+	 * @param mixed $wp_user_id  Integer user id or '%' for all.
+	 * @return array  Indexed by column index (0-20), values are string arrays.
+	 */
+	public static function get_column_options( $wp_user_id ) {
+		global $wpdb;
+
+		$column_map = self::get_column_sql_map();
+		$options    = array();
+
+		foreach ( $column_map as $index => $col ) {
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					'SELECT DISTINCT ' . $col . ' AS val
+					 FROM
+					   ' . self::$table_main . ' AS mst,
+					   ' . self::$table_actor . ' AS act,
+					   ' . self::$table_verb . ' AS ver,
+					   ' . self::$table_object . ' AS obj,
+					   ' . self::$table_result . ' AS res,
+					   ' . self::$table_h5p_content_types . ' AS cnt
+					 WHERE
+					   mst.id_actor = act.id AND
+					   mst.id_verb  = ver.id AND
+					   mst.id_object = obj.id AND
+					   mst.id_result = res.id AND
+					   obj.h5p_content_id = cnt.id AND
+					   cnt.user_id LIKE %s
+					 ORDER BY val
+					 LIMIT 500',
+					$wp_user_id
+				)
+			);
+
+			$options[ $index ] = array_values(
+				array_map(
+					function( $row ) {
+						return (string) $row->val; },
+					$results ? $results : array()
+				)
+			);
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Get a list of all H5P content types in the database.
 	 * @return array Database results.
 	 */

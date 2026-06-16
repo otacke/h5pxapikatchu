@@ -22,8 +22,8 @@ class Table_View {
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
 		add_action( 'admin_menu', array( $this, 'add_admin_page' ), 999 );
 
-		add_action( 'wp_ajax_nopriv_delete_data', 'H5PXAPIKATCHU\delete_data' );
-		add_action( 'wp_ajax_delete_data', 'H5PXAPIKATCHU\delete_data' );
+		add_action( 'wp_ajax_nopriv_h5pxapikatchu_delete_data', 'H5PXAPIKATCHU\delete_data' );
+		add_action( 'wp_ajax_h5pxapikatchu_delete_data', 'H5PXAPIKATCHU\delete_data' );
 	}
 
 	public function add_scripts( $hook ) {
@@ -93,6 +93,9 @@ class Table_View {
 				'errorMessage'                => esc_html__( 'Sorry, something went wrong with deleting the data.', 'h5pxapikatchu' ),
 				'wpAJAXurl'                   => admin_url( 'admin-ajax.php' ),
 				'nonce'                       => wp_create_nonce( 'h5pxapikatchu_nonce_delete_data' ),
+				'nonceGetTableData'           => wp_create_nonce( 'h5pxapikatchu_nonce_get_table_data' ),
+				'nonceGetColumnOptions'       => wp_create_nonce( 'h5pxapikatchu_nonce_get_column_options' ),
+				'nonceDownloadTableData'      => wp_create_nonce( 'h5pxapikatchu_nonce_download_table_data' ),
 			)
 		);
 	}
@@ -108,61 +111,44 @@ class Table_View {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'h5pxapikatchu' ) );
 		}
 
-		global $wpdb;
-
 		// Users with appropriate capability are allowed to see all entries with wildcard %
-		$wp_user_id = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
-
-		$complete_table = Database::get_complete_table( $wp_user_id );
-		$column_titles  = Database::get_column_titles();
+		$wp_user_id    = current_user_can( 'view_others_h5pxapikatchu_results' ) ? '%' : get_current_user_id();
+		$column_titles = Database::get_column_titles();
+		$total_count   = Database::get_table_count( $wp_user_id );
 
 		echo '<div class="wrap">';
 		echo '<h2>' . esc_html__( 'H5PxAPIkatchu', 'h5pxapikatchu' ) . '</h2>';
-		if ( ! $complete_table ) {
+		if ( 0 === $total_count ) {
 			echo esc_html__( 'There is no xAPI information stored.', 'h5pxapikatchu' );
 			wp_die();
 		}
 
-		// Use Datatable to make the table pretty.
+		// Use DataTable with server-side processing; tbody is populated via AJAX.
 		echo '<div><table id="' . esc_attr( $this->class_datatable ) . '" class="table-striped table-bordered">';
 
-		// Table Head and Footer
+		// Table Head and Footer (column headers only — no row data here)
 		echo '<thead><tr>';
-		for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
-				echo '<th>' . esc_html(
-					isset( Database::$column_title_names[ $column_titles[ $i ] ] )
-								? Database::$column_title_names[ $column_titles[ $i ] ]
-								: ''
-				) . '</th>';
+		for ( $i = 0; $i < count( $column_titles ); $i++ ) {
+			echo '<th>' . esc_html(
+				isset( Database::$column_title_names[ $column_titles[ $i ] ] )
+					? Database::$column_title_names[ $column_titles[ $i ] ]
+					: ''
+			) . '</th>';
 		}
 		echo '</tr></thead>';
 
 		echo '<tfoot><tr>';
-		for ( $i = 0; $i < sizeof( (array) $complete_table[0] ); $i++ ) {
-				echo '<th>' . esc_html(
-					isset( Database::$column_title_names[ $column_titles[ $i ] ] )
-								? Database::$column_title_names[ $column_titles[ $i ] ]
-								: ''
-				) . '</th>';
+		for ( $i = 0; $i < count( $column_titles ); $i++ ) {
+			echo '<th>' . esc_html(
+				isset( Database::$column_title_names[ $column_titles[ $i ] ] )
+					? Database::$column_title_names[ $column_titles[ $i ] ]
+					: ''
+			) . '</th>';
 		}
 		echo '</tr></tfoot>';
 
-		// Table Body
-		echo '<tbody>';
-		foreach ( $complete_table as $fields ) {
-			$values = array_map(
-				function( $field ) {
-					return '\'' . $field . '\'';
-				},
-				(array) $fields
-			);
-			echo '<tr>';
-			foreach ( $fields as $key => $value ) {
-				echo '<td>' . esc_html( $value ) . '</td>';
-			}
-			echo '</tr>';
-		}
-		echo '</tbody>';
+		// Empty tbody — DataTables fills it via server-side AJAX
+		echo '<tbody></tbody>';
 
 		echo '</table></div>';
 		echo '</div>';
