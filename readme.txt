@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 7.0
-Stable tag: 0.4.23
+Stable tag: 0.4.24
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -93,6 +93,9 @@ Maybe, but hopefully not.
 2. You cannot only view the stored data, but also download them as an CSV file.
 
 == Changelog ==
+
+= 0.4.24 =
+- Fixed initialization bug that prevented options to use defaults before editing the options.
 
 = 0.4.23 =
 - Added server-side pagination
@@ -267,6 +270,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.24 =
+Upgrade if you never tried to edit the settings and nothing worked :-D
 
 = 0.4.23 =
 Upgrade if you store lots of data from h5pxapikatchu in your database.
