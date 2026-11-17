@@ -441,7 +441,12 @@ function get_table_data() {
 	$data = array();
 	if ( $rows ) {
 		foreach ( $rows as $row ) {
-			$data[] = array_values( (array) $row );
+			// Escape every cell before it is sent to the browser
+			$escaped = array();
+			foreach ( (array) $row as $value ) {
+				$escaped[] = ( null === $value ) ? null : esc_html( $value );
+			}
+			$data[] = array_values( $escaped );
 		}
 	}
 
@@ -505,12 +510,35 @@ function download_table_data() {
 
 	if ( $rows ) {
 		foreach ( $rows as $row ) {
-			fputcsv( $output, array_values( (array) $row ) );
+			fputcsv( $output, array_map( 'H5PXAPIKATCHU\neutralize_csv_formula', array_values( (array) $row ) ) );
 		}
 	}
 
 	fclose( $output );
 	exit;
+}
+
+/**
+ * Prevent CSV formula injection.
+ *
+ * Visitors can store arbitrary strings, and spreadsheet applications evaluate
+ * cells starting with =, +, -, @, tab or carriage return as formulas. Prefix
+ * such values with a single quote so they are shown as text. Plain numbers
+ * (e.g. negative scores) are kept unchanged.
+ *
+ * @param mixed $value Cell value.
+ * @return mixed Cell value that is safe to open in a spreadsheet.
+ */
+function neutralize_csv_formula( $value ) {
+	if ( ! is_string( $value ) || '' === $value || is_numeric( $value ) ) {
+		return $value;
+	}
+
+	if ( false !== strpos( "=+-@\t\r", $value[0] ) ) {
+		return "'" . $value;
+	}
+
+	return $value;
 }
 
 /**
