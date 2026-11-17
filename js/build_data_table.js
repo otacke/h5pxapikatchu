@@ -107,14 +107,21 @@
 		function() {
 			var datatableParams = {
 				'dom': 'B<"h5pxapikatchu-data-table-top-bar"lf>rt<"h5pxapikatchu-data-table-bottom-bar"ip>',
-				'columnDefs': [{
-					'visible': false,
-					'targets': h5pxapikatchuDataTable.columnsHidden.map(
-						function( id ) {
-							return parseInt( id );
-						}
-					)
-				}],
+				'columnDefs': [
+					{
+						'visible': false,
+						'targets': h5pxapikatchuDataTable.columnsHidden.map(
+							function( id ) {
+								return parseInt( id );
+							}
+						)
+					},
+					{
+            // Prevent XSS
+						'targets': '_all',
+						'render': jQuery.fn.dataTable.render.text()
+					}
+				],
 				'buttons': [{
 					'extend': 'colvis',
 					'text': h5pxapikatchuDataTable.buttonLabelColumnVisibility
@@ -181,11 +188,7 @@
 											options,
 											function( i, val ) {
 												if ( null !== val && '' !== val ) {
-													select.append(
-														'<option value="' + jQuery( '<span>' ).text( val ).html() + '">' +
-														jQuery( '<span>' ).text( val ).html() +
-														'</option>'
-													);
+													select.append( jQuery( '<option>' ).val( val ).text( val ) );
 												}
 											}
 										);
