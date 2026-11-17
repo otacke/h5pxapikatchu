@@ -3,7 +3,7 @@ Contributors: otacke
 Tags: h5p, xapi
 Requires at least: 4.0
 Tested up to: 7.0
-Stable tag: 0.4.24
+Stable tag: 0.4.25
 License: MIT
 License URI: https://github.com/otacke/h5pxapikatchu/blob/master/LICENSE
 
@@ -94,6 +94,9 @@ Maybe, but hopefully not.
 
 == Changelog ==
 
+= 0.4.25 =
+- Fixed stored cross-site scripting vulnerability on the results page.
+- Prevented CSV formula injection.
 = 0.4.24 =
 - Fixed initialization bug that prevented options to use defaults before editing the options.
 
@@ -270,6 +273,9 @@ Maybe, but hopefully not.
 Initial release.
 
 == Upgrade Notice ==
+
+= 0.4.25 =
+Upgrade to fix a stored cross-site scripting vulnerability on the results page.
 
 = 0.4.24 =
 Upgrade if you never tried to edit the settings and nothing worked :-D
